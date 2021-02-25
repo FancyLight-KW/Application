@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="systemName">
+        <item>선택하세요</item>
+        <item>잘생긴동기</item>
+        <item>멋진동기</item>
+        <item>섹시동기</item>
+        <item>군대동기</item>
+    </string-array>
+</resources>

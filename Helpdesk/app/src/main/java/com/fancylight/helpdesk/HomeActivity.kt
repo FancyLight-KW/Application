@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ExpandableListView
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
@@ -58,6 +59,27 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
             NavListItem("게시판", arrayListOf("공지사항", "IT 정책", "질의응답", "FAQ", "자료실")),
         )
         mExpandableListView?.setAdapter(NavExpandableListAdapter(itemList))
+        mExpandableListView?.setOnChildClickListener(object : ExpandableListView.OnChildClickListener {
+            override fun onChildClick(
+                parent: ExpandableListView?,
+                v: View?,
+                groupPosition: Int,
+                childPosition: Int,
+                id: Long
+            ): Boolean {
+
+                if(groupPosition==0){
+                    when(childPosition) {
+                        0->{
+                            supportFragmentManager.beginTransaction().replace(R.id.fragment,AR()).commit()
+                            toolbar.setTitle("요청/접수")
+                        }
+                    }
+
+                }
+                return true;
+            }
+        })
 
         // 우측 드로어에 리스너를 설정한다
         mDrawerEnd?.setNavigationItemSelectedListener(this)
@@ -100,6 +122,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
 
         return false
     }
+
 
     // Back 버튼 입력 시, 드로어 닫기
 
@@ -144,5 +167,6 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
         val intent = Intent(this, NewActivity::class.java)
         startActivity(intent)
     }
+
 
 }

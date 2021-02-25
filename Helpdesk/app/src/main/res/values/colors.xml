@@ -14,4 +14,6 @@
     <color name="loginbtnBlue">#355AB5</color>
     <color name="blue3">#1C47AF</color>
     <color name="blue4">#0C2970</color>
+    <color name="gray">#E2E2E2</color>
+
 </resources>
