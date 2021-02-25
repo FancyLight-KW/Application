@@ -15,7 +15,7 @@
         android:background="@color/backgroundBlue"
         tools:context=".HomeActivity">
 
-        <!-- 툴 바 -->
+        <!-- 툴 바아 -->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
