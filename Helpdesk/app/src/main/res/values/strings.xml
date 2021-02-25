@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Helpdesk</string>
+    <string name="subtitle">ver 1.0</string>
+    <string name="id_is">ID :</string>
+    <string name="your_id">Your ID</string>
+    <string name="pw_is">PW :</string>
+    <string name="login">로그인</string>
+    <string name="help">Help</string>
+    <string name="my">My</string>
+    <string name="navigation_drawer_open">Open navigation drawaer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="my_info">회원정보</string>
+    <string name="log_out">로그아웃</string>
+    <string name="expand_or_collapse_this_group">Expand or collapse this group</string>
+    <string name="select_a_menu">Select a menu</string>
+</resources>
