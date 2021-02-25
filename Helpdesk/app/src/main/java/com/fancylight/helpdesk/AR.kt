@@ -22,7 +22,7 @@ class AR : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        //기능들 여기다 구현
+        //기능들 여기다가 구현
         val view = inflater.inflate(R.layout.fragment_a_r, null)
         val spinner: Spinner = view.findViewById(R.id.spinner)
         val requestComplete: ImageButton = view.findViewById(R.id.btnRequestComplete)
