@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Application.Helpdesk.iml" filepath="$PROJECT_DIR$/.idea/modules/Application.Helpdesk.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Helpdesk.iml" filepath="$PROJECT_DIR$/.idea/modules/Helpdesk.iml" />
+>>>>>>> 7ed6409ab823f27a82aed7a074807546f84df8a0
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Helpdesk.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Helpdesk.app.iml" />
     </modules>
   </component>
