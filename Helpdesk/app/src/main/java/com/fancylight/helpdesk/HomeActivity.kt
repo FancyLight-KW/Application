@@ -41,6 +41,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
         // 툴 바를 초기화한다
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_dehaze_24)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         // 드로어를 초기화한다
@@ -156,6 +157,15 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
     // 네비게이션 아이템 선택 처리
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
+
+        when (item.itemId) {
+            R.id.item_my_info -> {
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.frag_container, MemberInfoFragment())
+                    .commit()
+            }
+        }
 
         return true
     }

@@ -39,7 +39,7 @@
         android:shadowDx="5"
         android:shadowDy="5"
         android:shadowRadius="2"
-        android:text="@string/subtitle"
+        android:text="Ver 0.1"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold" />

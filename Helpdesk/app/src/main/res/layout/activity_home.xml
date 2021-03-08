@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".HomeActivity"
-    tools:openDrawer="start">
+    tools:context=".HomeActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -30,19 +29,11 @@
             android:layout_alignParentBottom="true">
 
             <!-- 본 레이아웃 -->
-            <RelativeLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:text="Home Activity"
-                    tools:ignore="HardcodedText" />
-
-            </RelativeLayout>
+                android:layout_height="match_parent"
+                android:id="@+id/frag_container">
+            </FrameLayout>
 
             <!-- Help 버튼 -->
             <ImageButton
