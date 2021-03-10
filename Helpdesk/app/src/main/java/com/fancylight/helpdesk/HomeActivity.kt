@@ -16,6 +16,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.fancylight.helpdesk.adapter.NavExpandableListAdapter
 import com.fancylight.helpdesk.model.NavListItem
+import com.sample.Helpdesk.RequestFragment
 
 class HomeActivity : AppCompatActivity(), View.OnClickListener,
     NavigationView.OnNavigationItemSelectedListener {
@@ -72,8 +73,13 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
                 if(groupPosition==0){
                     when(childPosition) {
                         0->{
-                            supportFragmentManager.beginTransaction().replace(R.id.fragment,AR()).commit()
+                            supportFragmentManager
+                                    .beginTransaction()
+                                    .replace(R.id.frag_container,RequestFragment())
+                                    .addToBackStack(null)
+                                    .commit()
                             toolbar.setTitle("요청/접수")
+                            mDrawerLayout!!.closeDrawer(GravityCompat.START)
                         }
                     }
 
@@ -158,13 +164,34 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+
         when (item.itemId) {
+
+            R.id.item_notice -> {
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.frag_container, NoticeFragment())
+                    .addToBackStack(null)
+                    .commit()
+
+                toolbar.setTitle("공지사항")
+                mDrawerLayout!!.closeDrawer(GravityCompat.END)
+            }
+
+
             R.id.item_my_info -> {
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.frag_container, MemberInfoFragment())
+                    .addToBackStack(null)
                     .commit()
+
+                toolbar.setTitle("회원정보")
+                mDrawerLayout!!.closeDrawer(GravityCompat.END)
             }
+
+
         }
 
         return true

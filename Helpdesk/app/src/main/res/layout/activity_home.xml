@@ -38,12 +38,12 @@
             <!-- Help 버튼 -->
             <ImageButton
                 android:id="@+id/btn_help"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="68dp"
+                android:layout_height="68dp"
                 android:layout_gravity="bottom|end"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/ic_help"
+                android:background="@drawable/ic_baseline_support_agent_24"
                 android:contentDescription="@string/help"
                 android:elevation="10dp" />
 

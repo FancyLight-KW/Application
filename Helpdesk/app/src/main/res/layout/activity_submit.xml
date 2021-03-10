@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/fragmentAR"
-    tools:context=".AR">
+    android:id="@+id/submitActivity"
+    tools:context=".SubmitActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,17 +37,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="업무시스템"/>
+                android:text="과일상태"/>
             <RadioButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="IT인프라"/>
+                android:text="시장상태"/>
             <RadioButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="OA장비"/>
+                android:text="운송장비"/>
         </RadioGroup>
 
     </LinearLayout>
@@ -96,7 +96,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_gravity="center"
-                android:text="팀장승인"
+                android:text="사장님승인"
                 android:textColor="@color/blue3"/>
         </LinearLayout>
 
@@ -104,7 +104,7 @@
             android:id="@+id/checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="체크박스 선택시 팀장에게 승인 요청이 됩니다."/>
+            android:text="체크박스 선택시 사장님이 직접 문의한 것."/>
 
     </LinearLayout>
 
@@ -304,7 +304,7 @@
                 android:id="@+id/btnRequester"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="요청자 검색"
+                android:text="회원 검색"
                 />
 
             <TextView
@@ -314,7 +314,7 @@
                 android:background="@drawable/edittext_design"
                 android:layout_marginBottom="1dp"
                 android:textColor="#ffff0000"
-                android:text="요청자가 본인이 아닐시 실제 요청자를 검색하여 입력"/>
+                android:text="요청자가 본인이 아닐시 회원목록을 검색하여 입력"/>
         </LinearLayout>
 
     </LinearLayout>
