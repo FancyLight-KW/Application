@@ -7,14 +7,22 @@ import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.fancylight.helpdesk.databinding.ActivityMainBinding
+import com.fancylight.helpdesk.network.Login
+import com.fancylight.helpdesk.network.UserApi
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
+    private lateinit var binding : ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // 앱이 첫 실행될 때 표지를 잠깐 띄웠다가 fade out 한다.
         if (savedInstanceState == null) {
@@ -24,7 +32,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         // 버튼 리스너 설정
         val loginButton : Button? = findViewById<Button>(R.id.btn_login);
         loginButton?.setOnClickListener(this)
-
     }
 
     // 표지 레이아웃에 fade out 애니메이션 적용
@@ -50,21 +57,42 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     // 버튼 클릭 처리
-
     override fun onClick(v: View?) {
 
         if (v?.id == R.id.btn_login) {
-            // 로그인 버튼 클릭 시 : HomeActivity 를 시작한다
-            startHomeActivity()
+            startLogin(binding.editId.text.toString(), binding.editPassword.text.toString())
         }
-    }
-
+}
     // HomeActivity 를 시작한다
-
     private fun startHomeActivity() {
 
         val intent = Intent(this, HomeActivity::class.java)
         startActivity(intent)
+    }
+
+    public fun startLogin(Input_id:String, Input_password :String) {
+
+       UserApi.service.testPost(Input_id,Input_password).enqueue(object : Callback<Login> {
+            override fun onResponse(call: Call<Login>, response: Response<Login>) {
+                if(response.isSuccessful){
+                    //Toast.makeText(applicationContext,"성공"+response.body()!!.resultCode, Toast.LENGTH_SHORT).show()
+                    val result=response.body()!!.resultCode
+                    if(result == 0){
+                        startHomeActivity()
+                    }
+                    else {
+                        Toast.makeText(applicationContext,"등록된 정보와 일치하지 않습니다.",Toast.LENGTH_LONG).show()
+                    }
+                }
+                else{
+                    //Toast.makeText(applicationContext,"실패", Toast.LENGTH_SHORT).show()
+                }
+            }
+           override fun onFailure(call: Call<Login>, t: Throwable) {
+               //Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_SHORT).show()
+           }
+        })
+
     }
 
 }

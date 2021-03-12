@@ -8,7 +8,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ExpandableListView
 import android.widget.ImageButton
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
@@ -16,7 +15,6 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.fancylight.helpdesk.adapter.NavExpandableListAdapter
 import com.fancylight.helpdesk.model.NavListItem
-import com.sample.Helpdesk.RequestFragment
 
 class HomeActivity : AppCompatActivity(), View.OnClickListener,
     NavigationView.OnNavigationItemSelectedListener {

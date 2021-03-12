@@ -1,15 +1,13 @@
-package com.sample.Helpdesk
+package com.fancylight.helpdesk
 
 import android.app.DatePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
-import com.fancylight.helpdesk.R
 import java.util.*
 
-class SubmitActivity : AppCompatActivity(){
+class SubmitActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_submit)
@@ -33,10 +31,10 @@ class SubmitActivity : AppCompatActivity(){
             }
 
             override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
             ) {
                 //스피너 동작 여기다 구현하면 됨
             }
@@ -57,7 +55,5 @@ class SubmitActivity : AppCompatActivity(){
             }, year, month, date)
             dlg.show()
         }
-
-
     }
 }
