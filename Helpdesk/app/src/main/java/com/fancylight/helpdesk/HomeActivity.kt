@@ -1,6 +1,7 @@
 
 package com.fancylight.helpdesk
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -8,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ExpandableListView
 import android.widget.ImageButton
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
@@ -29,13 +31,22 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
     // 왼쪽 드로어의 리스트뷰
     private var mExpandableListView: ExpandableListView? = null
 
+    // 이 액티비티에서 사용되는 프래그먼트들
+    private var mHomeFragment: HomeFragment? = null
+    private var mRequestFragment: RequestFragment? = null
+    private var mNoticeFragment: NoticeFragment? = null
+    private var mMemberInfoFragment: MemberInfoFragment? = null
+
+    // 툴바 자주 사용되니까 클래스 전체의 변수로
+    private var mToolbar: Toolbar? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
         // 툴 바를 액션 바로 설정한다
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
+        mToolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(mToolbar)
 
         // 툴 바를 초기화한다
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -59,32 +70,18 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
             NavListItem("게시판", arrayListOf("공지사항", "IT 정책", "질의응답", "FAQ", "자료실")),
         )
         mExpandableListView?.setAdapter(NavExpandableListAdapter(itemList))
-        mExpandableListView?.setOnChildClickListener(object : ExpandableListView.OnChildClickListener {
-            override fun onChildClick(
-                parent: ExpandableListView?,
-                v: View?,
-                groupPosition: Int,
-                childPosition: Int,
-                id: Long
-            ): Boolean {
 
-                if(groupPosition==0){
-                    when(childPosition) {
-                        0->{
-                            supportFragmentManager
-                                    .beginTransaction()
-                                    .replace(R.id.frag_container,RequestFragment())
-                                    .addToBackStack(null)
-                                    .commit()
-                            toolbar.setTitle("요청/접수")
-                            mDrawerLayout!!.closeDrawer(GravityCompat.START)
-                        }
+        mExpandableListView?.setOnChildClickListener { _, _, groupPosition, childPosition, _ ->
+            if (groupPosition == 0) {
+                when (childPosition) {
+                    0 -> {
+                        showRequestFragment()
+                        mDrawerLayout!!.closeDrawer(GravityCompat.START)
                     }
-
                 }
-                return true;
             }
-        })
+            true
+        }
 
         // 우측 드로어에 리스너를 설정한다
         mDrawerEnd?.setNavigationItemSelectedListener(this)
@@ -92,6 +89,30 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
         // 버튼 리스너를 설정한다
         val helpButton = findViewById<ImageButton>(R.id.btn_help)
         helpButton.setOnClickListener(this)
+
+        // 사용될 Fragment 미리 생성
+        mHomeFragment = HomeFragment()
+        mRequestFragment = RequestFragment()
+        mNoticeFragment = NoticeFragment()
+        mMemberInfoFragment = MemberInfoFragment()
+
+        // HomeFragment 에 리스너 추가하기
+        // (HomeFragment 안의 버튼이 눌렸을 때 아래 메소드가 액티비티에서 호출됨)
+        mHomeFragment?.setFragmentListener(object : HomeFragment.HomeFragmentListener {
+            override fun seeNoticeButtonClicked() {
+                // 홈 프래그먼트의 공지사항 보기 클릭되었을때 이 메소드가 호출됨
+                // 공지사항 프래그먼트를 띄운다
+                showNoticeFragment()
+            }
+        })
+
+        // HomeFragment 를 화면에 추가
+        showHomeFragment()
+
+        // addOnBackStackChangedListener 는 백 스택이 바뀔 때 (= Back 버튼 눌러서 이전 프래그먼트로 갈때)
+        // 실행할 코드를 지정할 수 있음. 이때는 툴바의 제목을 적절하게 바꿔줘야 함
+        supportFragmentManager.addOnBackStackChangedListener { updateToolbarTitle() }
+
     }
 
     // 옵션 메뉴 생성
@@ -141,6 +162,15 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
             mDrawerLayout!!.isDrawerOpen(GravityCompat.END) -> {
                 mDrawerLayout!!.closeDrawer(GravityCompat.END)
             }
+            supportFragmentManager.backStackEntryCount == 1 -> {
+                // 앱 종료할지 물어보기
+                AlertDialog.Builder(this)
+                        .setTitle("종료?")
+                        .setMessage("종료하시겠습니까?")
+                        .setPositiveButton("네") { _: DialogInterface, _: Int -> finish() }
+                        .setNegativeButton("아니오", null)
+                        .show()
+            }
             else -> {
                 super.onBackPressed()
             }
@@ -162,34 +192,17 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-
         when (item.itemId) {
 
             R.id.item_notice -> {
-                supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.frag_container, NoticeFragment())
-                    .addToBackStack(null)
-                    .commit()
-
-                toolbar.setTitle("공지사항")
+                showNoticeFragment()
                 mDrawerLayout!!.closeDrawer(GravityCompat.END)
             }
-
 
             R.id.item_my_info -> {
-                supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.frag_container, MemberInfoFragment())
-                    .addToBackStack(null)
-                    .commit()
-
-                toolbar.setTitle("회원정보")
+                showMemInfoFragment()
                 mDrawerLayout!!.closeDrawer(GravityCompat.END)
             }
-
-
         }
 
         return true
@@ -201,6 +214,75 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
 
         val intent = Intent(this, NewActivity::class.java)
         startActivity(intent)
+    }
+
+    // HomeFragment 띄우기
+
+    private fun showHomeFragment() {
+
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.frag_container, mHomeFragment!!)
+                .addToBackStack(null)
+                .commit()
+
+        // 프래그먼트가 바뀌었으면 툴바 제목도 바꿔줘야 함
+        updateToolbarTitle()
+    }
+
+    // NoticeFragment 띄우기
+
+    private fun showNoticeFragment() {
+
+        supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.frag_container, mNoticeFragment!!)
+                .addToBackStack(null)
+                .commit()
+
+        updateToolbarTitle()
+    }
+
+    // MemInfoFragment 띄우기
+
+    private fun showMemInfoFragment() {
+
+        supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.frag_container, mMemberInfoFragment!!)
+                .addToBackStack(null)
+                .commit()
+
+        updateToolbarTitle()
+    }
+
+    // RequestFragment 띄우기
+
+    private fun showRequestFragment() {
+
+        supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.frag_container, mRequestFragment!!)
+                .addToBackStack(null)
+                .commit()
+
+        updateToolbarTitle()
+    }
+
+    // 현재 띄워지고 있는 프래그먼트에 따라 툴바 제목을 업데이트한다다
+
+    private fun updateToolbarTitle() {
+
+        // 현재 띄워지고 있는 프래그먼트를 조사한다
+        // (findFragmentById : 인수로 지정된 레이아웃에 띄워져 있는 프래그먼트를 검색해서 리턴하는 메소드)
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.frag_container) ?: return
+
+        // 현재 띄워지고 있는 프래그먼트에 따라 툴바 제목을 다르게 설정한다
+        when (currentFragment) {
+            mHomeFragment -> mToolbar?.title = ""
+            mRequestFragment -> mToolbar?.title = "요청/접수"
+            mMemberInfoFragment -> mToolbar?.title = "회원정보"
+            mNoticeFragment -> mToolbar?.title = "공지사항"
+        }
     }
 
 

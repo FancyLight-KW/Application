@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <!-- 문의넘버 -->
+    <TextView
+        android:id="@+id/txt_inquiry_number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:gravity="center"
+        android:padding="4dp"
+        android:text="1"
+        android:textStyle="bold"
+        tools:ignore="HardcodedText" />
+
+    <!-- 서비스상태 -->
+    <TextView
+        android:id="@+id/txt_service_stat"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3.5"
+        android:gravity="center"
+        android:padding="4dp"
+        android:text="접수대기"
+        android:textStyle="bold"
+        android:textSize="11dp"
+        tools:ignore="HardcodedText" />
+
+    <!-- 문의유형 -->
+    <TextView
+        android:id="@+id/txt_inquiry_type"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:gravity="center"
+        android:padding="4dp"
+        android:text="문의유형"
+        android:textSize="10dp"
+        tools:ignore="HardcodedText" />
+
+    <!-- 문의 제목 -->
+    <TextView
+        android:id="@+id/txt_inquiry_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        android:gravity="center"
+        android:padding="4dp"
+        android:text="도착 날짜를 알수있을까요"
+        android:maxLines="1"
+        android:ellipsize="end"
+        tools:ignore="HardcodedText" />
+
+    <!-- 접수일자 -->
+    <TextView
+        android:id="@+id/txt_inquiry_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="4"
+        android:gravity="center"
+        android:padding="4dp"
+        android:text="2021.03.17"
+        android:maxLines="1"
+        android:ellipsize="end"
+        tools:ignore="HardcodedText" />
+
+</LinearLayout>

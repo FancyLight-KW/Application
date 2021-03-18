@@ -1,14 +1,317 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFDFDFFF"
+    android:orientation="vertical"
     tools:context=".HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <!-- 공지사항 섹션 -->
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="0dp"
+        android:layout_marginBottom="2dp"
+        android:layout_weight="1"
+        android:background="@color/backgroundBlue"
+        android:padding="10dp">
 
-</FrameLayout>
+        <!-- TextView : 공지사항 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="10dp"
+            android:layout_toStartOf="@id/ibtn_see_notice"
+            android:text="공지사항"
+            android:textStyle="bold"
+            android:textColor="#555"
+            android:textSize="18sp" />
+
+        <!-- Button : 공지사항 더 보기 -->
+        <ImageButton
+            android:id="@+id/ibtn_see_notice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/ic_expand"
+            android:backgroundTint="#555"
+            android:contentDescription="공지사항을 확인합니다" />
+
+        <!-- 경계선 : 공지사항 아래 가로선 -->
+        <TextView
+            android:id="@+id/txt_notice_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/ibtn_see_notice"
+            android:layout_marginTop="4dp"
+            android:background="#555" />
+
+        <!-- RecyclerView : 공지사항 글 목록 -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_below="@id/txt_notice_divider"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="20dp" />
+
+    </RelativeLayout>
+    <!-- 끝 : 공지사항 섹션 -->
+
+    <!-- 상황판 섹션 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="2dp"
+        android:layout_weight="1"
+        android:baselineAligned="false">
+
+        <!-- 1: 결재 건수 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#F1E899"
+            android:gravity="center"
+            android:orientation="vertical"
+            tools:ignore="NestedWeights">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="결재 건수"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/txt_num_apple"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="0건"
+                android:textSize="20sp"
+                tools:ignore="HardcodedText" />
+
+        </LinearLayout>
+
+        <!-- 2: 접수 대기중 건수 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#DBDCDA"
+            android:gravity="center"
+            android:orientation="vertical"
+            tools:ignore="NestedWeights">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="접수 대기중"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/txt_num_pear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="54"
+                android:textSize="20sp"
+                tools:ignore="HardcodedText" />
+
+        </LinearLayout>
+
+        <!-- 3: 접수 완료 건수 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#B8D5B9"
+            android:gravity="center"
+            android:orientation="vertical"
+            tools:ignore="NestedWeights">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="접수 완료"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/txt_num_grape"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="184건"
+                android:textSize="20sp"
+                tools:ignore="HardcodedText" />
+
+        </LinearLayout>
+
+        <!-- 4: 요청 처리중 건수 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#87BEEA"
+            android:gravity="center"
+            android:orientation="vertical"
+            tools:ignore="NestedWeights">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="요청 처리중"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/txt_num_mandarin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="139건"
+                android:textSize="20sp"
+                tools:ignore="HardcodedText" />
+
+        </LinearLayout>
+
+        <!-- 5: 처리 지연중 건수 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#D1C0C8"
+            android:gravity="center"
+            android:orientation="vertical"
+            tools:ignore="NestedWeights">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="처리 지연중"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/txt_num_strawberry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="84건"
+                android:textSize="20sp"
+                tools:ignore="HardcodedText" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <!-- 끝 : 상황판 섹선 -->
+
+    <!-- 접수 섹션 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="2dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <!-- 빠른 신청 접수 -->
+        <TextView
+            android:id="@+id/txt_quick_order"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#2C6BEA"
+            android:gravity="center"
+            android:text="빠른 신청/접수"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            tools:ignore="NestedWeights" />
+
+        <!-- 나의 요청 목록 -->
+        <TextView
+            android:id="@+id/txt_my_orders"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#DAB031"
+            android:gravity="center"
+            android:text="나의 요청 목록"
+            android:textSize="20sp"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+    <!-- 끝 : 접수 섹션 -->
+
+    <!-- Footer 섹션 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/backgroundBlue"
+        android:padding="20dp">
+
+        <!-- 연락처 : 나중에 클릭시 전화연결되게 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="OA 서비스 센터 : 031-xxxx-xxxx"
+                android:textColor="#777"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="오토웨이 지원 : 031-369-9980"
+                android:textColor="#777"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="동탄/판교 : 031-369-9980"
+                android:textColor="#777"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="성연 : 041-661-7325"
+                android:textColor="#777"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="지곡 : 041-661-3712"
+                android:textColor="#777"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="화성 : 031-369-5100"
+                android:textColor="#777"
+                tools:ignore="HardcodedText" />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+    <!-- 끝 : Footer 섹션 -->
+
+</LinearLayout>

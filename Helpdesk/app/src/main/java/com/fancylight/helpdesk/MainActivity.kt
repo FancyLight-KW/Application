@@ -60,6 +60,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
 
         if (v?.id == R.id.btn_login) {
+            //startHomeActivity()
             startLogin(binding.editId.text.toString(), binding.editPassword.text.toString())
         }
 }
@@ -75,7 +76,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
        UserApi.service.testPost(Input_id,Input_password).enqueue(object : Callback<Login> {
             override fun onResponse(call: Call<Login>, response: Response<Login>) {
                 if(response.isSuccessful){
-                    //Toast.makeText(applicationContext,"성공"+response.body()!!.resultCode, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext,"성공"+response.body()!!.resultCode, Toast.LENGTH_SHORT).show()
                     val result=response.body()!!.resultCode
                     if(result == 0){
                         startHomeActivity()
@@ -85,11 +86,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     }
                 }
                 else{
-                    //Toast.makeText(applicationContext,"실패", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext,"실패", Toast.LENGTH_SHORT).show()
                 }
             }
            override fun onFailure(call: Call<Login>, t: Throwable) {
-               //Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_SHORT).show()
+               Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_SHORT).show()
            }
         })
 
