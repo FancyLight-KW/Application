@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,327 +9,322 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/edge_design"
-        android:padding="1dp">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:src="@drawable/transys_logo"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@drawable/edge_design"
-        android:padding="1dp">
-
+        android:layout_height="match_parent"
+        android:orientation="vertical">
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@color/gray">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edge_design"
+            android:padding="1dp">
 
-            <TextView
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_gravity="center"
-                android:textColor="@color/blue3"
-                android:text="문의대상"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:src="@drawable/transys_logo"/>
+
         </LinearLayout>
 
-        <RadioGroup
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:background="@drawable/edge_design"
+            android:padding="1dp">
 
-            <RadioButton
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/gray">
+
+                <TextView
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center"
+                    android:textColor="@color/blue3"
+                    android:text="문의대상"/>
+            </LinearLayout>
+
+            <RadioGroup
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="업무시스템"/>
-            <RadioButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="IT인프라"/>
-            <RadioButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="OA장비"/>
-        </RadioGroup>
+                android:layout_height="wrap_content">
 
-    </LinearLayout>
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="업무시스템"/>
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="IT인프라"/>
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="OA장비"/>
+            </RadioGroup>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@drawable/edge_design"
-        android:padding="1dp">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@color/gray">
-            <TextView
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_gravity="center"
-                android:text="시스템명"
-                android:textColor="@color/blue3"/>
         </LinearLayout>
 
-        <Spinner
-            android:layout_gravity="center"
-            android:id="@+id/spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@drawable/edge_design"
-        android:padding="1dp">
-
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@color/gray">
-            <TextView
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_gravity="center"
-                android:text="팀장승인"
-                android:textColor="@color/blue3"/>
-        </LinearLayout>
-
-        <CheckBox
-            android:id="@+id/checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="체크박스 선택시 팀장에게 승인 요청이 됩니다."/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:background="@drawable/edge_design"
-        android:padding="1dp">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/gray">
-            <TextView
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="제목"
-                android:textColor="@color/blue3"/>
-        </LinearLayout>
-
-        <EditText
-            android:id="@+id/edit_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:inputType="text"
-            android:background="@drawable/edittext_design"/>
+            android:orientation="horizontal"
+            android:background="@drawable/edge_design"
+            android:padding="1dp">
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/gray">
+                <TextView
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center"
+                    android:text="시스템명"
+                    android:textColor="@color/blue3"/>
+            </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@drawable/edge_design"
-        android:padding="1dp">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@color/gray">
-
-            <TextView
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+            <Spinner
                 android:layout_gravity="center"
-                android:text="요청내용"
-                android:textColor="@color/blue3"/>
+                android:id="@+id/spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:background="@drawable/edge_design"
+            android:padding="1dp">
 
-            <TextView
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/gray">
+                <TextView
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center"
+                    android:text="팀장승인"
+                    android:textColor="@color/blue3"/>
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/checkbox"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="※관련사항을 상세히 기술해 주시기 바랍니다."
-                android:textColor="#ffff0000"/>
+                android:text="체크박스 선택시 팀장에게 승인 요청이 됩니다."/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:background="@drawable/edge_design"
+            android:padding="1dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/gray">
+                <TextView
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="제목"
+                    android:textColor="@color/blue3"/>
+            </LinearLayout>
+
             <EditText
+                android:id="@+id/edit_title"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_margin="10dp"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:inputType="text"
                 android:background="@drawable/edittext_design"/>
 
         </LinearLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@drawable/edge_design"
-        android:padding="1dp">
-
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/gray">
+            android:orientation="horizontal"
+            android:background="@drawable/edge_design"
+            android:padding="1dp">
 
-            <TextView
-                android:layout_gravity="center"
-                android:layout_width="70dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/gray">
+
+                <TextView
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center"
+                    android:text="요청내용"
+                    android:textColor="@color/blue3"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="요청완료일"
-                android:textColor="@color/blue3"/>
-        </LinearLayout>
+                android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textRequestComplete"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/edittext_design"/>
-        <ImageButton
-            android:layout_gravity="center"
-            android:id="@+id/btnRequestComplete"
-            android:layout_width="10pt"
-            android:layout_height="10pt"
-            android:src="@drawable/ic_expand"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="※관련사항을 상세히 기술해 주시기 바랍니다."
+                    android:textColor="#ffff0000"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/edittext_design"/>
 
-    </LinearLayout>
+            </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@drawable/edge_design"
-        android:padding="1dp">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@color/gray">
-
-            <TextView
-                android:layout_gravity="center"
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="첨부파일"
-                android:textColor="@color/blue3"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:background="@drawable/edge_design"
+            android:padding="1dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/gray">
+
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="요청완료일"
+                    android:textColor="@color/blue3"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textRequestComplete"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/edittext_design"/>
+            <ImageButton
+                android:layout_gravity="center"
+                android:id="@+id/btnRequestComplete"
+                android:layout_width="10pt"
+                android:layout_height="10pt"
+                android:src="@drawable/ic_expand"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/edge_design"
+            android:padding="1dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/gray">
+
+                <TextView
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:text="첨부파일"
+                    android:textColor="@color/blue3" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textAttachment"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text=""
+                android:background="@drawable/edittext_design"/>
+
+            <ImageButton
+                android:layout_gravity="center"
+                android:id="@+id/btnAttachment"
+                android:layout_width="10pt"
+                android:layout_height="10pt"
+                android:src="@drawable/ic_expand"/>
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/edge_design"
+            android:padding="1dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/gray">
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="요청자"
+                    android:textColor="@color/blue3"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btnRequester"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="요청자 검색"
+                    />
+
                 <TextView
-                    android:id="@+id/textAttachment"
-                    android:layout_width="150dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/edittext_design"/>
-
-                <ImageButton
-                    android:layout_gravity="center"
-                    android:id="@+id/btnAttachment"
-                    android:layout_width="10pt"
-                    android:layout_height="10pt"
-                    android:src="@drawable/ic_expand"/>
-
+                    android:background="@drawable/edittext_design"
+                    android:layout_marginBottom="1dp"
+                    android:textColor="#ffff0000"
+                    android:text="요청자가 본인이 아닐시 실제 요청자를 검색하여 입력"/>
             </LinearLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="첨부파일 가능 확장자" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="xls,xlsx,doc,docs,ppt,pptx,pdf,jpg,jpeg,bmp,gif,png"/>
         </LinearLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@drawable/edge_design"
-        android:padding="1dp">
-
-        <LinearLayout
+        <Button
+            android:id="@+id/btn_submit"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@color/gray">
-            <TextView
-                android:layout_gravity="center"
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="요청자"
-                android:textColor="@color/blue3"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/btnRequester"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="요청자 검색"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/edittext_design"
-                android:layout_marginBottom="1dp"
-                android:textColor="#ffff0000"
-                android:text="요청자가 본인이 아닐시 실제 요청자를 검색하여 입력"/>
-        </LinearLayout>
+            android:layout_gravity="center"
+            android:text="접수"/>
 
     </LinearLayout>
 
-</LinearLayout>
+</ScrollView>

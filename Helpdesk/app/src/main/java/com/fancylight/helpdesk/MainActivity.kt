@@ -3,6 +3,7 @@ package com.fancylight.helpdesk
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
@@ -73,10 +74,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     public fun startLogin(Input_id:String, Input_password :String) {
 
-       UserApi.service.testPost(Input_id,Input_password).enqueue(object : Callback<Login> {
+       UserApi.service.loginPost(Input_id,Input_password).enqueue(object : Callback<Login> {
             override fun onResponse(call: Call<Login>, response: Response<Login>) {
                 if(response.isSuccessful){
-                    Toast.makeText(applicationContext,"성공"+response.body()!!.resultCode, Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(applicationContext,"성공"+response.body()!!.resultCode, Toast.LENGTH_SHORT).show()
                     val result=response.body()!!.resultCode
                     if(result == 0){
                         startHomeActivity()
@@ -90,7 +91,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
            override fun onFailure(call: Call<Login>, t: Throwable) {
-               Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_SHORT).show()
+               Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
+               Log.e("failure error", ""+t)
            }
         })
 

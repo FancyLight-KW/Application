@@ -87,7 +87,7 @@
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/txt_num_apple"
+                android:id="@+id/txt_num_approval"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -115,7 +115,7 @@
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/txt_num_pear"
+                android:id="@+id/txt_num_waiting"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -143,7 +143,7 @@
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/txt_num_grape"
+                android:id="@+id/txt_num_complete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -171,7 +171,7 @@
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/txt_num_mandarin"
+                android:id="@+id/txt_num_proceeding"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
