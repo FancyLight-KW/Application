@@ -13,22 +13,22 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.telecom.Call
 import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
-import com.fancylight.helpdesk.network.Login
 import com.fancylight.helpdesk.network.UserApi
 import com.fancylight.helpdesk.network.getRequest
 import com.gun0912.tedpermission.PermissionListener
-import retrofit2.Call
-import retrofit2.Callback
+import com.gun0912.tedpermission.TedPermission
 import retrofit2.Response
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.security.auth.callback.Callback
 import kotlin.jvm.Throws
 
 class SubmitActivity : AppCompatActivity(), View.OnClickListener {
@@ -115,11 +115,9 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             R.id.btn_submit -> {
-
-                /*
                 UserApi.service.testGet("Bearer "+UserApi.ttt).enqueue(object :
-                    Callback<Array<getRequest>> {
-                    override fun onResponse(call: Call<Array<getRequest>>, response: Response<Array<getRequest>>) {
+                    retrofit2.Callback<Array<getRequest>> {
+                    override fun onResponse(call: retrofit2.Call<Array<getRequest>>, response: Response<Array<getRequest>>) {
                         if(response.isSuccessful){
                             Toast.makeText(applicationContext,"성공"+response.body()!![0].TITLE, Toast.LENGTH_SHORT).show()
                         }
@@ -127,13 +125,11 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
                             Toast.makeText(applicationContext,"실패"+UserApi.ttt, Toast.LENGTH_SHORT).show()
                         }
                     }
-                    override fun onFailure(call: Call<Array<getRequest>>, t: Throwable) {
+                    override fun onFailure(call: retrofit2.Call<Array<getRequest>>, t: Throwable) {
                         Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
                         Log.e("failure error", ""+t)
                     }
                 })
-
-                 */
 
             }
         }
@@ -153,6 +149,16 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
                 ActivityCompat.finishAffinity(this@SubmitActivity) // 권한 거부시 앱 종료
             }
         }
+
+        TedPermission.with(this)
+                .setPermissionListener(permis)
+                .setRationaleMessage("카메라 사진 권한 필요")
+                .setDeniedMessage("카메라 권한 요청 거부")
+                .setPermissions(
+                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                        android.Manifest.permission.CAMERA)
+                .check()
 
     }
 
@@ -211,8 +217,7 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
                     val bitmap = ImageDecoder.decodeBitmap(decode)
                     //img_picture.setImageBitmap(bitmap)
                 }
-            } else if(resultCode == Activity.RESULT_OK){
-                if(requestCode == OPEN_GALLERY){
+            } else if(requestCode == OPEN_GALLERY){
                     val dataUri = data?.data
 
                     dataUri?.let {
@@ -227,11 +232,10 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
                     }
                 }
 
-
             }else{
                 Toast.makeText(applicationContext,"오류",Toast.LENGTH_LONG).show()
             }
         }
-    }
+
 
 }

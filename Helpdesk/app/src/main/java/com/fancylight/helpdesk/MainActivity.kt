@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.fancylight.helpdesk.databinding.ActivityMainBinding
 import com.fancylight.helpdesk.network.Login
 import com.fancylight.helpdesk.network.UserApi
-import com.fancylight.helpdesk.network.UserService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -81,7 +80,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     Toast.makeText(applicationContext,"성공"+response.body()!!.token, Toast.LENGTH_SHORT).show()
                     val result=response.body()!!.resultCode
                     UserApi.ttt = response.body()!!.token
-
                     if(result == 0){
                         startHomeActivity()
                     }
