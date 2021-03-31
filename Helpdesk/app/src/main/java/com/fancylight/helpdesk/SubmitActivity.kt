@@ -13,11 +13,18 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
+import com.fancylight.helpdesk.network.Login
+import com.fancylight.helpdesk.network.UserApi
+import com.fancylight.helpdesk.network.getRequest
 import com.gun0912.tedpermission.PermissionListener
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -108,6 +115,25 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             R.id.btn_submit -> {
+
+                /*
+                UserApi.service.testGet("Bearer "+UserApi.ttt).enqueue(object :
+                    Callback<Array<getRequest>> {
+                    override fun onResponse(call: Call<Array<getRequest>>, response: Response<Array<getRequest>>) {
+                        if(response.isSuccessful){
+                            Toast.makeText(applicationContext,"성공"+response.body()!![0].TITLE, Toast.LENGTH_SHORT).show()
+                        }
+                        else{
+                            Toast.makeText(applicationContext,"실패"+UserApi.ttt, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    override fun onFailure(call: Call<Array<getRequest>>, t: Throwable) {
+                        Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
+                        Log.e("failure error", ""+t)
+                    }
+                })
+
+                 */
 
             }
         }
