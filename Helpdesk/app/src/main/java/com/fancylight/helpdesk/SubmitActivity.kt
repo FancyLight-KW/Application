@@ -115,21 +115,6 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             R.id.btn_submit -> {
-                UserApi.service.testGet("Bearer "+UserApi.ttt).enqueue(object :
-                    retrofit2.Callback<Array<getRequest>> {
-                    override fun onResponse(call: retrofit2.Call<Array<getRequest>>, response: Response<Array<getRequest>>) {
-                        if(response.isSuccessful){
-                            Toast.makeText(applicationContext,"성공"+response.body()!![0].TITLE, Toast.LENGTH_SHORT).show()
-                        }
-                        else{
-                            Toast.makeText(applicationContext,"실패"+UserApi.ttt, Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                    override fun onFailure(call: retrofit2.Call<Array<getRequest>>, t: Throwable) {
-                        Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
-                        Log.e("failure error", ""+t)
-                    }
-                })
 
             }
         }

@@ -3,51 +3,27 @@ package com.fancylight.helpdesk
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.fancylight.helpdesk.R
 import com.fancylight.helpdesk.adapter.InquiryAdapter
-import com.fancylight.helpdesk.model.Inquiry
 import com.fancylight.helpdesk.model.*
+import com.fancylight.helpdesk.network.UserApi
+import com.fancylight.helpdesk.network.getRequest
+import retrofit2.Response
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class RequestFragment : Fragment(), View.OnClickListener {
 
     // 모든 문의 데이터
-    private val inquirySource = arrayListOf(
-            Inquiry(1, SERVICE_STAT_A, INQUIRY_TYPE_NORMAL, "we", LocalDate.of(2021, 2, 1)),
-            Inquiry(2, SERVICE_STAT_A, INQUIRY_TYPE_NORMAL, "wish", LocalDate.of(2021, 2, 3)),
-            Inquiry(3, SERVICE_STAT_B, INQUIRY_TYPE_ETC, "you", LocalDate.of(2021, 2, 4)),
-            Inquiry(4, SERVICE_STAT_B, INQUIRY_TYPE_CHANGE, "a merry", LocalDate.of(2021, 2, 5)),
-            Inquiry(5, SERVICE_STAT_C, INQUIRY_TYPE_DEBUG, "christmas", LocalDate.of(2021, 2, 6)),
-            Inquiry(6, SERVICE_STAT_C, INQUIRY_TYPE_CHANGE, "and", LocalDate.of(2021, 2, 6)),
-            Inquiry(7, SERVICE_STAT_D, INQUIRY_TYPE_DEBUG, "a happy new year", LocalDate.of(2021, 2, 6)),
-            Inquiry(8, SERVICE_STAT_A, INQUIRY_TYPE_CHANGE, "good", LocalDate.of(2021, 2, 10)),
-            Inquiry(9, SERVICE_STAT_A, INQUIRY_TYPE_CHANGE, "tidings", LocalDate.of(2021, 2, 11)),
-            Inquiry(10, SERVICE_STAT_B, INQUIRY_TYPE_NORMAL, "we", LocalDate.of(2021, 2, 11)),
-            Inquiry(11, SERVICE_STAT_B, INQUIRY_TYPE_DEBUG, "bring", LocalDate.of(2021, 2, 12)),
-            Inquiry(12, SERVICE_STAT_C, INQUIRY_TYPE_DEBUG, "to", LocalDate.of(2021, 2, 12)),
-            Inquiry(13, SERVICE_STAT_C, INQUIRY_TYPE_CHANGE, "you", LocalDate.of(2021, 2, 13)),
-            Inquiry(14, SERVICE_STAT_D, INQUIRY_TYPE_CHANGE, "and your kin", LocalDate.of(2021, 2, 23)),
-            Inquiry(15, SERVICE_STAT_A, INQUIRY_TYPE_DEBUG, "oh", LocalDate.of(2021, 3, 1)),
-            Inquiry(16, SERVICE_STAT_A, INQUIRY_TYPE_DEBUG, "bring", LocalDate.of(2021, 3, 1)),
-            Inquiry(17, SERVICE_STAT_B, INQUIRY_TYPE_ETC, "us", LocalDate.of(2021, 3, 5)),
-            Inquiry(18, SERVICE_STAT_B, INQUIRY_TYPE_CHANGE, "some", LocalDate.of(2021, 3, 6)),
-            Inquiry(19, SERVICE_STAT_C, INQUIRY_TYPE_DEBUG, "figgy", LocalDate.of(2021, 3, 7)),
-            Inquiry(20, SERVICE_STAT_C, INQUIRY_TYPE_CHANGE, "pudding", LocalDate.of(2021, 3, 8)),
-            Inquiry(21, SERVICE_STAT_D, INQUIRY_TYPE_NORMAL, "!", LocalDate.of(2021, 3, 10)),
-            Inquiry(22, SERVICE_STAT_A, INQUIRY_TYPE_ETC, "and", LocalDate.of(2021, 3, 12)),
-            Inquiry(23, SERVICE_STAT_A, INQUIRY_TYPE_ETC, "bring", LocalDate.of(2021, 3, 13)),
-            Inquiry(24, SERVICE_STAT_B, INQUIRY_TYPE_ETC, "it", LocalDate.of(2021, 3, 15)),
-            Inquiry(25, SERVICE_STAT_B, INQUIRY_TYPE_CHANGE, "right", LocalDate.of(2021, 3, 16)),
-            Inquiry(26, SERVICE_STAT_C, INQUIRY_TYPE_NORMAL, "here", LocalDate.of(2021, 3, 17)),
-    )
+    private var inquirySource = mutableListOf<Inquiry>()
 
     // 분류기준에 맞춰 검색된 문의 데이터
     private var resultList: MutableList<Inquiry>? = null
@@ -129,14 +105,38 @@ class RequestFragment : Fragment(), View.OnClickListener {
                 }
         )
 
-        // 결과 리스트 구성. 처음엔 검색 필터 미적용 (= 모든 글 추가)
-        resultList = filterInquiries(null, null, null, null, null)
+        UserApi.service.testGet("Bearer "+ UserApi.ttt).enqueue(object :
+                retrofit2.Callback<Array<getRequest>> {
+            override fun onResponse(call: retrofit2.Call<Array<getRequest>>, response: Response<Array<getRequest>>) {
+                if(response.isSuccessful){
+                    var arr = response.body()!!
+                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
-        // 리사이클러뷰 빌드
-        buildInquiryRecycler(view)
+                    for(i in 0..arr.size-1){
+                        inquirySource.add(Inquiry(i, arr[i].CSR_STATUS, 4, arr[i].TITLE,
+                                LocalDate.parse(arr[i].createdAt.substring(0,10), DateTimeFormatter.ISO_DATE)))
+                    }
+
+                    // 결과 리스트 구성. 처음엔 검색 필터 미적용 (= 모든 글 추가)
+                    resultList = filterInquiries(null, null, null, null, null)
+
+                    // 리사이클러뷰 빌드
+                    buildInquiryRecycler(view)
+
+                }
+                else{
+                    //Toast.makeText(applicationContext,"실패"+ UserApi.ttt, Toast.LENGTH_SHORT).show()
+                }
+            }
+            override fun onFailure(call: retrofit2.Call<Array<getRequest>>, t: Throwable) {
+                //Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
+                Log.e("failure error", ""+t)
+            }
+        })
 
         return view
     }
+
 
     // 리사이클러뷰 빌드하기
 

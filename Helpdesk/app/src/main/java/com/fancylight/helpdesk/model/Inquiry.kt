@@ -1,11 +1,12 @@
 package com.fancylight.helpdesk.model
 
 import java.time.LocalDate
+import java.util.Arrays
 
-const val SERVICE_STAT_A = "접수완료"
-const val SERVICE_STAT_B = "변경관리 처리중"
-const val SERVICE_STAT_C = "접수대기"
-const val SERVICE_STAT_D = "기타"
+const val SERVICE_STAT_A = "완료"
+const val SERVICE_STAT_B = "진행"
+const val SERVICE_STAT_C = "접수"
+const val SERVICE_STAT_D = "접수대기"
 
 const val INQUIRY_TYPE_CHANGE = 1      // 기능 변경수정
 const val INQUIRY_TYPE_NORMAL = 2    // 단순문의
@@ -19,4 +20,12 @@ data class Inquiry (
         val title: String,
         val date: LocalDate,
 )
+fun parseDate(date : String) : MutableList<String>{
+    val dateArr : MutableList<String> = date.split("-").toMutableList()
+    if(dateArr[1].length==2 && dateArr[1].dropLast(1)=="0"){
+        dateArr[1] =  dateArr[1].drop(1)
+    }
+    return dateArr
+
+}
 

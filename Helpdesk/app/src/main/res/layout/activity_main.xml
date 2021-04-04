@@ -34,6 +34,7 @@
                 android:layout_height="wrap_content"
                 android:autofillHints="nope!"
                 android:inputType="text"
+                android:text="bingo"
                 tools:ignore="LabelFor" />
 
         </LinearLayout>
@@ -58,6 +59,7 @@
                 android:layout_height="wrap_content"
                 android:autofillHints="nope!"
                 android:inputType="textPassword"
+                android:text="1234"
                 tools:ignore="LabelFor" />
 
         </LinearLayout>

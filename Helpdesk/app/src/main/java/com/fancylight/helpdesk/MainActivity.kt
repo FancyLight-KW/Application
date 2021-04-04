@@ -2,6 +2,7 @@
 package com.fancylight.helpdesk
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -16,6 +17,7 @@ import com.fancylight.helpdesk.network.UserApi
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding : ActivityMainBinding
@@ -77,9 +79,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
        UserApi.service.loginPost(Input_id,Input_password).enqueue(object : Callback<Login> {
             override fun onResponse(call: Call<Login>, response: Response<Login>) {
                 if(response.isSuccessful){
-                    Toast.makeText(applicationContext,"성공"+response.body()!!.token, Toast.LENGTH_SHORT).show()
                     val result=response.body()!!.resultCode
                     UserApi.ttt = response.body()!!.token
+                    val jjj = extractJwt(response.body()!!.token)
+                    Toast.makeText(applicationContext,"성공"+jjj, Toast.LENGTH_SHORT).show()
+                    Log.d("jjj",jjj)
                     if(result == 0){
                         startHomeActivity()
                     }
@@ -97,6 +101,19 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
            }
         })
 
+    }
+
+    fun extractJwt(jwt: String): String {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return "Requires SDK 26"
+        val parts = jwt.split(".")
+        return try {
+            val charset = charset("UTF-8")
+            val header = String(Base64.getUrlDecoder().decode(parts[0].toByteArray(charset)), charset)
+            val payload = String(Base64.getUrlDecoder().decode(parts[1].toByteArray(charset)), charset)
+            "$header\n$payload"
+        } catch (e: Exception) {
+            "Error parsing JWT: $e"
+        }
     }
 
 }
