@@ -33,7 +33,7 @@ import kotlin.jvm.Throws
 
 class SubmitActivity : AppCompatActivity(), View.OnClickListener {
     private val REQUEST_IMAGE_CAPTURE = 1
-    private val OPEN_GALLERY =2
+    private val OPEN_GALLERY = 2
     lateinit var currentPhotoPath : String
 
     override fun onCreate(savedInstanceState: Bundle?) {

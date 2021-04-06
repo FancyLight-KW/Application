@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
 import com.fancylight.helpdesk.adapter.NavExpandableListAdapter
 import com.fancylight.helpdesk.model.NavListItem
@@ -32,17 +33,26 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
     private var mExpandableListView: ExpandableListView? = null
 
     // 이 액티비티에서 사용되는 프래그먼트들
-    private var mHomeFragment: HomeFragment? = null
-    private var mRequestFragment: RequestFragment? = null
-    private var mNoticeFragment: NoticeFragment? = null
-    private var mMemberInfoFragment: MemberInfoFragment? = null
+    private lateinit var mHomeFragment: HomeFragment
+    private lateinit var mRequestFragment: RequestFragment
+    private lateinit var mNoticeFragment: NoticeFragment
+    private lateinit var mMemInfoFragment: MemberInfoFragment
+    private lateinit var mMyRequeFragment: MyRequeFragment
+    private lateinit var mMyApprovalFragment: MyApprovalFragment
+    private lateinit var mMyWorkFragment: MyWorkFragment
 
     // 툴바 자주 사용되니까 클래스 전체의 변수로
     private var mToolbar: Toolbar? = null
 
+    // 유저 권한 변수 (1 사원, 2 요원, 3 관리자)
+    private var authState: Int = 1
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
+        // TODO: 유저 권한 변수 초기화!!
 
         // 툴 바를 액션 바로 설정한다
         mToolbar = findViewById(R.id.toolbar)
@@ -63,12 +73,43 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
         // 좌측 드로어의 리스트 뷰를 초기화한다
         mExpandableListView = findViewById(R.id.nav_list_start)
         val itemList = arrayOf(
-            NavListItem("요청/접수", arrayListOf("요청/접수", "요청/접수(처리자)", "처리이력정보", "처리이력정보(관리자)", "나의 결재함")),
-            NavListItem("장애관리", arrayListOf("장애관리", "하위 탭 2", "하위 탭 3")),
-            NavListItem("변경관리", arrayListOf("변경관리", "나의 결재함(변경)", "하위 탭 3", "하위 탭 4")),
-            NavListItem("통계정보", arrayListOf("서비스요청 적기접수율", "서비스요청 적기처리율", "서비스 만족도", "하위 탭 4")),
-            NavListItem("게시판", arrayListOf("공지사항", "IT 정책", "질의응답", "FAQ", "자료실")),
+                NavListItem("요청/접수", arrayListOf(
+                        "요청/접수",
+                        when (authState) {
+                            1 -> "나의 요청목록"
+                            2 -> "나의 작업목록"
+                            3 -> "나의 결재목록"
+                            else -> "-"
+                        }
+                )),
+                NavListItem("장애관리", arrayListOf(
+                        "장애관리",
+                        "하위 탭1",
+                        "하위 탭2"
+                )),
+                NavListItem("변경관리", arrayListOf(
+                        "변경관리",
+                        "나의 결재함(변경)",
+                        "하위 탭1",
+                        "하위 탭2"
+                )),
+                NavListItem("통계정보", arrayListOf(
+                        "서비스요청 적기접수율",
+                        "서비스요청 적기처리율",
+                        "서비스 만족도",
+                        "하위 탭1",
+                        "하위 탭2"
+                )),
+                NavListItem("게시판", arrayListOf(
+                        "공지사항",
+                        "IT정책",
+                        "질의응답",
+                        "FAQ",
+                        "자료실"
+                )),
+
         )
+
         mExpandableListView?.setAdapter(NavExpandableListAdapter(itemList))
 
         mExpandableListView?.setOnChildClickListener { _, _, groupPosition, childPosition, _ ->
@@ -78,6 +119,11 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
                         showRequestFragment()
                         mDrawerLayout!!.closeDrawer(GravityCompat.START)
                     }
+                    1 -> {
+                        showMyListFragment()
+                        mDrawerLayout!!.closeDrawer(GravityCompat.START)
+                    }
+
                 }
             }
             true
@@ -91,10 +137,13 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
         helpButton.setOnClickListener(this)
 
         // 사용될 Fragment 미리 생성
-        mHomeFragment = HomeFragment()
+        mHomeFragment = HomeFragment.newInstance(authState)
         mRequestFragment = RequestFragment()
         mNoticeFragment = NoticeFragment()
-        mMemberInfoFragment = MemberInfoFragment()
+        mMemInfoFragment = MemberInfoFragment()
+        mMyWorkFragment = MyWorkFragment()
+        mMyApprovalFragment = MyApprovalFragment()
+        mMyRequeFragment = MyRequeFragment()
 
         // HomeFragment 에 리스너 추가하기
         // (HomeFragment 안의 버튼이 눌렸을 때 아래 메소드가 액티비티에서 호출됨)
@@ -104,6 +153,13 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
                 // 공지사항 프래그먼트를 띄운다
                 showNoticeFragment()
             }
+
+            override fun myListClicked() {
+                // 홈 프래그먼트의 나의 OO 목록이 클릭되었을 때 이 메소드가 호출됨
+                // 나의 OO 목록 프래그먼트를 띄운다
+                showMyListFragment()
+            }
+
         })
 
         // HomeFragment 를 화면에 추가
@@ -248,7 +304,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
 
         supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.frag_container, mMemberInfoFragment!!)
+                .replace(R.id.frag_container, mMemInfoFragment!!)
                 .addToBackStack(null)
                 .commit()
 
@@ -268,6 +324,27 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
         updateToolbarTitle()
     }
 
+    // My OO Fragment 띄우기
+
+    private fun showMyListFragment() {
+
+        // 권한상태에 따라서 다른 프래그먼트 지정
+        val myListFragment: Fragment = when (authState) {
+            1 -> mMyRequeFragment
+            2 -> mMyWorkFragment
+            3 -> mMyApprovalFragment
+            else -> mRequestFragment
+        }
+
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.frag_container, myListFragment)
+            .addToBackStack(null)
+            .commit()
+
+        updateToolbarTitle()
+    }
+
     // 현재 띄워지고 있는 프래그먼트에 따라 툴바 제목을 업데이트한다다
 
     private fun updateToolbarTitle() {
@@ -280,8 +357,11 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
         when (currentFragment) {
             mHomeFragment -> mToolbar?.title = ""
             mRequestFragment -> mToolbar?.title = "요청/접수"
-            mMemberInfoFragment -> mToolbar?.title = "회원정보"
+            mMemInfoFragment -> mToolbar?.title = "회원정보"
             mNoticeFragment -> mToolbar?.title = "공지사항"
+            mMyRequeFragment -> mToolbar?.title = "나의 요청목록"
+            mMyWorkFragment -> mToolbar?.title = "나의 작업목록"
+            mMyApprovalFragment -> mToolbar?.title = "나의 결재목록"
         }
     }
 
