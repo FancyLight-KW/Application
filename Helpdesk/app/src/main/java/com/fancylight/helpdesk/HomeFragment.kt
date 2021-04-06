@@ -116,7 +116,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
         fun myListClicked()
     }
 
-    // 리스너 객체d
+    // 리스너 객체
 
     var listener : HomeFragmentListener? = null
 
