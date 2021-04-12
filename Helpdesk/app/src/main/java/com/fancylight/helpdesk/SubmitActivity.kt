@@ -5,8 +5,11 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.database.Cursor
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
+import android.media.ExifInterface
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -19,12 +22,18 @@ import android.view.View
 import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
+import com.fancylight.helpdesk.`object`.SubmitObject
+import com.fancylight.helpdesk.network.JsonData
 import com.fancylight.helpdesk.network.UserApi
 import com.fancylight.helpdesk.network.getRequest
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -40,16 +49,26 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_submit)
 
+        SubmitObject.init()
+
         //기능들 여기다가 구현
+        val rg1 : RadioGroup = findViewById(R.id.rg1)
         val spinner: Spinner = findViewById(R.id.spinner)
+        val tmCheck : CheckBox = findViewById(R.id.tmCheck)
         val requestComplete: ImageButton = findViewById(R.id.btnRequestComplete)
         val attachment : ImageButton = findViewById(R.id.btnAttachment)
-        val sumbitbtn : Button = findViewById(R.id.btn_submit)
+        val submitbtn : Button = findViewById(R.id.btn_submit)
 
+        rg1.setOnCheckedChangeListener { group, checkedId ->
+            when(checkedId){
+                R.id.rb1 -> SubmitObject.target = "업무시스템"
+                R.id.rb2 -> SubmitObject.target = "IT인프라"
+                R.id.rb3 -> SubmitObject.target = "OA장비"
+            }
+        }
 
         //spinnerArray.xml에 있는 systemName 가져옴
         var sdata = resources.getStringArray(R.array.systemName)
-
         //어댑터 만들고 연결
         var adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, sdata)
         spinner.adapter = adapter
@@ -64,13 +83,17 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
                     position: Int,
                     id: Long
             ) {
-                //스피너 동작 여기다 구현하면 됨
+                SubmitObject.systemCode = sdata[position]
             }
+        }
+        tmCheck.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked){ SubmitObject.tmApproval = "Y" }
+            else{SubmitObject.tmApproval = "N"}
         }
 
         attachment.setOnClickListener(this)
         requestComplete.setOnClickListener(this)
-        sumbitbtn.setOnClickListener(this)
+        submitbtn.setOnClickListener(this)
 
     }
 
@@ -109,13 +132,19 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
                     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
                         //요청완료일 기능 여기다 구현하면 됨
                         textRequestComplete.setText("${year}/ ${month + 1}/ ${dayOfMonth}")
+                        SubmitObject.dateSet(year,month+1,dayOfMonth)
                     }
                 }, year, month, date)
                 dlg.show()
             }
 
             R.id.btn_submit -> {
+                val title : EditText = findViewById(R.id.edit_title)
+                val content : EditText = findViewById(R.id.edit_content)
 
+                SubmitObject.title = title.text.toString()
+                SubmitObject.content = content.text.toString()
+                submitPost()
             }
         }
     }
@@ -188,12 +217,15 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        val textAttachment : TextView = findViewById(R.id.textAttachment)
+        val textAttachment: TextView = findViewById(R.id.textAttachment)
 
-        if(resultCode == Activity.RESULT_OK){
-            if(requestCode == REQUEST_IMAGE_CAPTURE) {
-                val file = File(currentPhotoPath)
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == REQUEST_IMAGE_CAPTURE) {
+                SubmitObject.path = currentPhotoPath
 
+                // val file = File(currentPhotoPath)
+
+                /*
                 if (Build.VERSION.SDK_INT < 28) {
                     val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, Uri.fromFile(file))
                     //img_picture.setImageBitmap(bitmap)
@@ -202,14 +234,20 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
                     val bitmap = ImageDecoder.decodeBitmap(decode)
                     //img_picture.setImageBitmap(bitmap)
                 }
-            } else if(requestCode == OPEN_GALLERY){
-                    val dataUri = data?.data
 
+                 */
+            } else if (requestCode == OPEN_GALLERY) {
+                val dataUri = data?.data
+                dataUri?.let {
+                    SubmitObject.path = absolutelyPath(dataUri)
+                }
+
+
+                /*
                     dataUri?.let {
                         if (Build.VERSION.SDK_INT < 28) {
                             var bitmap: Bitmap = MediaStore.Images.Media.getBitmap(contentResolver, dataUri)
 
-                            //binding.image1.setImageBitmap(bitmap)
                         } else {
                             val decode = ImageDecoder.createSource(this.contentResolver, dataUri)
                             val bitmap = ImageDecoder.decodeBitmap(decode)
@@ -217,10 +255,58 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
                     }
                 }
 
-            }else{
-                Toast.makeText(applicationContext,"오류",Toast.LENGTH_LONG).show()
+                 */
+
+            } else {
+                Toast.makeText(applicationContext, "오류", Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    fun absolutelyPath(path: Uri): String {
+
+        var proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
+        var c: Cursor = contentResolver.query(path, proj, null, null, null)!!
+        var index = c.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        c.moveToFirst()
+
+        var result = c.getString(index)
+
+        return result
+    }
+
+
+    fun submitPost() {
+        val file = File(SubmitObject.path)
+
+        var fileName = "hoho.png"
+
+        var requestImage : RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"),file)
+        var fileBody : MultipartBody.Part = MultipartBody.Part.createFormData("imagefile",fileName,requestImage)
+        var stringJson = SubmitObject.convertJson()
+
+        UserApi.service.dataPost("Bearer "+ UserApi.ttt,fileBody, stringJson).enqueue(object : retrofit2.Callback<JsonData> {
+            override fun onResponse(call: retrofit2.Call<JsonData>, response: Response<JsonData>) {
+                if(response.isSuccessful){
+                    Toast.makeText(applicationContext,"성공", Toast.LENGTH_LONG).show()
+
+                }
+                else{
+                    Toast.makeText(applicationContext,"실패", Toast.LENGTH_LONG).show()
+                }
+            }
+            override fun onFailure(call: retrofit2.Call<JsonData>, t: Throwable) {
+                Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
+                Log.e("failure error", ""+t)
+            }
+        })
+    }
+
+
+
+
+
+
 
 
 }

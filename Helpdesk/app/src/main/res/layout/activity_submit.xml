@@ -46,21 +46,25 @@
             </LinearLayout>
 
             <RadioGroup
+                android:id="@+id/rg1"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <RadioButton
+                    android:id="@+id/rb1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="업무시스템"/>
                 <RadioButton
+                    android:id="@+id/rb2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="IT인프라"/>
                 <RadioButton
+                    android:id="@+id/rb3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -118,7 +122,7 @@
             </LinearLayout>
 
             <CheckBox
-                android:id="@+id/checkbox"
+                android:id="@+id/tmCheck"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="체크박스 선택시 팀장에게 승인 요청이 됩니다."/>
@@ -188,6 +192,7 @@
                     android:text="※관련사항을 상세히 기술해 주시기 바랍니다."
                     android:textColor="#ffff0000"/>
                 <EditText
+                    android:id="@+id/edit_content"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:layout_margin="10dp"

@@ -64,15 +64,21 @@ class HomeFragment : Fragment(), View.OnClickListener {
         val waittingnum = root.findViewById<TextView>(R.id.txt_num_waiting)
         val completenum = root.findViewById<TextView>(R.id.txt_num_complete)
         val proceedingnum = root.findViewById<TextView>(R.id.txt_num_proceeding)
+        val delaynum = root.findViewById<TextView>(R.id.txt_num_delay)
 
         UserApi.service.csrget().enqueue(object : Callback<CSR> {
             override fun onResponse(call: Call<CSR>, response: Response<CSR>) {
                 if(response.isSuccessful){
-                    Toast.makeText(activity,"성공",Toast.LENGTH_LONG).show()
-                    approvalnum.setText(""+response.body()!!.CSR진행상태)
-                    waittingnum.setText(""+response.body()!!.접수)
-                    completenum.setText(""+response.body()!!.완료)
-                    proceedingnum.setText(""+response.body()!!.진행)
+                    //Toast.makeText(activity,"성공",Toast.LENGTH_LONG).show()
+                    var sum : Int = response.body()!!.요청처리중 +
+                            response.body()!!.접수대기 +
+                            response.body()!!.접수완료 +
+                            response.body()!!.처리지연중
+                    approvalnum.setText(""+sum)
+                    waittingnum.setText(""+response.body()!!.접수대기)
+                    completenum.setText(""+response.body()!!.접수완료)
+                    proceedingnum.setText(""+response.body()!!.요청처리중)
+                    delaynum.setText(""+response.body()!!.처리지연중)
 
                 }
                 else{

@@ -1,5 +1,6 @@
 package com.fancylight.helpdesk.network
 
+import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import retrofit2.Converter
 import retrofit2.Retrofit
@@ -14,19 +15,28 @@ interface UserService {
             @Header ("Authorization") Authorization :String
     ): retrofit2.Call<Array<getRequest>>
 
-    @GET("/csrstatus")
+    @GET("csrstatus")
     fun csrget(): retrofit2.Call<CSR>
 
 
     @FormUrlEncoded
-    @POST("/auth/login")
+    @POST("auth/login")
     fun loginPost(@Field("User_id") User_id: String,
                  @Field("User_password") User_password: String,
     ): retrofit2.Call<Login>
+
+    @Multipart
+    @POST("requests")
+    fun dataPost(
+            @Header ("Authorization") Authorization :String,
+            @Part imagefile : MultipartBody.Part,
+            @Part("body") body : String
+    ): retrofit2.Call<JsonData>
+
 }
 
 val retrofit = Retrofit.Builder()
-    .baseUrl("http://54.180.123.42:5000/")
+    .baseUrl("http://54.180.123.42/api/")
     .addConverterFactory(GsonConverterFactory.create())
     .build()
 
