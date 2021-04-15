@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     UserApi.ttt = response.body()!!.token
                     val jjj = extractJwt(response.body()!!.token)
                     Toast.makeText(applicationContext,"성공"+jjj, Toast.LENGTH_SHORT).show()
-                    Log.d("jjj",jjj)
+
                     if(result == 0){
                         startHomeActivity()
                     }
