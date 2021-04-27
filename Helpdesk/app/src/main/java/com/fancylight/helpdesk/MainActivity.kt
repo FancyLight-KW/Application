@@ -12,8 +12,11 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.fancylight.helpdesk.databinding.ActivityMainBinding
+import com.fancylight.helpdesk.network.Fcm
 import com.fancylight.helpdesk.network.Login
 import com.fancylight.helpdesk.network.UserApi
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -26,6 +29,20 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("fcmtokenfail", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+            // Get new FCM registration token
+            val token = task.result
+
+            val msg = getString(R.string.msg_token_fmt, token)
+            Log.d("fcmtoken : ", msg)
+            UserApi.fcmToken = msg
+        })
+
 
         // 앱이 첫 실행될 때 표지를 잠깐 띄웠다가 fade out 한다.
         if (savedInstanceState == null) {
@@ -82,10 +99,25 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     val result=response.body()!!.resultCode
                     UserApi.ttt = response.body()!!.token
                     val jjj = extractJwt(response.body()!!.token)
-                    Toast.makeText(applicationContext,"성공"+jjj, Toast.LENGTH_SHORT).show()
+                   // Toast.makeText(applicationContext,"성공"+jjj, Toast.LENGTH_SHORT).show()
 
                     if(result == 0){
-                        startHomeActivity()
+                        UserApi.service.FcmPost("Bearer " +UserApi.ttt,UserApi.fcmToken).enqueue(object : Callback<Fcm> {
+                            override fun onResponse(call: Call<Fcm>, response: Response<Fcm>) {
+                                if(response.isSuccessful){
+                                    val result=response.body()!!.resultCode
+                                    Toast.makeText(applicationContext,"성공"+UserApi.fcmToken, Toast.LENGTH_SHORT).show()
+                                    startHomeActivity()
+                                }
+                                else{
+                                    Toast.makeText(applicationContext,"실패" +UserApi.fcmToken, Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                            override fun onFailure(call: Call<Fcm>, t: Throwable) {
+                                Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
+                                Log.e("failure errorrr", ""+t)
+                            }
+                        })
                     }
                     else {
                         Toast.makeText(applicationContext,"등록된 정보와 일치하지 않습니다.",Toast.LENGTH_LONG).show()

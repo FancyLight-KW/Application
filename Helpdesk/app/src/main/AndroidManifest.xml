@@ -21,6 +21,9 @@
         android:roundIcon="@mipmap/iconlogo"
         android:supportsRtl="true"
         android:theme="@style/Theme.Helpdesk">
+
+
+
         <activity android:name=".SubmitActivity"></activity>
         <activity android:name=".NewActivity" />
         <activity android:name=".HomeActivity" />
@@ -31,6 +34,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".network.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
         <provider
             android:authorities="com.fancylight.helpdesk.fileprovider"

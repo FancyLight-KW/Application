@@ -12,3 +12,4 @@ data class getRequest(val REQ_SEQ : Int, val TITLE : String, val CONTENT : Strin
                         val updateAt : String, val createdAt : String)
 
 data class JsonData(val result : JsonObject)
+data class Fcm(val resultCode: Int )

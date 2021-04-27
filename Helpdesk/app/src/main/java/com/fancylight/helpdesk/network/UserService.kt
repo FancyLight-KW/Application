@@ -25,6 +25,14 @@ interface UserService {
                  @Field("User_password") User_password: String,
     ): retrofit2.Call<Login>
 
+
+    @FormUrlEncoded
+    @POST("android")
+    fun FcmPost(
+            @Header ("Authorization") Authorization :String,
+            @Field("DEVICE_ID") DEVICE_ID: String,
+    ): retrofit2.Call<Fcm>
+
     @Multipart
     @POST("requests")
     fun dataPost(
@@ -42,6 +50,7 @@ val retrofit = Retrofit.Builder()
 
 object UserApi{
     var ttt : String =""
+    var fcmToken : String =""
     val service : UserService by lazy {
         retrofit.create(UserService::class.java)
     }
