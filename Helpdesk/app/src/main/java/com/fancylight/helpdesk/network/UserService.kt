@@ -41,6 +41,15 @@ interface UserService {
             @Part("body") body : String
     ): retrofit2.Call<JsonData>
 
+    @FormUrlEncoded
+    @PUT("users/password")
+    fun passwordChangePut(
+        @Header ("Authorization") Authorization :String,
+        @Field("origin_password") origin_password: String,
+        @Field("new_password") new_password: String
+    ): retrofit2.Call<ChangePassword>
+
+
 }
 
 val retrofit = Retrofit.Builder()

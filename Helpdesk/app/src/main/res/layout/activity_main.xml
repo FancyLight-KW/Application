@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:autofillHints="nope!"
                 android:inputType="text"
-                android:text="bingo"
+                android:text="agent"
                 tools:ignore="LabelFor" />
 
         </LinearLayout>

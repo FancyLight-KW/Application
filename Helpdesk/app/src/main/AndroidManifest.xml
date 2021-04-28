@@ -2,29 +2,36 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.fancylight.helpdesk">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-feature android:name="android.hardware.camera2" android:required="true"/>
+    <uses-feature
+        android:name="android.hardware.camera2"
+        android:required="true" />
 
     <application
-        android:requestLegacyExternalStorage="true"
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:icon="@mipmap/iconlogo"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/iconlogo"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Helpdesk">
+        android:theme="@style/Theme.Helpdesk"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".object.PasswordChangeActivity"></activity>
 
+        <meta-data
+            android:name="firebase_messaging_auto_init_enabled"
+            android:value="false" />
+        <meta-data
+            android:name="firebase_analytics_collection_enabled"
+            android:value="false" />
 
-
-        <activity android:name=".SubmitActivity"></activity>
+        <activity android:name=".SubmitActivity" />
         <activity android:name=".NewActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".MainActivity">
@@ -44,14 +51,13 @@
         </service>
 
         <provider
-            android:authorities="com.fancylight.helpdesk.fileprovider"
             android:name="androidx.core.content.FileProvider"
+            android:authorities="com.fancylight.helpdesk.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths">
-            </meta-data>
+                android:resource="@xml/file_paths"></meta-data>
         </provider>
     </application>
 

@@ -1,6 +1,9 @@
 
 package com.fancylight.helpdesk
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -29,6 +32,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        createNotificationChannel()
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
@@ -96,16 +101,18 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
        UserApi.service.loginPost(Input_id,Input_password).enqueue(object : Callback<Login> {
             override fun onResponse(call: Call<Login>, response: Response<Login>) {
                 if(response.isSuccessful){
-                    val result=response.body()!!.resultCode
-                    UserApi.ttt = response.body()!!.token
-                    val jjj = extractJwt(response.body()!!.token)
-                   // Toast.makeText(applicationContext,"성공"+jjj, Toast.LENGTH_SHORT).show()
-
+                val result=response.body()!!.resultCode
                     if(result == 0){
+                        UserApi.ttt = response.body()!!.token
+                        val jjj = extractJwt(response.body()!!.token)
+                        // Toast.makeText(applicationContext,"성공"+jjj, Toast.LENGTH_SHORT).show()
+
+
                         UserApi.service.FcmPost("Bearer " +UserApi.ttt,UserApi.fcmToken).enqueue(object : Callback<Fcm> {
                             override fun onResponse(call: Call<Fcm>, response: Response<Fcm>) {
                                 if(response.isSuccessful){
                                     val result=response.body()!!.resultCode
+                                    Log.d("PostFcmToken ",UserApi.fcmToken)
                                     Toast.makeText(applicationContext,"성공"+UserApi.fcmToken, Toast.LENGTH_SHORT).show()
                                     startHomeActivity()
                                 }
@@ -145,6 +152,24 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             "$header\n$payload"
         } catch (e: Exception) {
             "Error parsing JWT: $e"
+        }
+    }
+
+    private fun createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "HT_Helpdesk"
+            val channelId = "${applicationContext.packageName}-${name}"
+            val descriptionText = "HT_Helpdesk_Notification"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(channelId, name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
         }
     }
 

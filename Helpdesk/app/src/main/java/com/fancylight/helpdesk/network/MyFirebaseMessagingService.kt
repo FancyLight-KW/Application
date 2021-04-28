@@ -8,6 +8,7 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.fancylight.helpdesk.HomeActivity
 import com.fancylight.helpdesk.MainActivity
 import com.fancylight.helpdesk.R
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -29,15 +30,17 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
     private fun sendNotification(title: String?, body: String){
         //어떤 모양으로 알림을 할지 설정한 다음 실제 폰 상단에 표시하도록 한다.
         //pendingIntent를 이용 알림을 클릭하면 열 앱의 액티비티를 설정해 준다.
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, HomeActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
+
         val defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        val notificationBuilder = NotificationCompat.Builder(this)
-            .setSmallIcon(R.mipmap.ic_launcher)
+        val notificationBuilder = NotificationCompat.Builder(this,"${applicationContext.packageName}-HT_Helpdesk")
+            .setSmallIcon(R.drawable.transys_logo)
             .setContentTitle(title)
             .setContentText(body)
             .setSound(defaultSound)
+            .setAutoCancel(true)
             .setContentIntent(pendingIntent)
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
