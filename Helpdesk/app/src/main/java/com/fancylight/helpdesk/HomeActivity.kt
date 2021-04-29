@@ -45,7 +45,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
     private var mToolbar: Toolbar? = null
 
     // 유저 권한 변수 (1 사원, 2 요원, 3 관리자)
-    private var authState: Int = 1
+    private var authState: Int = 3
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

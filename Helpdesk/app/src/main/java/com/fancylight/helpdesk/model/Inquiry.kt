@@ -1,5 +1,6 @@
 package com.fancylight.helpdesk.model
 
+import java.io.Serializable
 import java.time.LocalDate
 import java.util.Arrays
 
@@ -19,7 +20,8 @@ data class Inquiry (
         val type: Int,              // INQUIRY_TYPE_* 상수 입력
         val title: String,
         val date: LocalDate,
-)
+) : Serializable
+
 fun parseDate(date : String) : MutableList<String>{
     val dateArr : MutableList<String> = date.split("-").toMutableList()
     if(dateArr[1].length==2 && dateArr[1].dropLast(1)=="0"){

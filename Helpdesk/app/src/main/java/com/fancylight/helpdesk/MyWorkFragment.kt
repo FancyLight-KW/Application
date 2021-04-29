@@ -57,14 +57,14 @@ class MyWorkFragment : Fragment(), View.OnClickListener {
         val view = inflater.inflate(R.layout.fragment_my_work, container, false)
 
         // 버튼에 리스너 설정
-        val submtBtn = view.findViewById<Button>(R.id.btn_submit)
+
         val searchBtn = view.findViewById<Button>(R.id.btn_search)
         val seeMoreBtn = view.findViewById<Button>(R.id.btn_more_table)
         val serviceStatBtn = view.findViewById<ImageButton>(R.id.ibtn_service_stat)
         val inquiryTypeBtn = view.findViewById<ImageButton>(R.id.ibtn_inquiry_type)
         val startDateBtn = view.findViewById<ImageButton>(R.id.btn_date_start)
         val endDateBtn = view.findViewById<ImageButton>(R.id.btn_date_end)
-        submtBtn.setOnClickListener(this)
+
         searchBtn.setOnClickListener(this)
         seeMoreBtn.setOnClickListener(this)
         serviceStatBtn.setOnClickListener(this)
@@ -159,8 +159,6 @@ class MyWorkFragment : Fragment(), View.OnClickListener {
     override fun onClick(v: View?) {
 
         when (v?.id) {
-            // Help 버튼 클릭 : NewActivity 시작
-            R.id.btn_submit -> startSubmitActivity()
             // 검색 버튼 클릭 : 검색해서 결과 보여주기
             R.id.btn_search -> searchInquiries()
             // 더보기 버튼 클릭 : 리사이클러뷰에 보이는 아이템 수 증가
@@ -174,11 +172,18 @@ class MyWorkFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun startSubmitActivity() {
+    // DetailActivity 시작
 
-        val intent = Intent(context, SubmitActivity::class.java)
+    private fun startDetailActivity(position: Int) {
+
+        val intent = Intent(context!!, DetailActivity::class.java)
+        // 인텐트에 클릭된 문의와 순서값을(No) 전달한다
+        intent.putExtra(EXTRA_INQUIRY, resultList!![position])
+        intent.putExtra(EXTRA_INQUIRY_NO, resultList!!.size - position)
         startActivity(intent)
     }
+
+
 
     // 리사이클러뷰에 보이는 아이템 수 증가
 

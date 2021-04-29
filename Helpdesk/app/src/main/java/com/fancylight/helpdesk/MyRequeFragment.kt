@@ -153,6 +153,12 @@ class MyRequeFragment : Fragment(), View.OnClickListener {
             inquiryAdapter = InquiryAdapter(context!!, resultList!!)
             inquiryAdapter?.inquirySize = 10
             inquiryRecycler?.adapter = inquiryAdapter
+
+            inquiryAdapter?.setOnItemClickListener(object : InquiryAdapter.OnItemClickListener {
+                override fun onItemClick(position: Int) {
+                    startDetailActivity(position)
+                }
+            })
         }
     }
 
@@ -173,6 +179,17 @@ class MyRequeFragment : Fragment(), View.OnClickListener {
         }
     }
 
+
+    // DetailActivity 시작
+
+    private fun startDetailActivity(position: Int) {
+
+        val intent = Intent(context!!, DetailActivity::class.java)
+        // 인텐트에 클릭된 문의와 순서값을(No) 전달한다
+        intent.putExtra(EXTRA_INQUIRY, resultList!![position])
+        intent.putExtra(EXTRA_INQUIRY_NO, resultList!!.size - position)
+        startActivity(intent)
+    }
 
 
     // 리사이클러뷰에 보이는 아이템 수 증가

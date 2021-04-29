@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+    <!-- 헤더 테이블 섹션 -->
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/edge_design"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:padding="1dp">
+
+        <!-- 테이블 헤더 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:orientation="vertical">
+
+            <!-- 서비스 상태 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/table_header_design"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="서비스 상태"
+                android:textStyle="bold" />
+
+            <!-- No -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/table_header_design"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="No"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+        <!-- 끝 : 테이블 헤더 -->
+
+        <!-- 테이블 1열 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <!-- 서비스 상태 -->
+            <TextView
+                android:id="@+id/txt_service_stat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/table_cell_design"
+                android:gravity="center"
+                android:padding="8dp" />
+
+            <!-- No -->
+            <TextView
+                android:id="@+id/txt_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/table_cell_design"
+                android:gravity="center"
+                android:padding="8dp" />
+
+        </LinearLayout>
+        <!-- 끝 : 테이블 1열 -->
+
+    </LinearLayout>
+    <!-- 헤더 테이블 끝 -->
+
+    <!-- 테이블 섹션 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/edge_design"
+        android:orientation="vertical"
+        android:padding="1dp">
+
+        <!-- 테이블 헤더 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- 요청자 -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/table_header_design"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="요청자"
+                android:textStyle="bold" />
+
+            <!-- 승인자 -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/table_header_design"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="승인자"
+                android:textStyle="bold" />
+
+            <!-- 접수자 -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/table_header_design"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="접수자"
+                android:textStyle="bold" />
+
+            <!-- 처리자 -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/table_header_design"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="처리자"
+                android:textStyle="bold" />
+
+            <!-- 처리완료 -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/table_header_design"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="처리완료"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+        <!-- 끝 : 테이블 헤더 -->
+
+        <!-- 테이블 1열 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- 요청자 -->
+            <TextView
+                android:id="@+id/txt_requester_01"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/table_cell_design"
+                android:gravity="center"
+                android:padding="8dp"
+                android:textStyle="bold" />
+
+            <!-- 승인자 -->
+            <TextView
+                android:id="@+id/txt_approver_01"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/table_cell_design"
+                android:gravity="center"
+                android:padding="8dp"
+                android:textStyle="bold" />
+
+            <!-- 접수자 -->
+            <TextView
+                android:id="@+id/txt_receiver_01"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/table_cell_design"
+                android:gravity="center"
+                android:padding="8dp"
+                android:textStyle="bold" />
+
+            <!-- 처리자 -->
+            <TextView
+                android:id="@+id/txt_handler_01"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/table_cell_design"
+                android:gravity="center"
+                android:padding="8dp"
+                android:textStyle="bold" />
+
+            <!-- 처리완료 -->
+            <TextView
+                android:id="@+id/txt_completed_01"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/table_cell_design"
+                android:gravity="center"
+                android:padding="8dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+        <!-- 끝 : 테이블 1열 -->
+
+        <!-- 테이블 2열 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- 요청자 -->
+            <TextView
+                android:id="@+id/txt_requester_02"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/table_cell_design"
+                android:gravity="center"
+                android:padding="8dp"
+                android:textStyle="bold" />
+
+            <!-- 승인자 -->
+            <TextView
+                android:id="@+id/txt_approver_02"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/table_cell_design"
+                android:gravity="center"
+                android:padding="8dp"
+                android:textStyle="bold" />
+
+            <!-- 접수자 -->
+            <TextView
+                android:id="@+id/txt_receiver_02"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/table_cell_design"
+                android:gravity="center"
+                android:padding="8dp"
+                android:textStyle="bold" />
+
+            <!-- 처리자 -->
+            <TextView
+                android:id="@+id/txt_handler_02"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/table_cell_design"
+                android:gravity="center"
+                android:padding="8dp"
+                android:textStyle="bold" />
+
+            <!-- 처리완료 -->
+            <TextView
+                android:id="@+id/txt_completed_02"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/table_cell_design"
+                android:gravity="center"
+                android:padding="8dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+        <!-- 끝 : 테이블 2열 -->
+
+    </LinearLayout>
+    <!-- 끝 : 테이블 섹션 -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edge_design"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="1dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/gray">
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="제목"
+                android:textColor="@color/blue3" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txt_inquiry_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edge_design"
+        android:orientation="horizontal"
+        android:padding="1dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/gray">
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:text="요청내용"
+                android:textColor="@color/blue3" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:layout_margin="10dp"
+                android:maxLines="8"
+                android:ellipsize="end" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edge_design"
+        android:orientation="horizontal"
+        android:padding="1dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/gray">
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:text="요청완료일"
+                android:textColor="@color/blue3" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textRequestComplete"
+            android:layout_width="100dp"
+            android:layout_margin="10dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edge_design"
+        android:orientation="horizontal"
+        android:padding="1dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/gray">
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:text="첨부파일"
+                android:textColor="@color/blue3" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textAttachment"
+            android:layout_width="150dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:layout_gravity="center_vertical" />
+
+    </LinearLayout>
+
+</LinearLayout>

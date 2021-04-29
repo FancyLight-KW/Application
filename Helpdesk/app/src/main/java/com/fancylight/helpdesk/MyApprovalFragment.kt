@@ -57,14 +57,14 @@ class MyApprovalFragment : Fragment(), View.OnClickListener {
         val view = inflater.inflate(R.layout.fragment_my_approval, container, false)
 
         // 버튼에 리스너 설정
-        val submtBtn = view.findViewById<Button>(R.id.btn_submit)
+
         val searchBtn = view.findViewById<Button>(R.id.btn_search)
         val seeMoreBtn = view.findViewById<Button>(R.id.btn_more_table)
         val serviceStatBtn = view.findViewById<ImageButton>(R.id.ibtn_service_stat)
         val inquiryTypeBtn = view.findViewById<ImageButton>(R.id.ibtn_inquiry_type)
         val startDateBtn = view.findViewById<ImageButton>(R.id.btn_date_start)
         val endDateBtn = view.findViewById<ImageButton>(R.id.btn_date_end)
-        submtBtn.setOnClickListener(this)
+
         searchBtn.setOnClickListener(this)
         seeMoreBtn.setOnClickListener(this)
         serviceStatBtn.setOnClickListener(this)
@@ -153,6 +153,12 @@ class MyApprovalFragment : Fragment(), View.OnClickListener {
             inquiryAdapter = InquiryAdapter(context!!, resultList!!)
             inquiryAdapter?.inquirySize = 10
             inquiryRecycler?.adapter = inquiryAdapter
+
+            inquiryAdapter?.setOnItemClickListener(object : InquiryAdapter.OnItemClickListener {
+                override fun onItemClick(position: Int) {
+                    startDetailActivity(position)
+                }
+            })
         }
     }
 
@@ -172,9 +178,12 @@ class MyApprovalFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun startSubmitActivity() {
+    private fun startDetailActivity(position: Int) {
 
-        val intent = Intent(context, SubmitActivity::class.java)
+        val intent = Intent(context!!, DetailActivity::class.java)
+        // 인텐트에 클릭된 문의와 순서값을(No) 전달한다
+        intent.putExtra(EXTRA_INQUIRY, resultList!![position])
+        intent.putExtra(EXTRA_INQUIRY_NO, resultList!!.size - position)
         startActivity(intent)
     }
 

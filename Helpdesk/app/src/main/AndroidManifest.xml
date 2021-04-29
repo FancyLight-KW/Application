@@ -31,6 +31,7 @@
             android:name="firebase_analytics_collection_enabled"
             android:value="false" />
 
+        <activity android:name=".DetailActivity"></activity>
         <activity android:name=".SubmitActivity" />
         <activity android:name=".NewActivity" />
         <activity android:name=".HomeActivity" />

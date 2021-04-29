@@ -13,7 +13,20 @@ import java.util.*
 class InquiryAdapter(
         private val context: Context,
         private val inquiryList: List<Inquiry>
-) : RecyclerView.Adapter<InquiryAdapter.ViewHolder>() {
+    ) : RecyclerView.Adapter<InquiryAdapter.ViewHolder>() {
+
+    // 클릭 리스너 인터페이스
+    interface OnItemClickListener {
+        fun onItemClick(position: Int);
+    }
+
+    // 리스너 객체
+    private var listener: OnItemClickListener? = null
+
+    // 리스너 설치 메소드
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        this.listener = listener
+    }
 
     // 사용자가 보여주기를 원하는 아이템의 개수
     // (더보기 버튼 클릭 시, 이 개수를 늘려서 보여지는 아이템을 추가)
@@ -34,7 +47,7 @@ class InquiryAdapter(
         private val titleText: TextView = itemView.findViewById(R.id.txt_inquiry_title)
         private val dateText: TextView = itemView.findViewById(R.id.txt_inquiry_date)
 
-        fun bind(model: Inquiry) {
+        fun bind(model: Inquiry, listener: OnItemClickListener?) {
 
             // 각 위젯에 데이터 입력
             numberText.text = model.id.toString()
@@ -53,6 +66,12 @@ class InquiryAdapter(
                 INQUIRY_TYPE_ETC -> "기타"
                 else -> "-"
             }
+
+            // 아이템뷰에 리스너 설정
+            itemView.setOnClickListener {
+                listener?.onItemClick(adapterPosition)
+            }
+
         }
     }
 
@@ -69,7 +88,7 @@ class InquiryAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         // 아이템뷰의 위젯에 데이터 입력
-        holder.bind(inquiryList[position])
+        holder.bind(inquiryList[position], listener)
     }
 
     override fun getItemCount(): Int {
