@@ -31,6 +31,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         //어떤 모양으로 알림을 할지 설정한 다음 실제 폰 상단에 표시하도록 한다.
         //pendingIntent를 이용 알림을 클릭하면 열 앱의 액티비티를 설정해 준다.
         val intent = Intent(this, HomeActivity::class.java)
+        intent.putExtra("fragment","my")
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
 

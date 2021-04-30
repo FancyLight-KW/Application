@@ -54,7 +54,6 @@ class RequestFragment : Fragment(), View.OnClickListener {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-
         val view = inflater.inflate(R.layout.fragment_request, container, false)
 
         // 버튼에 리스너 설정
@@ -110,12 +109,13 @@ class RequestFragment : Fragment(), View.OnClickListener {
                 retrofit2.Callback<Array<getRequest>> {
             override fun onResponse(call: retrofit2.Call<Array<getRequest>>, response: Response<Array<getRequest>>) {
                 if(response.isSuccessful){
+                    inquirySource = mutableListOf<Inquiry>()
                     var arr = response.body()!!
                     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
                     for(i in 0..arr.size-1){
                         inquirySource.add(Inquiry(i, arr[i].CSR_STATUS, 4, arr[i].TITLE,
-                                LocalDate.parse(arr[i].createdAt.substring(0,10), DateTimeFormatter.ISO_DATE)))
+                                LocalDate.parse(arr[i].createdAt.substring(0,10), DateTimeFormatter.ISO_DATE),arr[i].CONTENT))
                     }
 
                     // 결과 리스트 구성. 처음엔 검색 필터 미적용 (= 모든 글 추가)

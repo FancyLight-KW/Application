@@ -169,6 +169,11 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
         // 실행할 코드를 지정할 수 있음. 이때는 툴바의 제목을 적절하게 바꿔줘야 함
         supportFragmentManager.addOnBackStackChangedListener { updateToolbarTitle() }
 
+        var intent = intent
+        if(intent.getStringExtra("fragment").toString()=="my"){
+            showMyListFragment()
+        }
+
     }
 
     // 옵션 메뉴 생성

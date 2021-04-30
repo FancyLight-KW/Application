@@ -258,7 +258,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.5"
+                android:layout_weight="2"
                 android:background="@drawable/table_header_design"
                 android:gravity="center"
                 android:padding="8dp"
@@ -280,7 +280,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_weight="3.5"
                 android:background="@drawable/table_header_design"
                 android:gravity="center"
                 android:padding="8dp"
@@ -291,7 +291,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="5"
+                android:layout_weight="4"
                 android:background="@drawable/table_header_design"
                 android:gravity="center"
                 android:padding="8dp"
@@ -326,7 +326,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.5"
+                    android:layout_weight="2"
                     android:background="@drawable/table_column_design"
                     />
 
@@ -339,13 +339,13 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="3"
+                    android:layout_weight="3.5"
                     android:background="@drawable/table_column_design" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="5"
+                    android:layout_weight="4"
                     android:background="@drawable/table_column_design" />
 
                 <TextView

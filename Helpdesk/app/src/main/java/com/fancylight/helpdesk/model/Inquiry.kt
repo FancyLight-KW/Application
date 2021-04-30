@@ -20,6 +20,7 @@ data class Inquiry (
         val type: Int,              // INQUIRY_TYPE_* 상수 입력
         val title: String,
         val date: LocalDate,
+        val content : String
 ) : Serializable
 
 fun parseDate(date : String) : MutableList<String>{

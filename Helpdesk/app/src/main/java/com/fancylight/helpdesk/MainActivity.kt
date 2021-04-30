@@ -14,6 +14,7 @@ import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.fancylight.helpdesk.`object`.MemberInfo
 import com.fancylight.helpdesk.databinding.ActivityMainBinding
 import com.fancylight.helpdesk.network.Fcm
 import com.fancylight.helpdesk.network.Login
@@ -104,15 +105,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 val result=response.body()!!.resultCode
                     if(result == 0){
                         UserApi.ttt = response.body()!!.token
-                        val jjj = extractJwt(response.body()!!.token)
-                        // Toast.makeText(applicationContext,"성공"+jjj, Toast.LENGTH_SHORT).show()
-
+                        Log.d("ttt",extractJwt(UserApi.ttt))
+                        MemberInfo.infoSet(extractJwt(UserApi.ttt))
 
                         UserApi.service.FcmPost("Bearer " +UserApi.ttt,UserApi.fcmToken).enqueue(object : Callback<Fcm> {
                             override fun onResponse(call: Call<Fcm>, response: Response<Fcm>) {
                                 if(response.isSuccessful){
                                     val result=response.body()!!.resultCode
-                                    Log.d("PostFcmToken ",UserApi.fcmToken)
                                     Toast.makeText(applicationContext,"성공"+UserApi.fcmToken, Toast.LENGTH_SHORT).show()
                                     startHomeActivity()
                                 }
@@ -149,7 +148,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             val charset = charset("UTF-8")
             val header = String(Base64.getUrlDecoder().decode(parts[0].toByteArray(charset)), charset)
             val payload = String(Base64.getUrlDecoder().decode(parts[1].toByteArray(charset)), charset)
-            "$header\n$payload"
+            //"$header\n$payload"
+            "$payload"
         } catch (e: Exception) {
             "Error parsing JWT: $e"
         }
