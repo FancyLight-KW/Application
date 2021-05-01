@@ -327,7 +327,14 @@
                 android:layout_margin="10dp"
                 android:text="요청내용"
                 android:textColor="@color/blue3" />
+
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/txt_inquiry_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -362,12 +369,12 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
-                android:text="요청완료일"
+                android:text="희망완료일"
                 android:textColor="@color/blue3" />
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textRequestComplete"
+            android:id="@+id/textDesiredDate"
             android:layout_width="100dp"
             android:layout_margin="10dp"
             android:layout_height="wrap_content"
@@ -404,5 +411,9 @@
             android:layout_gravity="center_vertical" />
 
     </LinearLayout>
+
+
+
+
 
 </LinearLayout>

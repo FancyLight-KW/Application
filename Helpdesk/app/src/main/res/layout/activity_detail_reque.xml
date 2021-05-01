@@ -11,6 +11,8 @@
     <include
         layout="@layout/layout_activity_detail" />
 
+
+
     <!-- 버튼 레이아웃 -->
     <LinearLayout
         android:layout_width="match_parent"

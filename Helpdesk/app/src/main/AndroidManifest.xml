@@ -22,7 +22,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Helpdesk"
         android:usesCleartextTraffic="true">
-        <activity android:name=".object.PasswordChangeActivity"></activity>
+        <activity android:name=".AgentPicker"></activity>
+        <activity android:name=".ReviseActivity" />
+        <activity android:name=".object.PasswordChangeActivity" />
 
         <meta-data
             android:name="firebase_messaging_auto_init_enabled"
@@ -31,7 +33,7 @@
             android:name="firebase_analytics_collection_enabled"
             android:value="false" />
 
-        <activity android:name=".DetailActivity"></activity>
+        <activity android:name=".DetailActivity" />
         <activity android:name=".SubmitActivity" />
         <activity android:name=".NewActivity" />
         <activity android:name=".HomeActivity" />
@@ -58,7 +60,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
     </application>
 

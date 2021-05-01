@@ -216,7 +216,7 @@
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:text="요청완료일"
+                    android:text="희망완료일"
                     android:textColor="@color/blue3"/>
             </LinearLayout>
 
@@ -228,7 +228,7 @@
                 android:background="@drawable/edittext_design"/>
             <ImageButton
                 android:layout_gravity="center"
-                android:id="@+id/btnRequestComplete"
+                android:id="@+id/btnDesiredDate"
                 android:layout_width="10pt"
                 android:layout_height="10pt"
                 android:src="@drawable/ic_expand"/>
@@ -274,51 +274,6 @@
         </LinearLayout>
 
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@drawable/edge_design"
-            android:padding="1dp">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@color/gray">
-                <TextView
-                    android:layout_gravity="center"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:text="요청자"
-                    android:textColor="@color/blue3"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/btnRequester"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="요청자 검색"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/edittext_design"
-                    android:layout_marginBottom="1dp"
-                    android:textColor="#ffff0000"
-                    android:text="요청자가 본인이 아닐시 실제 요청자를 검색하여 입력"/>
-            </LinearLayout>
-
-
-        </LinearLayout>
 
         <Button
             android:id="@+id/btn_submit"

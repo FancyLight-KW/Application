@@ -55,7 +55,7 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
         val rg1 : RadioGroup = findViewById(R.id.rg1)
         val spinner: Spinner = findViewById(R.id.spinner)
         val tmCheck : CheckBox = findViewById(R.id.tmCheck)
-        val requestComplete: ImageButton = findViewById(R.id.btnRequestComplete)
+        val requestComplete: ImageButton = findViewById(R.id.btnDesiredDate)
         val attachment : ImageButton = findViewById(R.id.btnAttachment)
         val submitbtn : Button = findViewById(R.id.btn_submit)
 
@@ -122,8 +122,8 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             //요청완료일 버튼 클릭시 달력으로 날짜 선택하는 기능 구현
-            R.id.btnRequestComplete -> {
-                val textRequestComplete : TextView = findViewById(R.id.textRequestComplete)
+            R.id.btnDesiredDate -> {
+                val textDesiredDate : TextView = findViewById(R.id.textDesiredDate)
                 val today = GregorianCalendar()
                 val year: Int = today.get(Calendar.YEAR)
                 val month: Int = today.get(Calendar.MONTH)
@@ -131,7 +131,7 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
                 val dlg = DatePickerDialog(this, object : DatePickerDialog.OnDateSetListener {
                     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
                         //요청완료일 기능 여기다 구현하면 됨
-                        textRequestComplete.setText("${year}/ ${month + 1}/ ${dayOfMonth}")
+                        textDesiredDate.setText("${year}/ ${month + 1}/ ${dayOfMonth}")
                         SubmitObject.dateSet(year,month+1,dayOfMonth)
                     }
                 }, year, month, date)

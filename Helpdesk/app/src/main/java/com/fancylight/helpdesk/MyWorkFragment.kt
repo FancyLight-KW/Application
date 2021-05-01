@@ -153,6 +153,12 @@ class MyWorkFragment : Fragment(), View.OnClickListener {
             inquiryAdapter = InquiryAdapter(context!!, resultList!!)
             inquiryAdapter?.inquirySize = 10
             inquiryRecycler?.adapter = inquiryAdapter
+
+            inquiryAdapter?.setOnItemClickListener(object : InquiryAdapter.OnItemClickListener {
+                override fun onItemClick(position: Int) {
+                    startDetailActivity(position)
+                }
+            })
         }
     }
 

@@ -1,11 +1,17 @@
 package com.fancylight.helpdesk
 
+import android.app.DatePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.DatePicker
 import android.widget.TextView
 import com.fancylight.helpdesk.model.Inquiry
+import com.fancylight.helpdesk.`object`.MemberInfo
+import com.fancylight.helpdesk.`object`.SubmitObject
+import java.util.*
+
 
 // Intent 로 전달될 값(extra)들의 키 상수
 const val EXTRA_INQUIRY = "com.fancylight.helpdesk.inquiry";
@@ -20,7 +26,9 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
         super.onCreate(savedInstanceState)
 
-        // TODO : 먼저 DB 로부터 authState 값을 불러온다
+        // DB 로부터 authState 값을 불러옴
+
+        authState = MemberInfo.User_position
 
         // authState 에 따라 다른 레이아웃 생성
         setContentView(
@@ -40,10 +48,13 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
         val serviceStatText: TextView = findViewById(R.id.txt_service_stat)
         val noText: TextView = findViewById(R.id.txt_no)
         val titleText: TextView = findViewById(R.id.txt_inquiry_title)
+        val contentText: TextView = findViewById(R.id.txt_inquiry_content)
+
 
         serviceStatText.text = inquiry.serviceStat
         noText.text = "$inquiryNo"
         titleText.text = inquiry.title
+        contentText.text = inquiry.content
 
         // 버튼에 리스너를 설정한다 (권한 변수에 따라 다른 버튼을 대상으로)
         when (authState) {
@@ -52,7 +63,9 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
                 modifyButton.setOnClickListener(this)
             }
             2 -> {
+                val startWorkButton: Button = findViewById(R.id.btn_start_work)
                 val finishWorkButton: Button = findViewById(R.id.btn_finish_work)
+                startWorkButton.setOnClickListener(this)
                 finishWorkButton.setOnClickListener(this)
             }
             3 -> {
@@ -72,15 +85,38 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
             R.id.btn_modify -> {
             // TODO : (수정) 버튼
             }
+            R.id.btn_start_work -> {
+            // TODO : (작업 시작) 버튼
+                val textExpectedDate : TextView = findViewById(R.id.textExpectedDate)
+                val today = GregorianCalendar()
+                val year: Int = today.get(Calendar.YEAR)
+                val month: Int = today.get(Calendar.MONTH)
+                val date: Int = today.get(Calendar.DATE)
+                val dlg = DatePickerDialog(this, object : DatePickerDialog.OnDateSetListener {
+                    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+
+                        textExpectedDate.setText("${year}/ ${month + 1}/ ${dayOfMonth}")
+                        SubmitObject.dateSet(year,month+1,dayOfMonth)
+                    }
+                }, year, month, date)
+                dlg.show()
+
+            }
             R.id.btn_finish_work -> {
             // TODO : (작업 완료) 버튼
+
+
             }
+
             R.id.btn_approve -> {
-            // TODO : (승인) 버튼
+            // TODO : (승인) 버튼 -> 요원목록 띄우고 고른 후 창 닫기
+
+
             }
             R.id.btn_dismiss -> {
-            // TODO : (반려) 버튼
+            // TODO : (반려) 버튼 -> '요청반려' 상태로 변경
             }
         }
     }
 }
+

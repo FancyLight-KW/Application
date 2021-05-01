@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
 import com.fancylight.helpdesk.adapter.NavExpandableListAdapter
 import com.fancylight.helpdesk.model.NavListItem
+import com.fancylight.helpdesk.`object`.MemberInfo
 
 class HomeActivity : AppCompatActivity(), View.OnClickListener,
     NavigationView.OnNavigationItemSelectedListener {
@@ -53,6 +54,8 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
         setContentView(R.layout.activity_home)
 
         // TODO: 유저 권한 변수 초기화!!
+        authState = MemberInfo.User_position
+
 
         // 툴 바를 액션 바로 설정한다
         mToolbar = findViewById(R.id.toolbar)
