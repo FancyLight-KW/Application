@@ -10,11 +10,31 @@ import java.lang.reflect.Type
 
 interface UserService {
 
+    //모든 접수리스트 가져오기
     @GET("requests")
     fun testGet(
             @Header ("Authorization") Authorization :String
     ): retrofit2.Call<Array<getRequest>>
 
+    //사원의 완료되지 않은 요청 모두 보여
+    @GET("mypage")
+    fun requestListGet(
+            @Header ("Authorization") Authorization :String
+    ): retrofit2.Call<Array<getRequest>>
+
+    //요원 자신에게 할당된 요청 가져오기
+    @GET("agent")
+    fun workListGet(
+            @Header ("Authorization") Authorization :String
+    ): retrofit2.Call<Array<getRequest>>
+
+    //요원에게 할당전인 요청 관리자에게 가져오
+    @GET("admin")
+    fun adminListGet(
+            @Header ("Authorization") Authorization :String
+    ): retrofit2.Call<Array<getRequest>>
+
+    //csr 상태 가져오기
     @GET("csrstatus")
     fun csrget(): retrofit2.Call<CSR>
 

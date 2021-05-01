@@ -105,7 +105,7 @@ class MyApprovalFragment : Fragment(), View.OnClickListener {
             }
         )
 
-        UserApi.service.testGet("Bearer "+ UserApi.ttt).enqueue(object :
+        UserApi.service.adminListGet("Bearer "+ UserApi.ttt).enqueue(object :
             retrofit2.Callback<Array<getRequest>> {
             override fun onResponse(call: retrofit2.Call<Array<getRequest>>, response: Response<Array<getRequest>>) {
                 if(response.isSuccessful){
@@ -125,11 +125,11 @@ class MyApprovalFragment : Fragment(), View.OnClickListener {
 
                 }
                 else{
-                    //Toast.makeText(applicationContext,"실패"+ UserApi.ttt, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity,"실패"+ UserApi.ttt, Toast.LENGTH_SHORT).show()
                 }
             }
             override fun onFailure(call: retrofit2.Call<Array<getRequest>>, t: Throwable) {
-                //Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
+                Toast.makeText(activity,"실패실패", Toast.LENGTH_LONG).show()
                 Log.e("failure error", ""+t)
             }
         })

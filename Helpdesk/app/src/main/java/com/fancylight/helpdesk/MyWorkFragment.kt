@@ -104,7 +104,7 @@ class MyWorkFragment : Fragment(), View.OnClickListener {
             }
         )
 
-        UserApi.service.testGet("Bearer "+ UserApi.ttt).enqueue(object :
+        UserApi.service.workListGet("Bearer "+ UserApi.ttt).enqueue(object :
             retrofit2.Callback<Array<getRequest>> {
             override fun onResponse(call: retrofit2.Call<Array<getRequest>>, response: Response<Array<getRequest>>) {
                 if(response.isSuccessful){

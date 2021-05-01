@@ -14,3 +14,4 @@ data class getRequest(val REQ_SEQ : Int, val TITLE : String, val CONTENT : Strin
 data class JsonData(val result : JsonObject)
 data class Fcm(val resultCode: Int )
 data class ChangePassword(val resultCode: Int, val message : String)
+data class ResultMessage(val resultCode: Int, val message : String)

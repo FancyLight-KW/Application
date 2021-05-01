@@ -130,7 +130,7 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
                 val date: Int = today.get(Calendar.DATE)
                 val dlg = DatePickerDialog(this, object : DatePickerDialog.OnDateSetListener {
                     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-                        //요청완료일 기능 여기다 구현하면 됨
+                        //희망완료일 기능 여기다 구현하면 됨
                         textDesiredDate.setText("${year}/ ${month + 1}/ ${dayOfMonth}")
                         SubmitObject.dateSet(year,month+1,dayOfMonth)
                     }

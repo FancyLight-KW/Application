@@ -104,7 +104,7 @@ class MyRequeFragment : Fragment(), View.OnClickListener {
         )
 
         // TODO: 유저(요원)별 SR 추출
-        UserApi.service.testGet("Bearer "+ UserApi.ttt).enqueue(object :
+        UserApi.service.requestListGet("Bearer "+ UserApi.ttt).enqueue(object :
             retrofit2.Callback<Array<getRequest>> {
             override fun onResponse(call: retrofit2.Call<Array<getRequest>>, response: Response<Array<getRequest>>) {
                 if(response.isSuccessful){
