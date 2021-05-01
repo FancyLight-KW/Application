@@ -61,6 +61,18 @@ interface UserService {
             @Part("body") body : String
     ): retrofit2.Call<JsonData>
 
+    //챗봇 통신
+    @FormUrlEncoded
+    @POST("dialogflow/textQuery")
+    fun ChatbotPost(
+            @Header ("Authorization") Authorization :String,
+            @Field("text") text: String,
+    ): retrofit2.Call<ChatbotReturn>
+
+
+
+
+    //비밀번호 변경할 때
     @FormUrlEncoded
     @PUT("users/password")
     fun passwordChangePut(
@@ -68,6 +80,17 @@ interface UserService {
         @Field("origin_password") origin_password: String,
         @Field("new_password") new_password: String
     ): retrofit2.Call<ChangePassword>
+
+//요원이 할당된 요청을 작업중이나 작업완료로 바꿀 때
+    @FormUrlEncoded
+    @PUT("agent/:{num}/:{complete}")
+    fun WorkChangePut(
+            @Header ("Authorization") Authorization :String,
+            @Path("num") num : Int,
+            @Path("complete") complete : Int,
+            @Field("CSR_STATUS") CSR_STATUS: String,
+            @Field("DATE") DATE: String
+    ): retrofit2.Call<ResultMessage>
 
 
 }
