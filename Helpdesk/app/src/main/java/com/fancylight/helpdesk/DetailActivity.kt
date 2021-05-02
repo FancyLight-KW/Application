@@ -11,6 +11,8 @@ import com.fancylight.helpdesk.model.Inquiry
 import com.fancylight.helpdesk.`object`.MemberInfo
 import com.fancylight.helpdesk.`object`.SubmitObject
 import java.util.*
+import android.content.Intent
+
 
 
 // Intent 로 전달될 값(extra)들의 키 상수
@@ -111,12 +113,23 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
             R.id.btn_approve -> {
             // TODO : (승인) 버튼 -> 요원목록 띄우고 고른 후 창 닫기
 
+                startPersonnelActivity()
+
 
             }
             R.id.btn_dismiss -> {
             // TODO : (반려) 버튼 -> '요청반려' 상태로 변경
+
+                finish()
             }
         }
+    }
+
+    // PersonnelActivity 시작
+    private fun startPersonnelActivity() {
+
+        val intent = Intent(this, PersonnelActivity::class.java)
+        startActivity(intent)
     }
 }
 

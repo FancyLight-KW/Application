@@ -14,6 +14,7 @@
         android:required="true" />
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/iconlogo"
         android:label="@string/app_name"
@@ -22,7 +23,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Helpdesk"
         android:usesCleartextTraffic="true">
-        <activity android:name=".AgentPicker"></activity>
+        <activity android:name=".PersonnelActivity"></activity>
+        <activity android:name=".AgentPicker" />
         <activity android:name=".ReviseActivity" />
         <activity android:name=".object.PasswordChangeActivity" />
 
