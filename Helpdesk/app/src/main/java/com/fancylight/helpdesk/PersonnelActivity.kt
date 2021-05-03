@@ -40,7 +40,9 @@ class PersonnelActivity : AppCompatActivity() {
 
         adapter.setOnItemClickListener(object : PersonnelAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
-                // 배정하고 액티비티 종료
+                // 배정하고 상태바꾸고 액티비티 종료
+
+
 
                 finish()
             }

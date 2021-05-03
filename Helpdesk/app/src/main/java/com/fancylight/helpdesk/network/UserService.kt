@@ -80,9 +80,9 @@ interface UserService {
         @Field("new_password") new_password: String
     ): retrofit2.Call<ChangePassword>
 
-//요원이 할당된 요청을 작업중이나 작업완료로 바꿀 때
+    //요원이 할당된 요청을 작업중이나 작업완료로 바꿀 때
     @FormUrlEncoded
-    @PUT("agent/:{num}/:{complete}")
+    @PUT("agent/{num}/{complete}")
     fun WorkChangePut(
             @Header ("Authorization") Authorization :String,
             @Path("num") num : Int,
