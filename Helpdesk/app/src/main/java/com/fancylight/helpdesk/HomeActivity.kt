@@ -4,21 +4,29 @@ package com.fancylight.helpdesk
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.telecom.Call
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ExpandableListView
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import com.fancylight.helpdesk.SharedPref.MyApplication
 import com.google.android.material.navigation.NavigationView
 import com.fancylight.helpdesk.adapter.NavExpandableListAdapter
 import com.fancylight.helpdesk.model.NavListItem
 import com.fancylight.helpdesk.`object`.MemberInfo
+import com.fancylight.helpdesk.network.Login
+import com.fancylight.helpdesk.network.UserApi
+import retrofit2.Response
+import javax.security.auth.callback.Callback
 
 class HomeActivity : AppCompatActivity(), View.OnClickListener,
     NavigationView.OnNavigationItemSelectedListener {
@@ -46,7 +54,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
     private var mToolbar: Toolbar? = null
 
     // 유저 권한 변수 (1 사원, 2 요원, 3 관리자)
-    private var authState: Int = 3
+    private var authState: Int = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -173,8 +181,30 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
         supportFragmentManager.addOnBackStackChangedListener { updateToolbarTitle() }
 
         var intent = intent
-        if(intent.getStringExtra("fragment").toString()=="my"){
-            showMyListFragment()
+        if(intent.getStringExtra("fragment").toString()=="my") {
+            UserApi.service.loginPost(MyApplication.prefs.getString("id", ""), MyApplication.prefs.getString("pw", "")).enqueue(object : retrofit2.Callback<Login> {
+                override fun onResponse(call: retrofit2.Call<Login>, response: Response<Login>) {
+                    if (response.isSuccessful) {
+                        val result = response.body()!!.resultCode
+                        if (result == 0) {
+                            UserApi.ttt = response.body()!!.token
+                            MemberInfo.infoSet(UserApi.extractJwt(UserApi.ttt))
+                            authState = MemberInfo.User_position
+                            showMyListFragment()
+                            Toast.makeText(applicationContext, "성성공공", Toast.LENGTH_LONG).show()
+                        } else {
+                            Toast.makeText(applicationContext, "등록된 정보와 일치하지 않습니다.", Toast.LENGTH_LONG).show()
+                        }
+                    } else {
+                        Toast.makeText(applicationContext, "실패longin", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: retrofit2.Call<Login>, t: Throwable) {
+                    Toast.makeText(applicationContext, "실패실패login", Toast.LENGTH_LONG).show()
+                    Log.e("failure error", "" + t)
+                }
+            })
         }
 
     }

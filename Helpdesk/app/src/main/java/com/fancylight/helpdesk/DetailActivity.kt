@@ -12,7 +12,14 @@ import com.fancylight.helpdesk.`object`.MemberInfo
 import com.fancylight.helpdesk.`object`.SubmitObject
 import java.util.*
 import android.content.Intent
-
+import android.util.Log
+import android.widget.Toast
+import com.fancylight.helpdesk.network.Fcm
+import com.fancylight.helpdesk.network.ResultMessage
+import com.fancylight.helpdesk.network.UserApi
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 // Intent 로 전달될 값(extra)들의 키 상수
@@ -119,8 +126,31 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.btn_dismiss -> {
             // TODO : (반려) 버튼 -> '요청반려' 상태로 변경
+                UserApi.service.adminDenyPut("Bearer " + UserApi.ttt, inquiry.id).enqueue(object : Callback<ResultMessage> {
+                    override fun onResponse(call: Call<ResultMessage>, response: Response<ResultMessage>) {
+                        if(response.isSuccessful){
+                            val result=response.body()!!.resultCode
+                            val message=response.body()!!.message
 
-                finish()
+                            if(result==0){
+                                Toast.makeText(applicationContext,"성공" + message, Toast.LENGTH_SHORT).show()
+                                finish()
+                            }
+                            else {
+                                Toast.makeText(applicationContext,"실패" + message, Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                        else{
+                            Toast.makeText(applicationContext,"실패" , Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    override fun onFailure(call: Call<ResultMessage>, t: Throwable) {
+                        Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
+                        Log.e("failure errorrr", ""+t)
+                    }
+                })
+
+
             }
         }
     }

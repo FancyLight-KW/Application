@@ -1,5 +1,6 @@
 package com.fancylight.helpdesk.network
 
+import android.os.Build
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import retrofit2.Converter
@@ -7,6 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 import java.lang.reflect.Type
+import java.util.*
 
 interface UserService {
 
@@ -69,9 +71,6 @@ interface UserService {
             @Field("text") text: String,
     ): retrofit2.Call<ChatbotReturn>
 
-
-
-
     //비밀번호 변경할 때
     @FormUrlEncoded
     @PUT("users/password")
@@ -92,6 +91,16 @@ interface UserService {
             @Field("DATE") DATE: String
     ): retrofit2.Call<ResultMessage>
 
+    //관리자가 접수된 요청을 반려할 때
+    @FormUrlEncoded
+    @PUT("admin/deny")
+    fun adminDenyPut(
+            @Header ("Authorization") Authorization :String,
+            @Field("REQ_SEQ") REQ_SEQ: Int,
+    ): retrofit2.Call<ResultMessage>
+
+
+
 
 }
 
@@ -105,6 +114,20 @@ object UserApi{
     var fcmToken : String =""
     val service : UserService by lazy {
         retrofit.create(UserService::class.java)
+    }
+
+    fun extractJwt(jwt: String): String {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return "Requires SDK 26"
+        val parts = jwt.split(".")
+        return try {
+            val charset = charset("UTF-8")
+            val header = String(Base64.getUrlDecoder().decode(parts[0].toByteArray(charset)), charset)
+            val payload = String(Base64.getUrlDecoder().decode(parts[1].toByteArray(charset)), charset)
+            //"$header\n$payload"
+            "$payload"
+        } catch (e: Exception) {
+            "Error parsing JWT: $e"
+        }
     }
 }
 
