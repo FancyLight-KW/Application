@@ -132,7 +132,7 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
                     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
                         //희망완료일 기능 여기다 구현하면 됨
                         textDesiredDate.setText("${year}/ ${month + 1}/ ${dayOfMonth}")
-                        SubmitObject.dateSet(year,month+1,dayOfMonth)
+                        SubmitObject.finishDate =SubmitObject.dateSet(year,month+1,dayOfMonth)
                     }
                 }, year, month, date)
                 dlg.show()

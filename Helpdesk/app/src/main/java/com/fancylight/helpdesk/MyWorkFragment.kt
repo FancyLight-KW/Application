@@ -113,8 +113,16 @@ class MyWorkFragment : Fragment(), View.OnClickListener {
                     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
                     for(i in 0..arr.size-1){
-                        inquirySource.add(Inquiry(arr[i].REQ_SEQ, arr[i].CSR_STATUS, 4, arr[i].TITLE,
-                            LocalDate.parse(arr[i].createdAt.substring(0,10), DateTimeFormatter.ISO_DATE),arr[i].CONTENT))
+                        if(arr[i].REQ_IMG_PATH == null){
+                            inquirySource.add(Inquiry(arr[i].REQ_SEQ, arr[i].CSR_STATUS, 4, arr[i].TITLE,
+                                    LocalDate.parse(arr[i].createdAt.substring(0,10), DateTimeFormatter.ISO_DATE),arr[i].CONTENT,""))
+                        }
+                        else{
+                            inquirySource.add(Inquiry(arr[i].REQ_SEQ, arr[i].CSR_STATUS, 4, arr[i].TITLE,
+                                    LocalDate.parse(arr[i].createdAt.substring(0,10), DateTimeFormatter.ISO_DATE),arr[i].CONTENT,arr[i].REQ_IMG_PATH))
+
+                        }
+
                     }
 
                     // 결과 리스트 구성. 처음엔 검색 필터 미적용 (= 모든 글 추가)
@@ -185,7 +193,8 @@ class MyWorkFragment : Fragment(), View.OnClickListener {
         val intent = Intent(context!!, DetailActivity::class.java)
         // 인텐트에 클릭된 문의와 순서값을(No) 전달한다
         intent.putExtra(EXTRA_INQUIRY, resultList!![position])
-        intent.putExtra(EXTRA_INQUIRY_NO, resultList!!.size - position)
+        //intent.putExtra(EXTRA_INQUIRY_NO, resultList!!.size - position)
+
         startActivity(intent)
     }
 

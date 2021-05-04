@@ -40,7 +40,7 @@ object SubmitObject {
         """.trimIndent()
     }
 
-    fun dateSet(year : Int, month : Int, day : Int) {
+    fun dateSet(year : Int, month : Int, day : Int) :String {
         var monthStr : String
         var dayStr : String
         if(month <10)
@@ -53,7 +53,7 @@ object SubmitObject {
         else
             dayStr = ""+day
 
-        finishDate =year.toString() + month + dayStr
+        return year.toString() + month + dayStr
     }
 
 }

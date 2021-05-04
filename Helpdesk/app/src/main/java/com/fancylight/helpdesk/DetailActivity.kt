@@ -26,7 +26,8 @@ const val EXTRA_INQUIRY_NO = "com.fancylight.helpdesk.inquiry_no";
 class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var inquiry: Inquiry
-    private var authState: Int = 3      // 로그인 상태 (권한 변수)
+    private var authState: Int = 0      // 로그인 상태 (권한 변수)
+    private var vdate : String =""
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -36,19 +37,27 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
         authState = MemberInfo.User_position
 
+        // 인텐트로 전달된 Inquiry 와 순서값을 받는다
+        inquiry = intent.getSerializableExtra(EXTRA_INQUIRY) as Inquiry
+
         // authState 에 따라 다른 레이아웃 생성
         setContentView(
-            when (authState) {
-                1 -> R.layout.activity_detail_reque
-                2 -> R.layout.activity_detail_work
-                3 -> R.layout.activity_detail_approval
-                else -> R.layout.activity_detail_reque
-            }
+                when (authState) {
+                    1 -> R.layout.activity_detail_reque
+                    2 ->
+                    {
+                        when(inquiry.serviceStat){
+                            "접수완료" -> R.layout.activity_detail_work
+                            else -> R.layout.activity_detail_work_complete
+                        }
+                    }
+                    3 -> R.layout.activity_detail_approval
+                    else -> R.layout.activity_detail_reque
+                }
         )
 
         // 인텐트로 전달된 Inquiry 와 순서값을 받는다
         inquiry = intent.getSerializableExtra(EXTRA_INQUIRY) as Inquiry
-        val inquiryNo = intent.getIntExtra(EXTRA_INQUIRY_NO, 0)
 
         // 전달받은 Inquiry 정보로 UI 를 업데이트한다
         val serviceStatText: TextView = findViewById(R.id.txt_service_stat)
@@ -56,13 +65,18 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
         val titleText: TextView = findViewById(R.id.txt_inquiry_title)
         val contentText: TextView = findViewById(R.id.txt_inquiry_content)
         val date: TextView = findViewById(R.id.textDesiredDate)
+        val image : TextView = findViewById(R.id.textAttachment)
 
 
         serviceStatText.text = inquiry.serviceStat
-        noText.text = "$inquiryNo"
+        noText.text = inquiry.id.toString()
         titleText.text = inquiry.title
         contentText.text = inquiry.content
         date.text = inquiry.date.toString()
+        image.text = inquiry.imagePath
+
+        val imageBtn :Button = findViewById(R.id.btn_viewImage)
+        imageBtn.setOnClickListener(this)
 
         // 버튼에 리스너를 설정한다 (권한 변수에 따라 다른 버튼을 대상으로)
         when (authState) {
@@ -71,12 +85,19 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
                 modifyButton.setOnClickListener(this)
             }
             2 -> {
-                val startWorkButton: Button = findViewById(R.id.btn_start_work)
-                val finishWorkButton: Button = findViewById(R.id.btn_finish_work)
                 val pickExpectedDateButton: ImageButton = findViewById(R.id.btnExpectedDate)
-                startWorkButton.setOnClickListener(this)
-                finishWorkButton.setOnClickListener(this)
                 pickExpectedDateButton.setOnClickListener(this)
+
+                when (inquiry.serviceStat) {
+                    "접수완료" -> {
+                        val startWorkButton: Button = findViewById(R.id.btn_start_work)
+                        startWorkButton.setOnClickListener(this)
+                    }
+                    else -> {
+                        val finishWorkButton: Button = findViewById(R.id.btn_finish_work)
+                        finishWorkButton.setOnClickListener(this)
+                    }
+                }
             }
             3 -> {
                 val approveButton: Button = findViewById(R.id.btn_approve)
@@ -92,6 +113,13 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
 
         when (v?.id) {
+            R.id.btn_viewImage-> {
+                // TODO : 더보기 버튼 -> 이미지 띄우기
+                val intent = Intent(this, Image_Activity::class.java)
+                intent.putExtra("ImagePath",inquiry.imagePath)
+                startActivity(intent)
+            }
+
             R.id.btn_modify -> {
             // TODO : (수정) 버튼 -> detail 항목들 수정하기
 
@@ -108,7 +136,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
                     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
 
                         textExpectedDate.setText("${year}/ ${month + 1}/ ${dayOfMonth}")
-                        SubmitObject.dateSet(year,month+1,dayOfMonth)
+                        vdate =SubmitObject.dateSet(year,month+1,dayOfMonth)
                     }
                 }, year, month, date)
                 dlg.show()
@@ -121,7 +149,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
                     Toast.makeText(applicationContext,"예상 완료일을 지정해 주세요." , Toast.LENGTH_SHORT).show()
                 } else {
 
-                    UserApi.service.WorkChangePut("Bearer " + UserApi.ttt, 5, 0, "요청처리중", "19941212").enqueue(object : Callback<ResultMessage> {
+                    UserApi.service.WorkChangePut("Bearer " + UserApi.ttt, inquiry.id, 0, "요청처리중", vdate).enqueue(object : Callback<ResultMessage> {
                         override fun onResponse(call: Call<ResultMessage>, response: Response<ResultMessage>) {
                             if(response.isSuccessful){
                                 val result=response.body()!!.resultCode
@@ -150,7 +178,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
             R.id.btn_finish_work -> {
             // TODO : (작업 완료) 버튼 -> '처리완료' 상태로 변경
-                UserApi.service.WorkChangePut("Bearer " + UserApi.ttt, 7, 1, "처리완료", "20210501").enqueue(object : Callback<ResultMessage> {
+                UserApi.service.WorkChangePut("Bearer " + UserApi.ttt, inquiry.id, 1, "처리완료", vdate).enqueue(object : Callback<ResultMessage> {
                     override fun onResponse(call: Call<ResultMessage>, response: Response<ResultMessage>) {
                         if(response.isSuccessful){
                             val result=response.body()!!.resultCode

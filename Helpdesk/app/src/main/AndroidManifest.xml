@@ -22,10 +22,9 @@
         android:roundIcon="@mipmap/iconlogo"
         android:supportsRtl="true"
         android:theme="@style/Theme.Helpdesk"
-        android:usesCleartextTraffic="true"
-        >
-
-        <activity android:name=".PersonnelActivity"></activity>
+        android:usesCleartextTraffic="true">
+        <activity android:name=".Image_Activity"></activity>
+        <activity android:name=".PersonnelActivity" />
         <activity android:name=".AgentPicker" />
         <activity android:name=".ReviseActivity" />
         <activity android:name=".object.PasswordChangeActivity" />

@@ -80,6 +80,17 @@ interface UserService {
         @Field("new_password") new_password: String
     ): retrofit2.Call<ChangePassword>
 
+    //사원이 요청을 수정할
+    @FormUrlEncoded
+    @PUT("requests/{requestid}")
+    fun RevisePut(
+            @Header ("Authorization") Authorization :String,
+            @Path("requestid") requestid : Int,
+            @Field("CSR_STATUS") CSR_STATUS: String,
+            @Field("DATE") DATE: String
+    ): retrofit2.Call<ResultMessage>
+
+
     //요원이 할당된 요청을 작업중이나 작업완료로 바꿀 때
     @FormUrlEncoded
     @PUT("agent/{num}/{complete}")
@@ -97,7 +108,9 @@ interface UserService {
     fun adminDenyPut(
             @Header ("Authorization") Authorization :String,
             @Field("REQ_SEQ") REQ_SEQ: Int,
-    ): retrofit2.Call<ResultMessage>
+            @Part imagefile : MultipartBody.Part,
+            @Part("body") body : String
+    ): retrofit2.Call<JsonData>
 
 
 

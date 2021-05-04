@@ -409,6 +409,13 @@
             android:layout_height="30dp"
             android:layout_margin="10dp"
             android:layout_gravity="center_vertical" />
+        <Button
+            android:id="@+id/btn_viewImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="사진보기">
+        </Button>
+
 
     </LinearLayout>
 

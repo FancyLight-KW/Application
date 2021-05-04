@@ -115,7 +115,7 @@ class MyApprovalFragment : Fragment(), View.OnClickListener {
 
                     for(i in 0..arr.size-1){
                         inquirySource.add(Inquiry(arr[i].REQ_SEQ, arr[i].CSR_STATUS, 4, arr[i].TITLE,
-                            LocalDate.parse(arr[i].createdAt.substring(0,10), DateTimeFormatter.ISO_DATE),arr[i].CONTENT))
+                            LocalDate.parse(arr[i].createdAt.substring(0,10), DateTimeFormatter.ISO_DATE),arr[i].CONTENT,arr[i].REQ_IMG_PATH))
                     }
                     // 결과 리스트 구성. 처음엔 검색 필터 미적용 (= 모든 글 추가)
                     resultList = filterInquiries(null, null, null, null, null)

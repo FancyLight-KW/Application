@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
-                android:text="예상완료일"
+                android:text="작업완료일"
                 android:textColor="@color/blue3" />
         </LinearLayout>
 
@@ -57,11 +57,11 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btn_start_work"
+            android:id="@+id/btn_finish_work"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="작업시작" />
+            android:text="작업완료" />
 
     </LinearLayout>
 
