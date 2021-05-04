@@ -40,6 +40,12 @@ interface UserService {
     @GET("csrstatus")
     fun csrget(): retrofit2.Call<CSR>
 
+    //요원리스트 가져오
+    @GET("admin/agentlist")
+    fun agentListGet(): retrofit2.Call<Array<AgentListForm>>
+
+
+
 
     @FormUrlEncoded
     @POST("auth/login")
@@ -86,8 +92,8 @@ interface UserService {
     fun RevisePut(
             @Header ("Authorization") Authorization :String,
             @Path("requestid") requestid : Int,
-            @Field("CSR_STATUS") CSR_STATUS: String,
-            @Field("DATE") DATE: String
+            @Part imagefile : MultipartBody.Part,
+            @Part("body") body : String
     ): retrofit2.Call<ResultMessage>
 
 
@@ -108,8 +114,15 @@ interface UserService {
     fun adminDenyPut(
             @Header ("Authorization") Authorization :String,
             @Field("REQ_SEQ") REQ_SEQ: Int,
-            @Part imagefile : MultipartBody.Part,
-            @Part("body") body : String
+    ): retrofit2.Call<JsonData>
+
+    //관리자가 접수된 요청을 할당할
+    @FormUrlEncoded
+    @PUT("admin")
+    fun adminPut(
+            @Header ("Authorization") Authorization :String,
+            @Field("MOD_User_ID") MOD_User_ID: String,
+            @Field("REQ_SEQ") REQ_SEQ: Int,
     ): retrofit2.Call<JsonData>
 
 
