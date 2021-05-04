@@ -114,7 +114,7 @@ class RequestFragment : Fragment(), View.OnClickListener {
                     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
                     for(i in 0..arr.size-1){
-                        inquirySource.add(Inquiry(i, arr[i].CSR_STATUS, 4, arr[i].TITLE,
+                        inquirySource.add(Inquiry(arr[i].REQ_SEQ, arr[i].CSR_STATUS, 4, arr[i].TITLE,
                                 LocalDate.parse(arr[i].createdAt.substring(0,10), DateTimeFormatter.ISO_DATE),arr[i].CONTENT))
                     }
 
@@ -130,7 +130,7 @@ class RequestFragment : Fragment(), View.OnClickListener {
                 }
             }
             override fun onFailure(call: retrofit2.Call<Array<getRequest>>, t: Throwable) {
-                //Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
+                Toast.makeText(activity,"실패실패", Toast.LENGTH_LONG).show()
                 Log.e("failure error", ""+t)
             }
         })

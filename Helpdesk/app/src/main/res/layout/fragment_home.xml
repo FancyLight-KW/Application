@@ -195,7 +195,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:text="처리 지연중"
+                android:text="처리 완료"
                 android:textSize="15sp" />
 
             <TextView

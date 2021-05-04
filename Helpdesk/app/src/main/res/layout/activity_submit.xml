@@ -221,7 +221,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/textRequestComplete"
+                android:id="@+id/textDesiredDate"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"

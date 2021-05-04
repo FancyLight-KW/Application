@@ -73,12 +73,13 @@ class HomeFragment : Fragment(), View.OnClickListener {
                     var sum : Int = response.body()!!.요청처리중 +
                             response.body()!!.접수대기 +
                             response.body()!!.접수완료 +
-                            response.body()!!.처리지연중
+                            response.body()!!.처리완료 +
+                            response.body()!!.요청반려
                     approvalnum.setText(""+sum)
                     waittingnum.setText(""+response.body()!!.접수대기)
                     completenum.setText(""+response.body()!!.접수완료)
                     proceedingnum.setText(""+response.body()!!.요청처리중)
-                    delaynum.setText(""+response.body()!!.처리지연중)
+                    delaynum.setText(""+response.body()!!.처리완료)
 
                 }
                 else{

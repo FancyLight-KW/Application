@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import android.view.View
 import android.view.animation.Animation
@@ -14,6 +15,7 @@ import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.fancylight.helpdesk.SharedPref.MyApplication
 import com.fancylight.helpdesk.`object`.MemberInfo
 import com.fancylight.helpdesk.databinding.ActivityMainBinding
 import com.fancylight.helpdesk.network.Fcm
@@ -49,11 +51,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             UserApi.fcmToken = msg
         })
 
-
         // 앱이 첫 실행될 때 표지를 잠깐 띄웠다가 fade out 한다.
         if (savedInstanceState == null) {
             fadeOutCover()
         }
+
+        binding.editId.text=Editable.Factory.getInstance().newEditable(MyApplication.prefs.getString("id",""))
+        binding.editPassword.text=Editable.Factory.getInstance().newEditable(MyApplication.prefs.getString("pw",""))
 
         // 버튼 리스너 설정
         val loginButton : Button? = findViewById<Button>(R.id.btn_login);
@@ -86,7 +90,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
 
         if (v?.id == R.id.btn_login) {
-            //startHomeActivity()
             startLogin(binding.editId.text.toString(), binding.editPassword.text.toString())
         }
 }
@@ -104,9 +107,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 if(response.isSuccessful){
                 val result=response.body()!!.resultCode
                     if(result == 0){
+                        MyApplication.prefs.setString("id",Input_id)
+                        MyApplication.prefs.setString("pw",Input_password)
+
                         UserApi.ttt = response.body()!!.token
-                        Log.d("ttt",extractJwt(UserApi.ttt))
-                        MemberInfo.infoSet(extractJwt(UserApi.ttt))
+                        Log.d("ttt",UserApi.extractJwt(UserApi.ttt))
+                        MemberInfo.infoSet(UserApi.extractJwt(UserApi.ttt))
 
                         UserApi.service.FcmPost("Bearer " +UserApi.ttt,UserApi.fcmToken).enqueue(object : Callback<Fcm> {
                             override fun onResponse(call: Call<Fcm>, response: Response<Fcm>) {
@@ -130,29 +136,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     }
                 }
                 else{
-                    Toast.makeText(applicationContext,"실패", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext,"실패zz", Toast.LENGTH_SHORT).show()
                 }
             }
            override fun onFailure(call: Call<Login>, t: Throwable) {
-               Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
+               Toast.makeText(applicationContext,"실패실패zz", Toast.LENGTH_LONG).show()
                Log.e("failure error", ""+t)
            }
         })
 
-    }
-
-    fun extractJwt(jwt: String): String {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return "Requires SDK 26"
-        val parts = jwt.split(".")
-        return try {
-            val charset = charset("UTF-8")
-            val header = String(Base64.getUrlDecoder().decode(parts[0].toByteArray(charset)), charset)
-            val payload = String(Base64.getUrlDecoder().decode(parts[1].toByteArray(charset)), charset)
-            //"$header\n$payload"
-            "$payload"
-        } catch (e: Exception) {
-            "Error parsing JWT: $e"
-        }
     }
 
     private fun createNotificationChannel() {

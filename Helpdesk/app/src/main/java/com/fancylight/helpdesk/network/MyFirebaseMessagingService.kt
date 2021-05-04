@@ -22,8 +22,8 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         @SuppressLint("LongLogTAG")
-        if(remoteMessage?.notification != null) {
-            sendNotification(remoteMessage.notification?.title, remoteMessage.notification!!.body!!)
+        if(remoteMessage?.data != null) {
+            sendNotification(remoteMessage.data["title"], remoteMessage.data["body"].toString())
         }
 
     }
