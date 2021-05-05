@@ -10,24 +10,39 @@ import com.fancylight.helpdesk.R
 import com.fancylight.helpdesk.model.Personnel
 
 class PersonnelAdapter(
-    private val context: Context,
-    private val list: List<Personnel>
+        private val context: Context,
+        private val personnelList: List<Personnel>
 ) : RecyclerView.Adapter<PersonnelAdapter.ViewHolder>() {
+
+    interface OnItemClickListener {
+        fun onItemClick(position: Int)
+    }
+
+    private var listener: OnItemClickListener? = null
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        this.listener = listener
+    }
+
+
+
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         // 아이템뷰의 위젯 획득
-        private val idText: TextView = itemView.findViewById(R.id.txt_personnel_id)
-        private val nameText: TextView = itemView.findViewById(R.id.txt_personnel_name)
         private val ongoingText: TextView = itemView.findViewById(R.id.txt_number_ongoing)
         private val assignedText: TextView = itemView.findViewById(R.id.txt_number_assigned)
+        private val idText: TextView = itemView.findViewById(R.id.txt_personnel_id)
+        private val nameText: TextView = itemView.findViewById(R.id.txt_personnel_name)
+
 
         fun bind(model: Personnel, listener: OnItemClickListener?) {
 
-            idText.text = model.id.toString()
-            nameText.text = model.name.toString()
-            ongoingText.text = model.numberOngoing.toString()
-            assignedText.text = model.numberAssigned.toString()
+            ongoingText.text = model.DOING.toString()
+            assignedText.text = model.READY.toString()
+            idText.text = model.User_id
+            nameText.text = model.User_name
+
 
             itemView.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
@@ -41,7 +56,7 @@ class PersonnelAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val itemView = LayoutInflater.from(context)
-            .inflate(R.layout.item_personnel, parent, false)
+                .inflate(R.layout.item_personnel, parent, false)
 
         return ViewHolder(itemView)
     }
@@ -49,23 +64,20 @@ class PersonnelAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        holder.bind(list[position], onItemClickListener)
+        holder.bind(personnelList[position], listener)
     }
+
+
+    var personnelSize = personnelList.size
 
     override fun getItemCount(): Int {
 
-        return list.size
+        return personnelSize
     }
 
 
-    interface OnItemClickListener {
-        fun onItemClick(position: Int)
-    }
 
-    private var onItemClickListener: OnItemClickListener? = null
 
-    fun setOnItemClickListener(listener: OnItemClickListener) {
-        this.onItemClickListener = listener
-    }
+
 
 }

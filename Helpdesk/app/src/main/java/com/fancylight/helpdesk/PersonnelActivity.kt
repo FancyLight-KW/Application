@@ -1,61 +1,131 @@
 package com.fancylight.helpdesk
 
+import android.content.Intent
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import retrofit2.Response
-import com.fancylight.helpdesk.network.AgentListForm
-import com.fancylight.helpdesk.network.UserApi
-import com.fancylight.helpdesk.network.getRequest
-import com.fancylight.helpdesk.R
-import com.fancylight.helpdesk.`object`.App
-import com.fancylight.helpdesk.adapter.InquiryAdapter
 import com.fancylight.helpdesk.adapter.PersonnelAdapter
 import com.fancylight.helpdesk.model.Personnel
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.*
+import androidx.fragment.app.Fragment
+import com.fancylight.helpdesk.adapter.InquiryAdapter
+import com.fancylight.helpdesk.model.*
+import com.fancylight.helpdesk.network.AgentListForm
+import com.fancylight.helpdesk.network.JsonData
+import com.fancylight.helpdesk.network.UserApi
+import com.fancylight.helpdesk.network.getRequest
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.text.FieldPosition
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 
 class PersonnelActivity : AppCompatActivity() {
 
+    private var personnelSource = mutableListOf<Personnel>()
 
+    private var resultList: MutableList<Personnel>? = null
 
-    private lateinit var application: App
+    private var personnelRecycler: RecyclerView? = null
+    private var personnelAdapter: PersonnelAdapter? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    private var seqNum: Int = 0
+
+    override fun onCreate(
+            savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_personnel)
 
-        application = getApplication() as App
 
-        buildPersonnelRecycler()
+
+
+
+        UserApi.service.agentListGet("Bearer " + UserApi.ttt).enqueue(object :
+                retrofit2.Callback<Array<AgentListForm>> {
+            override fun onResponse(call: retrofit2.Call<Array<AgentListForm>>, response: Response<Array<AgentListForm>>) {
+
+                if(response.isSuccessful){
+                    personnelSource = mutableListOf<Personnel>()
+                    var arr = response.body()!!
+
+                    for(i in 0..arr.size-1) {
+                        personnelSource.add(Personnel(arr[i].DOING, arr[i].READY, arr[i].User_id, arr[i].User_name))
+                    }
+                    Toast.makeText(applicationContext,"성공", Toast.LENGTH_SHORT).show()
+                    resultList = personnelSource.toMutableList()
+
+                    buildPersonnelRecycler()
+
+
+
+                }
+                else{
+                    Toast.makeText(applicationContext,"실패"+ response.code(), Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: retrofit2.Call<Array<AgentListForm>>, t: Throwable) {
+                Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
+                Log.e("failure error", ""+t)
+            }
+        })
+
+        return
     }
 
-    // 요원 리사이클러뷰 초기화
 
     private fun buildPersonnelRecycler() {
 
-        val recycler: RecyclerView = findViewById(R.id.recycler_personnel)
+        personnelRecycler = findViewById(R.id.recycler_personnel)
 
-        // 리사이클러뷰 속성 초기화
-        recycler.setHasFixedSize(true)
-        recycler.layoutManager = LinearLayoutManager(this)
+        if (personnelRecycler != null) {
+            personnelRecycler?.setHasFixedSize(true)
+            personnelRecycler?.layoutManager = LinearLayoutManager(this)
 
-        // 어댑터 생성 및 연결
-        val adapter = PersonnelAdapter(this, application.getPersonnelList())
-        recycler.adapter = adapter
+            personnelAdapter = PersonnelAdapter(this, resultList?.toList()!!)
 
-        adapter.setOnItemClickListener(object : PersonnelAdapter.OnItemClickListener {
-            override fun onItemClick(position: Int) {
-                // 배정하고 상태바꾸고 액티비티 종료
+            personnelRecycler?.adapter = personnelAdapter
+
+            personnelAdapter?.setOnItemClickListener(object : PersonnelAdapter.OnItemClickListener {
+                override fun onItemClick(position: Int) {
+                    allocateAgent(position)
+                    finish()
+                }
+
+            })
+        }
+
+    }
+
+    private fun allocateAgent(position: Int) {
+        seqNum = intent.getIntExtra("dd", seqNum)
 
 
-
-
-                finish()
+        UserApi.service.adminPut("Bearer " + UserApi.ttt, resultList?.get(position)?.User_id!!, seqNum).enqueue(object : Callback<JsonData> {
+            override fun onResponse(call: Call<JsonData>, response: Response<JsonData>) {
+                if(response.isSuccessful){
+                        Toast.makeText(applicationContext,"성공allocate" , Toast.LENGTH_SHORT).show()
+                        finish()
+                }
+                else{
+                    Toast.makeText(applicationContext,"실패" , Toast.LENGTH_SHORT).show()
+                }
+            }
+            override fun onFailure(call: Call<JsonData>, t: Throwable) {
+                Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
+                Log.e("failure errorrr", ""+t)
             }
         })
+
     }
+
 
 }

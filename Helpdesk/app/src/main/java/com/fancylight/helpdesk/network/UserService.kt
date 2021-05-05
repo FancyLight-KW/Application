@@ -138,7 +138,7 @@ interface UserService {
     @PUT("admin")
     fun adminPut(
             @Header ("Authorization") Authorization :String,
-            @Field("MOD_User_ID") MOD_User_ID: String,
+            @Field("MOD_USER_ID") MOD_User_ID: String,
             @Field("REQ_SEQ") REQ_SEQ: Int,
     ): retrofit2.Call<JsonData>
 

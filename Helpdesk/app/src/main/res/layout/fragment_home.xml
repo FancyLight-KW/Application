@@ -13,7 +13,7 @@
         android:layout_height="0dp"
         android:layout_marginBottom="2dp"
         android:layout_weight="1"
-        android:background="@color/backgroundBlue"
+        android:background="@color/white"
         android:padding="10dp">
 
         <!-- TextView : 공지사항 -->
@@ -48,7 +48,7 @@
             android:layout_height="1dp"
             android:layout_below="@id/ibtn_see_notice"
             android:layout_marginTop="4dp"
-            android:background="#555" />
+            android:background="@color/black" />
 
         <!-- RecyclerView : 공지사항 글 목록 -->
         <androidx.recyclerview.widget.RecyclerView
@@ -102,7 +102,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#DBDCDA"
+            android:background="#EFEFEF"
             android:gravity="center"
             android:orientation="vertical"
             tools:ignore="NestedWeights">
@@ -130,7 +130,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#B8D5B9"
+            android:background="#CAE3CB"
             android:gravity="center"
             android:orientation="vertical"
             tools:ignore="NestedWeights">
@@ -158,7 +158,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#87BEEA"
+            android:background="#B0D8F8"
             android:gravity="center"
             android:orientation="vertical"
             tools:ignore="NestedWeights">
@@ -186,7 +186,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#D1C0C8"
+            android:background="#E4DBE0"
             android:gravity="center"
             android:orientation="vertical"
             tools:ignore="NestedWeights">
@@ -239,7 +239,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#DAB031"
+            android:background="#FFC600"
             android:gravity="center"
             android:text="나의 요청 목록"
             android:textSize="20sp"
@@ -253,7 +253,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/backgroundBlue"
+        android:background="@color/white"
         android:padding="20dp">
 
         <!-- 연락처 : 나중에 클릭시 전화연결되게 -->

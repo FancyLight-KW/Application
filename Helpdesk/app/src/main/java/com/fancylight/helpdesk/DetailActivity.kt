@@ -30,6 +30,8 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
     private var authState: Int = 0      // 로그인 상태 (권한 변수)
     private var vdate : String =""
 
+    private var resultList: MutableList<Inquiry>? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -249,6 +251,8 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
     private fun startPersonnelActivity() {
 
         val intent = Intent(this, PersonnelActivity::class.java)
+
+        intent.putExtra("dd", inquiry.REQ_SEQ)
         startActivity(intent)
     }
 }
