@@ -3,6 +3,7 @@ package com.fancylight.helpdesk
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
+import com.bumptech.glide.Glide
 
 class Image_Activity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -10,9 +11,13 @@ class Image_Activity : AppCompatActivity() {
         setContentView(R.layout.activity_image_)
 
         val image : ImageView = findViewById(R.id.image)
-
         val intent = intent
+
         val imagepath = intent.getStringExtra("ImagePath")
+
+        Glide.with(this).load(imagepath)
+                                .error(R.drawable.error_image)
+                                .into(image)
 
 
     }

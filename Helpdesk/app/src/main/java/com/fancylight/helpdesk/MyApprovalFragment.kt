@@ -55,9 +55,7 @@ class MyApprovalFragment : Fragment(), View.OnClickListener {
     ): View? {
 
         val view = inflater.inflate(R.layout.fragment_my_approval, container, false)
-
         // 버튼에 리스너 설정
-
         val searchBtn = view.findViewById<Button>(R.id.btn_search)
         val seeMoreBtn = view.findViewById<Button>(R.id.btn_more_table)
         val serviceStatBtn = view.findViewById<ImageButton>(R.id.ibtn_service_stat)
@@ -105,18 +103,26 @@ class MyApprovalFragment : Fragment(), View.OnClickListener {
             }
         )
 
+
         UserApi.service.adminListGet("Bearer "+ UserApi.ttt).enqueue(object :
             retrofit2.Callback<Array<getRequest>> {
             override fun onResponse(call: retrofit2.Call<Array<getRequest>>, response: Response<Array<getRequest>>) {
-                if(response.isSuccessful){
+                if(response.isSuccessful) {
                     inquirySource = mutableListOf<Inquiry>()
                     var arr = response.body()!!
                     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
-                    for(i in 0..arr.size-1){
-                        inquirySource.add(Inquiry(arr[i].REQ_SEQ, arr[i].CSR_STATUS, 4, arr[i].TITLE,
-                            LocalDate.parse(arr[i].createdAt.substring(0,10), DateTimeFormatter.ISO_DATE),arr[i].CONTENT,arr[i].REQ_IMG_PATH))
-                    }
+                    for (i in 0..arr.size - 1) {
+                        if (arr[i].REQ_IMG_PATH == null){
+                            inquirySource.add(Inquiry(arr[i].REQ_SEQ, arr[i].CSR_STATUS, 4, arr[i].TITLE,
+                                    LocalDate.parse(arr[i].createdAt.substring(0, 10), DateTimeFormatter.ISO_DATE), arr[i].CONTENT, ""))
+                        }
+                        else {
+                            inquirySource.add(Inquiry(arr[i].REQ_SEQ, arr[i].CSR_STATUS, 4, arr[i].TITLE,
+                                    LocalDate.parse(arr[i].createdAt.substring(0, 10), DateTimeFormatter.ISO_DATE), arr[i].CONTENT, arr[i].REQ_IMG_PATH))
+                        }
+                }
+
                     // 결과 리스트 구성. 처음엔 검색 필터 미적용 (= 모든 글 추가)
                     resultList = filterInquiries(null, null, null, null, null)
 

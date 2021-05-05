@@ -6,6 +6,6 @@ data class Personnel(
     val id: String? = null,         // 요원 ID
     val name: String? = null,       // 이름
     val numberOngoing: Int = 0,     // 진행중 개수
-    val numberAssigned: Int = 0,    // 할당량 개수
+    val numberAssigned: Int = 0  // 할당량 개수
 )
 

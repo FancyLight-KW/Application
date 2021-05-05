@@ -114,7 +114,7 @@ interface UserService {
     fun adminDenyPut(
             @Header ("Authorization") Authorization :String,
             @Field("REQ_SEQ") REQ_SEQ: Int,
-    ): retrofit2.Call<JsonData>
+    ): retrofit2.Call<ResultMessage>
 
     //관리자가 접수된 요청을 할당할
     @FormUrlEncoded

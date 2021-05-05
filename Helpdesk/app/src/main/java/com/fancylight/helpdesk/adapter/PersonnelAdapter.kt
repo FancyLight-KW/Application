@@ -24,8 +24,8 @@ class PersonnelAdapter(
 
         fun bind(model: Personnel, listener: OnItemClickListener?) {
 
-            idText.text = model.id
-            nameText.text = model.name
+            idText.text = model.id.toString()
+            nameText.text = model.name.toString()
             ongoingText.text = model.numberOngoing.toString()
             assignedText.text = model.numberAssigned.toString()
 

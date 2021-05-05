@@ -2,16 +2,24 @@ package com.fancylight.helpdesk
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
+import retrofit2.Response
+import com.fancylight.helpdesk.network.AgentListForm
+import com.fancylight.helpdesk.network.UserApi
+import com.fancylight.helpdesk.network.getRequest
 import com.fancylight.helpdesk.R
 import com.fancylight.helpdesk.`object`.App
 import com.fancylight.helpdesk.adapter.InquiryAdapter
 import com.fancylight.helpdesk.adapter.PersonnelAdapter
+import com.fancylight.helpdesk.model.Personnel
 
 
 class PersonnelActivity : AppCompatActivity() {
+
+
 
     private lateinit var application: App
 
@@ -41,6 +49,7 @@ class PersonnelActivity : AppCompatActivity() {
         adapter.setOnItemClickListener(object : PersonnelAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
                 // 배정하고 상태바꾸고 액티비티 종료
+
 
 
 
