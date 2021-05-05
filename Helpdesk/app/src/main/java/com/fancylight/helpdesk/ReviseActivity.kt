@@ -1,31 +1,29 @@
 package com.fancylight.helpdesk
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.database.Cursor
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.ImageDecoder
-import android.media.ExifInterface
 import android.net.Uri
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.telecom.Call
+import android.text.Editable
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
+import com.fancylight.helpdesk.`object`.ReviseObject
 import com.fancylight.helpdesk.`object`.SubmitObject
+import com.fancylight.helpdesk.model.Inquiry
 import com.fancylight.helpdesk.network.JsonData
+import com.fancylight.helpdesk.network.ResultMessage
 import com.fancylight.helpdesk.network.UserApi
-import com.fancylight.helpdesk.network.getRequest
+import com.fancylight.helpdesk.network.sResultMessage
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import okhttp3.MediaType
@@ -33,44 +31,64 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
 import java.io.File
-import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
-import javax.security.auth.callback.Callback
 import kotlin.jvm.Throws
 
-class SubmitActivity : AppCompatActivity(), View.OnClickListener {
+class ReviseActivity : AppCompatActivity() , View.OnClickListener{
     private val REQUEST_IMAGE_CAPTURE = 1
     private val OPEN_GALLERY = 2
-    lateinit var currentPhotoPath : String
+    lateinit var currentPhotoPath: String
+    private lateinit var inquiry: Inquiry
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_submit)
+        setContentView(R.layout.activity_revise)
 
-        SubmitObject.init()
+        inquiry = intent.getSerializableExtra("inquiry") as Inquiry
+        ReviseObject.init(inquiry)
 
-        //기능들 여기다가 구현
-        val rg1 : RadioGroup = findViewById(R.id.rg1)
+        val edittitle : EditText = findViewById(R.id.edit_title)
+        val editcontent : EditText = findViewById(R.id.edit_content)
+        val rb1 : RadioButton = findViewById(R.id.rb1)
+        val rb2 : RadioButton = findViewById(R.id.rb2)
+        val rb3 : RadioButton = findViewById(R.id.rb3)
+        val desiretext : TextView = findViewById(R.id.textDesiredDate)
+        val imagetext : TextView = findViewById(R.id.textAttachment)
+
+        val rg1: RadioGroup = findViewById(R.id.rg1)
         val spinner: Spinner = findViewById(R.id.spinner)
-        val tmCheck : CheckBox = findViewById(R.id.tmCheck)
+        val tmCheck: CheckBox = findViewById(R.id.tmCheck)
         val requestComplete: ImageButton = findViewById(R.id.btnDesiredDate)
-        val attachment : ImageButton = findViewById(R.id.btnAttachment)
-        val submitbtn : Button = findViewById(R.id.btn_submit)
+        val attachment: ImageButton = findViewById(R.id.btnAttachment)
+        val submitbtn: Button = findViewById(R.id.btn_submit)
+
+        when(inquiry.TARGET_CODE){
+            "업무시스템" -> rb1.isChecked = true
+            "IT인프라"-> rb2.isChecked= true
+            "OA장비" ->rb3.isChecked= true
+        }
+        if(inquiry.TM_APPROVAL_REQ_YN=='Y'){
+            tmCheck.isChecked= true
+        }
+        edittitle.text = Editable.Factory.getInstance().newEditable(inquiry.TITLE)
+        editcontent.text = Editable.Factory.getInstance().newEditable(inquiry.CONTENT)
+        desiretext.text = inquiry.REQ_FINISH_DATE
+        imagetext.text = inquiry.REQ_IMG_PATH
 
         rg1.setOnCheckedChangeListener { group, checkedId ->
-            when(checkedId){
-                R.id.rb1 -> SubmitObject.target = "업무시스템"
-                R.id.rb2 -> SubmitObject.target = "IT인프라"
-                R.id.rb3 -> SubmitObject.target = "OA장비"
+            when (checkedId) {
+                R.id.rb1 -> ReviseObject.TARGET_CODE = "업무시스템"
+                R.id.rb2 -> ReviseObject.TARGET_CODE = "IT인프라"
+                R.id.rb3 -> ReviseObject.TARGET_CODE = "OA장비"
             }
         }
 
         //spinnerArray.xml에 있는 systemName 가져옴
         var sdata = resources.getStringArray(R.array.systemName)
         //어댑터 만들고 연결
-        var adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, sdata)
+        var adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, sdata)
         spinner.adapter = adapter
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -83,12 +101,16 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
                     position: Int,
                     id: Long
             ) {
-                SubmitObject.systemCode = sdata[position]
+                ReviseObject.SYSTEM_GROUP_CODE = sdata[position]
             }
         }
+
         tmCheck.setOnCheckedChangeListener { buttonView, isChecked ->
-            if(isChecked){ SubmitObject.tmApproval = "Y" }
-            else{SubmitObject.tmApproval = "N"}
+            if (isChecked) {
+                ReviseObject.TM_APPROVAL_REQ_YN = 'Y'
+            } else {
+                ReviseObject.TM_APPROVAL_REQ_YN = 'N'
+            }
         }
 
         attachment.setOnClickListener(this)
@@ -99,21 +121,21 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
 
-        when(v?.id){
+        when (v?.id) {
             //첨부파일 버튼 클릭시 카메라촬영이나 갤러리에서 사진 가져오는 기능 구현
-            R.id.btnAttachment ->{
-                val oItems = arrayOf<String>("  사진 촬영","  사진 가져오기")
-                var oDialog = AlertDialog.Builder(this,android.R.style.Theme_DeviceDefault_Light_Dialog_Alert)
+            R.id.btnAttachment -> {
+                val oItems = arrayOf<String>("  사진 촬영", "  사진 가져오기")
+                var oDialog = AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert)
                 oDialog.setTitle("촬영/가져오기")
                         .setItems(oItems, DialogInterface.OnClickListener { dialog, which ->
-                            when(which){
+                            when (which) {
                                 0 -> {
                                     Toast.makeText(applicationContext, "카메라 촬영", Toast.LENGTH_LONG).show()
                                     settingPermission()
                                     startCapture()
                                 }
                                 1 -> {
-                                    Toast.makeText(applicationContext,"갤러리 가져오기", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(applicationContext, "갤러리 가져오기", Toast.LENGTH_LONG).show()
                                     settingPermission()
                                     openGallery()
                                 }
@@ -123,7 +145,7 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
 
             //요청완료일 버튼 클릭시 달력으로 날짜 선택하는 기능 구현
             R.id.btnDesiredDate -> {
-                val textDesiredDate : TextView = findViewById(R.id.textDesiredDate)
+                val textDesiredDate: TextView = findViewById(R.id.textDesiredDate)
                 val today = GregorianCalendar()
                 val year: Int = today.get(Calendar.YEAR)
                 val month: Int = today.get(Calendar.MONTH)
@@ -132,26 +154,25 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
                     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
                         //희망완료일 기능 여기다 구현하면 됨
                         textDesiredDate.setText("${year}/ ${month + 1}/ ${dayOfMonth}")
-                        SubmitObject.finishDate =SubmitObject.dateSet(year,month+1,dayOfMonth)
-                        Toast.makeText(applicationContext,"finishdate =" + SubmitObject.finishDate, Toast.LENGTH_LONG).show()
+                        ReviseObject.REQ_FINISH_DATE = SubmitObject.dateSet(year, month + 1, dayOfMonth)
                     }
                 }, year, month, date)
                 dlg.show()
             }
 
             R.id.btn_submit -> {
-                val title : EditText = findViewById(R.id.edit_title)
-                val content : EditText = findViewById(R.id.edit_content)
+                val title: EditText = findViewById(R.id.edit_title)
+                val content: EditText = findViewById(R.id.edit_content)
 
-                SubmitObject.title = title.text.toString()
-                SubmitObject.content = content.text.toString()
-                submitPost()
+                ReviseObject.TITLE = title.text.toString()
+                ReviseObject.CONTENT = content.text.toString()
+                revisePost()
             }
         }
     }
 
-    fun settingPermission(){
-        var permis = object  : PermissionListener {
+    fun settingPermission() {
+        var permis = object : PermissionListener {
             //            어떠한 형식을 상속받는 익명 클래스의 객체를 생성하기 위해 다음과 같이 작성
             override fun onPermissionGranted() {
                 Toast.makeText(applicationContext, "권한 허가", Toast.LENGTH_SHORT)
@@ -161,7 +182,7 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
             override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
                 Toast.makeText(applicationContext, "권한 거부", Toast.LENGTH_SHORT)
                         .show()
-                ActivityCompat.finishAffinity(this@SubmitActivity) // 권한 거부시 앱 종료
+                ActivityCompat.finishAffinity(this@ReviseActivity) // 권한 거부시 앱 종료
             }
         }
 
@@ -178,28 +199,28 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     @Throws(IOException::class)
-    private fun createImageFile() : File{
-        val timeStamp : String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val storageDir : File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+    private fun createImageFile(): File {
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(
                 "JPEG_${timeStamp}_",
                 ".jpg",
                 storageDir
-        ).apply{
+        ).apply {
             currentPhotoPath = absolutePath
         }
     }
 
-    fun startCapture(){
+    fun startCapture() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             takePictureIntent.resolveActivity(packageManager)?.also {
-                val photoFile: File? = try{
+                val photoFile: File? = try {
                     createImageFile()
-                }catch(ex:IOException){
+                } catch (ex: IOException) {
                     null
                 }
-                photoFile?.also{
-                    val photoURI : Uri = FileProvider.getUriForFile(
+                photoFile?.also {
+                    val photoURI: Uri = FileProvider.getUriForFile(
                             this, "com.fancylight.helpdesk.fileprovider", it)
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
                     startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
@@ -209,7 +230,7 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun openGallery() {
-        val intent : Intent = Intent(Intent.ACTION_PICK)
+        val intent: Intent = Intent(Intent.ACTION_PICK)
 
         intent.setType("image/*")
         startActivityForResult(intent, OPEN_GALLERY)
@@ -222,10 +243,9 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
 
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_IMAGE_CAPTURE) {
-                SubmitObject.path = currentPhotoPath
+                ReviseObject.REQ_IMG_PATH = currentPhotoPath
 
                 // val file = File(currentPhotoPath)
-
                 /*
                 if (Build.VERSION.SDK_INT < 28) {
                     val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, Uri.fromFile(file))
@@ -235,29 +255,24 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
                     val bitmap = ImageDecoder.decodeBitmap(decode)
                     //img_picture.setImageBitmap(bitmap)
                 }
-
                  */
             } else if (requestCode == OPEN_GALLERY) {
                 val dataUri = data?.data
                 dataUri?.let {
-                    SubmitObject.path = absolutelyPath(dataUri)
+                    ReviseObject.REQ_IMG_PATH = absolutelyPath(dataUri)
                 }
-
 
                 /*
                     dataUri?.let {
                         if (Build.VERSION.SDK_INT < 28) {
                             var bitmap: Bitmap = MediaStore.Images.Media.getBitmap(contentResolver, dataUri)
-
                         } else {
                             val decode = ImageDecoder.createSource(this.contentResolver, dataUri)
                             val bitmap = ImageDecoder.decodeBitmap(decode)
                         }
                     }
                 }
-
                  */
-
             } else {
                 Toast.makeText(applicationContext, "오류", Toast.LENGTH_LONG).show()
             }
@@ -265,7 +280,6 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     fun absolutelyPath(path: Uri): String {
-
         var proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
         var c: Cursor = contentResolver.query(path, proj, null, null, null)!!
         var index = c.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
@@ -277,50 +291,84 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
     }
 
 
-    fun submitPost() {
-        var stringJson = SubmitObject.convertJson()
+    fun revisePost() {
+        var stringJson =""
 
-        if(SubmitObject.path==""){
-            UserApi.service.dataNPost("Bearer "+ UserApi.ttt, stringJson).enqueue(object : retrofit2.Callback<JsonData> {
-                override fun onResponse(call: retrofit2.Call<JsonData>, response: Response<JsonData>) {
-                    if(response.isSuccessful){
-                        Toast.makeText(applicationContext,"성공", Toast.LENGTH_LONG).show()
+        if(ReviseObject.REQ_IMG_PATH !="" && ReviseObject.REQ_IMG_PATH == inquiry.REQ_IMG_PATH){
+            if(inquiry.MOD_USER_ID==""){
+                stringJson =ReviseObject.convertJson(1)
+            }
+            else{
+                stringJson =ReviseObject.convertJson(3)
+            }
+
+            UserApi.service.ReviseNPut("Bearer " + UserApi.ttt,inquiry.REQ_SEQ, stringJson).enqueue(object : retrofit2.Callback<sResultMessage> {
+                override fun onResponse(call: retrofit2.Call<sResultMessage>, response: Response<sResultMessage>) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(applicationContext, "성공", Toast.LENGTH_LONG).show()
                         finish()
-                    }
-                    else{
-                        Toast.makeText(applicationContext,"실패", Toast.LENGTH_LONG).show()
+
+                    } else {
+                        Toast.makeText(applicationContext, "실패" +response.code() , Toast.LENGTH_LONG).show()
                     }
                 }
-                override fun onFailure(call: retrofit2.Call<JsonData>, t: Throwable) {
-                    Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
-                    Log.e("failure error", ""+t)
+                override fun onFailure(call: retrofit2.Call<sResultMessage>, t: Throwable) {
+                    Toast.makeText(applicationContext, "실패실패", Toast.LENGTH_LONG).show()
+                    Log.e("failure error", "" + t)
                 }
             })
-        } else{
-            val file = File(SubmitObject.path)
-            var fileName = "hoho.png"
-            var requestImage : RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"),file)
-            var fileBody : MultipartBody.Part = MultipartBody.Part.createFormData("imagefile",fileName,requestImage)
 
-            UserApi.service.dataPost("Bearer "+ UserApi.ttt,fileBody, stringJson).enqueue(object : retrofit2.Callback<JsonData> {
-                override fun onResponse(call: retrofit2.Call<JsonData>, response: Response<JsonData>) {
-                    if(response.isSuccessful){
-                        Toast.makeText(applicationContext,"성공", Toast.LENGTH_LONG).show()
-                        finish()
+        }else{
+            if(inquiry.MOD_USER_ID==""){
+                stringJson = ReviseObject.convertJson(0)
+            }
+            else{
+                stringJson =ReviseObject.convertJson(2)
+            }
+
+            if(ReviseObject.REQ_IMG_PATH == "" && ReviseObject.REQ_IMG_PATH == inquiry.REQ_IMG_PATH){
+                UserApi.service.ReviseNPut("Bearer " + UserApi.ttt,inquiry.REQ_SEQ, stringJson).enqueue(object : retrofit2.Callback<sResultMessage> {
+                    override fun onResponse(call: retrofit2.Call<sResultMessage>, response: Response<sResultMessage>) {
+                        if (response.isSuccessful) {
+                            Toast.makeText(applicationContext, "성공", Toast.LENGTH_LONG).show()
+                            finish()
+                        } else {
+                            Toast.makeText(applicationContext, "실패" +response.code() , Toast.LENGTH_LONG).show()
+                        }
                     }
-                    else{
-                        Toast.makeText(applicationContext,"실패", Toast.LENGTH_LONG).show()
+                    override fun onFailure(call: retrofit2.Call<sResultMessage>, t: Throwable) {
+                        Toast.makeText(applicationContext, "실패실패", Toast.LENGTH_LONG).show()
+                        Log.e("failure error", "" + t)
                     }
-                }
-                override fun onFailure(call: retrofit2.Call<JsonData>, t: Throwable) {
-                    Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
-                    Log.e("failure error", ""+t)
-                }
-            })
+                })
+
+            } else{
+                val file = File(ReviseObject.REQ_IMG_PATH)
+                var fileName = "imsi.png"
+                var requestImage: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file)
+                var fileBody: MultipartBody.Part = MultipartBody.Part.createFormData("imagefile", fileName, requestImage)
+
+
+                UserApi.service.RevisePut("Bearer " + UserApi.ttt,ReviseObject.REQ_SEQ, fileBody, stringJson).enqueue(object : retrofit2.Callback<sResultMessage> {
+                    override fun onResponse(call: retrofit2.Call<sResultMessage>, response: Response<sResultMessage>) {
+                        if (response.isSuccessful) {
+                            Toast.makeText(applicationContext, "성공", Toast.LENGTH_LONG).show()
+                            finish()
+                        } else {
+                            Toast.makeText(applicationContext, "실패" +response.code() , Toast.LENGTH_LONG).show()
+                        }
+                    }
+
+                    override fun onFailure(call: retrofit2.Call<sResultMessage>, t: Throwable) {
+                        Toast.makeText(applicationContext, "실패실패", Toast.LENGTH_LONG).show()
+                        Log.e("failure error", "" + t)
+                    }
+                })
+
+            }
+
         }
 
+
     }
-
-
-
 }

@@ -36,24 +36,23 @@ interface UserService {
             @Header ("Authorization") Authorization :String
     ): retrofit2.Call<Array<getRequest>>
 
+    //요원리스트 가져오기
+    @GET("admin/agentlist")
+    fun agentListGet(@Header ("Authorization") Authorization :String
+    ): retrofit2.Call<Array<AgentListForm>>
+
     //csr 상태 가져오기
     @GET("csrstatus")
     fun csrget(): retrofit2.Call<CSR>
 
-    //요원리스트 가져오
-    @GET("admin/agentlist")
-    fun agentListGet(): retrofit2.Call<Array<AgentListForm>>
-
-
-
-
+    //로그인하기
     @FormUrlEncoded
     @POST("auth/login")
     fun loginPost(@Field("User_id") User_id: String,
                  @Field("User_password") User_password: String,
     ): retrofit2.Call<Login>
 
-
+    //안드로이드 기기 토큰 보내기
     @FormUrlEncoded
     @POST("android")
     fun FcmPost(
@@ -61,6 +60,7 @@ interface UserService {
             @Field("DEVICE_ID") DEVICE_ID: String,
     ): retrofit2.Call<Fcm>
 
+    //사원이 접수(사진 보낼때)
     @Multipart
     @POST("requests")
     fun dataPost(
@@ -68,6 +68,33 @@ interface UserService {
             @Part imagefile : MultipartBody.Part,
             @Part("body") body : String
     ): retrofit2.Call<JsonData>
+
+    //사원이 접수(사진 안보낼때)
+    @Multipart
+    @POST("requests")
+    fun dataNPost(
+        @Header ("Authorization") Authorization :String,
+        @Part("body") body : String
+    ): retrofit2.Call<JsonData>
+
+    //사원이 요청을 수정(사진 보낼때)
+    @Multipart
+    @PUT("requests/{requestid}")
+    fun RevisePut(
+        @Header ("Authorization") Authorization :String,
+        @Path("requestid") requestid : Int,
+        @Part imagefile : MultipartBody.Part,
+        @Part("body") body : String
+    ): retrofit2.Call<sResultMessage>
+
+    //사원이 요청을 수정(사진 안보낼때)
+    @Multipart
+    @PUT("requests/{requestid}")
+    fun ReviseNPut(
+        @Header ("Authorization") Authorization :String,
+        @Path("requestid") requestid : Int,
+        @Part("body") body : String
+    ): retrofit2.Call<sResultMessage>
 
     //챗봇 통신
     @FormUrlEncoded
@@ -85,16 +112,6 @@ interface UserService {
         @Field("origin_password") origin_password: String,
         @Field("new_password") new_password: String
     ): retrofit2.Call<ChangePassword>
-
-    //사원이 요청을 수정할
-    @FormUrlEncoded
-    @PUT("requests/{requestid}")
-    fun RevisePut(
-            @Header ("Authorization") Authorization :String,
-            @Path("requestid") requestid : Int,
-            @Part imagefile : MultipartBody.Part,
-            @Part("body") body : String
-    ): retrofit2.Call<ResultMessage>
 
 
     //요원이 할당된 요청을 작업중이나 작업완료로 바꿀 때

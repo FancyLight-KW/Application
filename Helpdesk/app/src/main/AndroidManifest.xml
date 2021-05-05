@@ -23,7 +23,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Helpdesk"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Image_Activity"></activity>
+        <activity android:name=".ReviseActivity"></activity>
+        <activity android:name=".Image_Activity" />
         <activity android:name=".PersonnelActivity" />
         <activity android:name=".object.PasswordChangeActivity" />
 

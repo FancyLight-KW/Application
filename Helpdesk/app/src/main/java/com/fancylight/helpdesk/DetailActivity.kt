@@ -14,6 +14,7 @@ import android.widget.*
 import com.fancylight.helpdesk.network.Fcm
 import com.fancylight.helpdesk.network.ResultMessage
 import com.fancylight.helpdesk.network.UserApi
+import org.w3c.dom.Text
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -46,7 +47,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
                     1 -> R.layout.activity_detail_reque
                     2 ->
                     {
-                        when(inquiry.serviceStat){
+                        when(inquiry.CSR_STATUS){
                             "접수완료" -> R.layout.activity_detail_work
                             else -> R.layout.activity_detail_work_complete
                         }
@@ -56,24 +57,24 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
                 }
         )
 
-        // 인텐트로 전달된 Inquiry 와 순서값을 받는다
-        inquiry = intent.getSerializableExtra(EXTRA_INQUIRY) as Inquiry
 
         // 전달받은 Inquiry 정보로 UI 를 업데이트한다
         val serviceStatText: TextView = findViewById(R.id.txt_service_stat)
         val noText: TextView = findViewById(R.id.txt_no)
         val titleText: TextView = findViewById(R.id.txt_inquiry_title)
         val contentText: TextView = findViewById(R.id.txt_inquiry_content)
-        val date: TextView = findViewById(R.id.textDesiredDate)
+        val desiredate: TextView = findViewById(R.id.textDesiredDate)
+        val creatdate : TextView = findViewById(R.id.textRecieptDate)
         val image : TextView = findViewById(R.id.textAttachment)
 
 
-        serviceStatText.text = inquiry.serviceStat
-        noText.text = inquiry.id.toString()
-        titleText.text = inquiry.title
-        contentText.text = inquiry.content
-        date.text = inquiry.date.toString()
-        image.text = inquiry.imagePath
+        serviceStatText.text = inquiry.CSR_STATUS
+        noText.text = inquiry.REQ_SEQ.toString()
+        titleText.text = inquiry.TITLE
+        contentText.text = inquiry.CONTENT
+        desiredate.text = inquiry.REQ_FINISH_DATE.substring(0,4)+"-"+inquiry.REQ_FINISH_DATE.substring(4,6)+"-"+inquiry.REQ_FINISH_DATE.substring(6)
+        creatdate.text =inquiry.createdAt.substring(0,10)
+        image.text = inquiry.REQ_IMG_PATH
 
         val imageBtn :Button = findViewById(R.id.btn_viewImage)
         imageBtn.setOnClickListener(this)
@@ -88,7 +89,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
                 val pickExpectedDateButton: ImageButton = findViewById(R.id.btnExpectedDate)
                 pickExpectedDateButton.setOnClickListener(this)
 
-                when (inquiry.serviceStat) {
+                when (inquiry.CSR_STATUS) {
                     "접수완료" -> {
                         val startWorkButton: Button = findViewById(R.id.btn_start_work)
                         startWorkButton.setOnClickListener(this)
@@ -116,14 +117,15 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
             R.id.btn_viewImage-> {
                 // TODO : 더보기 버튼 -> 이미지 띄우기
                 val intent = Intent(this, Image_Activity::class.java)
-                intent.putExtra("ImagePath",inquiry.imagePath)
+                intent.putExtra("ImagePath",inquiry.REQ_IMG_PATH)
                 startActivity(intent)
             }
 
             R.id.btn_modify -> {
             // TODO : (수정) 버튼 -> detail 항목들 수정하기
-
-
+                val intent = Intent(this, ReviseActivity::class.java)
+                intent.putExtra("inquiry",inquiry)
+                startActivity(intent)
             }
 
             R.id.btnExpectedDate -> {
@@ -149,7 +151,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
                     Toast.makeText(applicationContext,"예상 완료일을 지정해 주세요." , Toast.LENGTH_SHORT).show()
                 } else {
 
-                    UserApi.service.WorkChangePut("Bearer " + UserApi.ttt, inquiry.id, 0, "요청처리중", vdate).enqueue(object : Callback<ResultMessage> {
+                    UserApi.service.WorkChangePut("Bearer " + UserApi.ttt, inquiry.REQ_SEQ, 0, "요청처리중", vdate).enqueue(object : Callback<ResultMessage> {
                         override fun onResponse(call: Call<ResultMessage>, response: Response<ResultMessage>) {
                             if(response.isSuccessful){
                                 val result=response.body()!!.resultCode
@@ -178,7 +180,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
             R.id.btn_finish_work -> {
             // TODO : (작업 완료) 버튼 -> '처리완료' 상태로 변경
-                UserApi.service.WorkChangePut("Bearer " + UserApi.ttt, inquiry.id, 1, "처리완료", vdate).enqueue(object : Callback<ResultMessage> {
+                UserApi.service.WorkChangePut("Bearer " + UserApi.ttt, inquiry.REQ_SEQ, 1, "처리완료", vdate).enqueue(object : Callback<ResultMessage> {
                     override fun onResponse(call: Call<ResultMessage>, response: Response<ResultMessage>) {
                         if(response.isSuccessful){
                             val result=response.body()!!.resultCode
@@ -214,7 +216,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.btn_dismiss -> {
             // TODO : (반려) 버튼 -> '요청반려' 상태로 변경
-                UserApi.service.adminDenyPut("Bearer " + UserApi.ttt, inquiry.id).enqueue(object : Callback<ResultMessage> {
+                UserApi.service.adminDenyPut("Bearer " + UserApi.ttt, inquiry.REQ_SEQ).enqueue(object : Callback<ResultMessage> {
                     override fun onResponse(call: Call<ResultMessage>, response: Response<ResultMessage>) {
                         if(response.isSuccessful){
                             val result=response.body()!!.resultCode

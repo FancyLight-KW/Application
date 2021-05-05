@@ -9,11 +9,12 @@ data class getRequest(val REQ_SEQ : Int, val TITLE : String, val CONTENT : Strin
                         val SYSTEM_CODE : String, val REQ_TYPE_CODE : String, val TM_APPROVAL_REQ_YN : Char,
                         val CSR_STATUS : String, val IMSI_YN : Char, val REQ_FINISH_DATE : String,
                         val REG_USER_ID : String, val MOD_USER_ID : String, val REQ_IMG_PATH : String,
-                        val updateAt : String, val createdAt : String)
+                        val updatedAt : String, val createdAt : String)
 
 data class JsonData(val result : JsonObject)
 data class Fcm(val resultCode: Int )
 data class ChangePassword(val resultCode: Int, val message : String)
 data class ResultMessage(val resultCode: Int, val message : String)
+data class sResultMessage(val resultcode: Int, val message : String)
 data class ChatbotReturn(val fulfillmentText : String)
 data class AgentListForm(val DOING : Int, val READY : Int, val User_id : String, val User_name : String)

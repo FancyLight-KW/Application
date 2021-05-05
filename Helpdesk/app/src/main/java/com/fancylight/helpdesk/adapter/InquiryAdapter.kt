@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.fancylight.helpdesk.R
 import com.fancylight.helpdesk.model.*
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class InquiryAdapter(
@@ -50,20 +52,20 @@ class InquiryAdapter(
         fun bind(model: Inquiry, listener: OnItemClickListener?) {
 
             // 각 위젯에 데이터 입력
-            numberText.text = model.id.toString()
-            serviceStatText.text = model.serviceStat;
-            titleText.text = model.title
+            numberText.text = model.REQ_SEQ.toString()
+            serviceStatText.text = model.CSR_STATUS;
+            titleText.text = model.TITLE
 
+            val localDate = LocalDate.parse(model.createdAt.substring(0,10), DateTimeFormatter.ISO_DATE)
             val strDate = String.format(Locale.getDefault(),
-                    "%d/%02d/%02d", model.date.year, model.date.monthValue, model.date.dayOfMonth)
+                    "%d/%02d/%02d", localDate.year, localDate.monthValue, localDate.dayOfMonth)
             dateText.text = strDate
 
-            typeText.text = when(model.type) {
+            typeText.text = when(model.TARGET_CODE) {
                 // 영문도 함께 정의된 문자열 리소스(R.string.~) 를 리턴하는것이 원칙
-                INQUIRY_TYPE_CHANGE -> "기능 변경/수정"
-                INQUIRY_TYPE_NORMAL -> "단순문의"
-                INQUIRY_TYPE_DEBUG -> "장애처리"
-                INQUIRY_TYPE_ETC -> "기타"
+                INQUIRY_TYPE_SYSTEM -> "업무시스템"
+                INQUIRY_TYPE_IT -> "IT인프라"
+                INQUIRY_TYPE_OA -> "OA장비"
                 else -> "-"
             }
 

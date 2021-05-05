@@ -53,7 +53,7 @@ object SubmitObject {
         else
             dayStr = ""+day
 
-        return year.toString() + month + dayStr
+        return year.toString() + monthStr + dayStr
     }
 
 }
