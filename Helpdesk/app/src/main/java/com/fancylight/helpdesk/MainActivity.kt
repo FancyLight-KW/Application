@@ -118,11 +118,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                             override fun onResponse(call: Call<Fcm>, response: Response<Fcm>) {
                                 if(response.isSuccessful){
                                     val result=response.body()!!.resultCode
-                                    Toast.makeText(applicationContext,"성공"+UserApi.fcmToken, Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(applicationContext,"성공", Toast.LENGTH_SHORT).show()
                                     startHomeActivity()
                                 }
                                 else{
-                                    Toast.makeText(applicationContext,"실패" +UserApi.fcmToken, Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(applicationContext,"실패" , Toast.LENGTH_SHORT).show()
                                 }
                             }
                             override fun onFailure(call: Call<Fcm>, t: Throwable) {

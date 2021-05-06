@@ -112,34 +112,12 @@ class RequestFragment : Fragment(), View.OnClickListener {
                     var arr = response.body()!!
 
                     for (i in 0..arr.size - 1) {
-                        if (arr[i].REQ_IMG_PATH == null && arr[i].MOD_USER_ID == null){
                             inquirySource.add(Inquiry(arr[i].REQ_SEQ,arr[i].TITLE,arr[i].CONTENT,
-                                    arr[i].CORP_CODE,arr[i].TARGET_CODE,arr[i].SYSTEM_GROUP_CODE,
-                                    arr[i].TM_APPROVAL_REQ_YN,
-                                    arr[i].CSR_STATUS,arr[i].IMSI_YN,arr[i].REQ_FINISH_DATE, arr[i].REG_USER_ID,
-                                    "","",arr[i].updatedAt,arr[i].createdAt))
+                                    "",arr[i].TARGET_CODE,arr[i].SYSTEM_GROUP_CODE,
+                                    'a',
+                                    arr[i].CSR_STATUS,'a',"", "",
+                                    "","","",arr[i].createdAt))
 
-                        } else if(arr[i].REQ_IMG_PATH == null) {
-                            inquirySource.add(Inquiry(arr[i].REQ_SEQ,arr[i].TITLE,arr[i].CONTENT,
-                                    arr[i].CORP_CODE,arr[i].TARGET_CODE,arr[i].SYSTEM_GROUP_CODE,
-                                    arr[i].TM_APPROVAL_REQ_YN,
-                                    arr[i].CSR_STATUS,arr[i].IMSI_YN,arr[i].REQ_FINISH_DATE, arr[i].REG_USER_ID,
-                                    arr[i].MOD_USER_ID,"",arr[i].updatedAt,arr[i].createdAt))
-
-                        } else if(arr[i].MOD_USER_ID == null) {
-                            inquirySource.add(Inquiry(arr[i].REQ_SEQ,arr[i].TITLE,arr[i].CONTENT,
-                                    arr[i].CORP_CODE,arr[i].TARGET_CODE,arr[i].SYSTEM_GROUP_CODE,
-                                    arr[i].TM_APPROVAL_REQ_YN,
-                                    arr[i].CSR_STATUS,arr[i].IMSI_YN,arr[i].REQ_FINISH_DATE, arr[i].REG_USER_ID,
-                                    "",arr[i].REQ_IMG_PATH,arr[i].updatedAt,arr[i].createdAt))
-
-                        } else {
-                            inquirySource.add(Inquiry(arr[i].REQ_SEQ,arr[i].TITLE,arr[i].CONTENT,
-                                    arr[i].CORP_CODE,arr[i].TARGET_CODE,arr[i].SYSTEM_GROUP_CODE,
-                                    arr[i].TM_APPROVAL_REQ_YN,
-                                    arr[i].CSR_STATUS,arr[i].IMSI_YN,arr[i].REQ_FINISH_DATE, arr[i].REG_USER_ID,
-                                    arr[i].MOD_USER_ID,arr[i].REQ_IMG_PATH,arr[i].updatedAt,arr[i].createdAt))
-                        }
                     }
                     // 결과 리스트 구성. 처음엔 검색 필터 미적용 (= 모든 글 추가)
                     resultList = filterInquiries(null, null, null, null, null)

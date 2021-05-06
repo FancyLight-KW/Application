@@ -109,7 +109,7 @@ class ChatBotFragment : Fragment(), OnQuestionClickListener {
                         mMentionAdapter?.notifyItemInserted(mMentionList!!.size - 1)
                         mMentionRecycler?.scrollToPosition(mMentionList!!.size)
                     }, 1000)
-                    Toast.makeText(activity,"성공2" +answer, Toast.LENGTH_LONG).show()
+                    //Toast.makeText(activity,"성공2" +answer, Toast.LENGTH_LONG).show()
 
                 }
                 else{
