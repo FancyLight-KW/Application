@@ -319,6 +319,8 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
                 .addToBackStack(null)
                 .commit()
 
+
+
         // 프래그먼트가 바뀌었으면 툴바 제목도 바꿔줘야 함
         updateToolbarTitle()
     }

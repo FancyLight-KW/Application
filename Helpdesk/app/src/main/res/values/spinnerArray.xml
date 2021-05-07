@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="systemName">
-        <item>선택하세요</item>
+        <item>-</item>
         <item>시스템1</item>
         <item>시스템2</item>
         <item>시스템3</item>

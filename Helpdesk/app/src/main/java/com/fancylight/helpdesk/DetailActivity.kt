@@ -88,15 +88,18 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
                 modifyButton.setOnClickListener(this)
             }
             2 -> {
-                val pickExpectedDateButton: ImageButton = findViewById(R.id.btnExpectedDate)
-                pickExpectedDateButton.setOnClickListener(this)
-
                 when (inquiry.CSR_STATUS) {
                     "접수완료" -> {
+                        val pickExpectedDateButton: ImageButton = findViewById(R.id.btnExpectedDate)
+                        pickExpectedDateButton.setOnClickListener(this)
+
                         val startWorkButton: Button = findViewById(R.id.btn_start_work)
                         startWorkButton.setOnClickListener(this)
                     }
                     else -> {
+                        val pickCompleteDateButton: ImageButton = findViewById(R.id.btnCompleteDate)
+                        pickCompleteDateButton.setOnClickListener(this)
+
                         val finishWorkButton: Button = findViewById(R.id.btn_finish_work)
                         finishWorkButton.setOnClickListener(this)
                     }
@@ -145,6 +148,22 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
                 }, year, month, date)
                 dlg.show()
             }
+
+            R.id.btnCompleteDate -> {
+                val textCompleteDate : TextView = findViewById(R.id.textCompleteDate)
+                val today = GregorianCalendar()
+                val year: Int = today.get(Calendar.YEAR)
+                val month: Int = today.get(Calendar.MONTH)
+                val date: Int = today.get(Calendar.DATE)
+                val dlg = DatePickerDialog(this, object : DatePickerDialog.OnDateSetListener {
+                    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+
+                        textCompleteDate.setText("${year}/ ${month + 1}/ ${dayOfMonth}")
+                        vdate =SubmitObject.dateSet(year,month+1,dayOfMonth)
+                    }
+                }, year, month, date)
+                dlg.show()
+            }
             R.id.btn_start_work -> {
             // 작업시작
                 val textExpectedDate : TextView = findViewById(R.id.textExpectedDate)
@@ -182,29 +201,35 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
             R.id.btn_finish_work -> {
             // TODO : (작업 완료) 버튼 -> '처리완료' 상태로 변경
-                UserApi.service.WorkChangePut("Bearer " + UserApi.ttt, inquiry.REQ_SEQ, 1, "처리완료", vdate).enqueue(object : Callback<ResultMessage> {
-                    override fun onResponse(call: Call<ResultMessage>, response: Response<ResultMessage>) {
-                        if(response.isSuccessful){
-                            val result=response.body()!!.resultCode
-                            val message=response.body()!!.message
+                val textCompleteText = findViewById<TextView>(R.id.textCompleteDate)
 
-                            if(result==0){
-                                Toast.makeText(applicationContext,"성공" + message, Toast.LENGTH_SHORT).show()
-                                finish()
+                if(textCompleteText.text == "") {
+                    Toast.makeText(applicationContext,"작업  완료일을 지정해 주세요." , Toast.LENGTH_SHORT).show()
+                } else {
+                    UserApi.service.WorkChangePut("Bearer " + UserApi.ttt, inquiry.REQ_SEQ, 1, "처리완료", vdate).enqueue(object : Callback<ResultMessage> {
+                        override fun onResponse(call: Call<ResultMessage>, response: Response<ResultMessage>) {
+                            if(response.isSuccessful){
+                                val result=response.body()!!.resultCode
+                                val message=response.body()!!.message
+
+                                if(result==0){
+                                    Toast.makeText(applicationContext,"성공" + message, Toast.LENGTH_SHORT).show()
+                                    finish()
+                                }
+                                else {
+                                    Toast.makeText(applicationContext,"실패" + message, Toast.LENGTH_SHORT).show()
+                                }
                             }
-                            else {
-                                Toast.makeText(applicationContext,"실패" + message, Toast.LENGTH_SHORT).show()
+                            else{
+                                Toast.makeText(applicationContext,"실패" , Toast.LENGTH_SHORT).show()
                             }
                         }
-                        else{
-                            Toast.makeText(applicationContext,"실패" , Toast.LENGTH_SHORT).show()
+                        override fun onFailure(call: Call<ResultMessage>, t: Throwable) {
+                            Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
+                            Log.e("failure errorrr", ""+t)
                         }
-                    }
-                    override fun onFailure(call: Call<ResultMessage>, t: Throwable) {
-                        Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
-                        Log.e("failure errorrr", ""+t)
-                    }
-                })
+                    })
+                }
 
 
             }

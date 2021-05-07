@@ -39,7 +39,7 @@
 
 
             <TextView
-                android:id="@+id/textExpectedDate"
+                android:id="@+id/textCompleteDate"
                 android:layout_width="150dp"
                 android:layout_height="30dp"
                 android:layout_margin="10dp"
@@ -47,7 +47,7 @@
 
             <ImageButton
                 android:layout_gravity="center"
-                android:id="@+id/btnExpectedDate"
+                android:id="@+id/btnCompleteDate"
                 android:layout_width="10pt"
                 android:layout_height="10pt"
                 android:src="@drawable/ic_expand"/>

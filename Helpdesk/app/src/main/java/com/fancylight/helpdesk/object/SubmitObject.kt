@@ -9,8 +9,7 @@ object SubmitObject {
     var finishDate = ""
     var corpCode = "법인코드"
     var csrStatus = "접수대기"
-    var imsi = "w"
-    var path = ""
+    var path =""
 
     fun init(){
         this.target = ""
@@ -21,8 +20,7 @@ object SubmitObject {
         this.finishDate = ""
         this.corpCode = "법인코드"
         this.csrStatus = "접수대기"
-        this.imsi = "w"
-        var path = ""
+        this.path = ""
     }
 
     fun convertJson() : String{
@@ -34,8 +32,7 @@ object SubmitObject {
         "CONTENT":"${content}",
         "REQ_FINISH_DATE":"${finishDate}",
         "CORP_CODE":"${corpCode}",
-        "CSR_STATUS":"${csrStatus}",
-        "IMSI_YN":"${imsi}"
+        "CSR_STATUS":"${csrStatus}"
         }
         """.trimIndent()
     }
@@ -54,6 +51,23 @@ object SubmitObject {
             dayStr = ""+day
 
         return year.toString() + monthStr + dayStr
+    }
+
+    fun isEmpty() : String{
+        if(target ==""){
+            return "문의대상을 선택해주세요."
+        }else if(systemCode=="-"){
+            return "시스템명을 선택해주세요."
+        }else if(title==""){
+            return "제목을 작성해주세요"
+        }else if(content==""){
+            return "요청내용을 작성해주세요"
+        }else if(finishDate==""){
+            return "희망완료일을 선택해주세요"
+        }else{
+            return "완료"
+        }
+
     }
 
 }

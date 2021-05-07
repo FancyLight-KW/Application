@@ -56,12 +56,19 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             fadeOutCover()
         }
 
-        binding.editId.text=Editable.Factory.getInstance().newEditable(MyApplication.prefs.getString("id",""))
-        binding.editPassword.text=Editable.Factory.getInstance().newEditable(MyApplication.prefs.getString("pw",""))
-
         // 버튼 리스너 설정
         val loginButton : Button? = findViewById<Button>(R.id.btn_login);
         loginButton?.setOnClickListener(this)
+
+        if(MyApplication.prefs.getString("id","") != ""){
+            startLogin(MyApplication.prefs.getString("id",""),MyApplication.prefs.getString("pw",""))
+
+        }
+
+       // binding.editId.text=Editable.Factory.getInstance().newEditable(MyApplication.prefs.getString("id",""))
+        //binding.editPassword.text=Editable.Factory.getInstance().newEditable(MyApplication.prefs.getString("pw",""))
+
+
     }
 
     // 표지 레이아웃에 fade out 애니메이션 적용

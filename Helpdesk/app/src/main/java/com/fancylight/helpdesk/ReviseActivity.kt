@@ -301,6 +301,7 @@ class ReviseActivity : AppCompatActivity() , View.OnClickListener{
             else{
                 stringJson =ReviseObject.convertJson(3)
             }
+            Log.d("ReviseJson",stringJson)
 
             UserApi.service.ReviseNPut("Bearer " + UserApi.ttt,inquiry.REQ_SEQ, stringJson).enqueue(object : retrofit2.Callback<sResultMessage> {
                 override fun onResponse(call: retrofit2.Call<sResultMessage>, response: Response<sResultMessage>) {
@@ -325,6 +326,7 @@ class ReviseActivity : AppCompatActivity() , View.OnClickListener{
             else{
                 stringJson =ReviseObject.convertJson(2)
             }
+            Log.d("ReviseJson",stringJson)
 
             if(ReviseObject.REQ_IMG_PATH == "" && ReviseObject.REQ_IMG_PATH == inquiry.REQ_IMG_PATH){
                 UserApi.service.ReviseNPut("Bearer " + UserApi.ttt,inquiry.REQ_SEQ, stringJson).enqueue(object : retrofit2.Callback<sResultMessage> {

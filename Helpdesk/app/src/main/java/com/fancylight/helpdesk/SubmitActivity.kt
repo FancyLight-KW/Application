@@ -133,7 +133,6 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
                         //희망완료일 기능 여기다 구현하면 됨
                         textDesiredDate.setText("${year}/ ${month + 1}/ ${dayOfMonth}")
                         SubmitObject.finishDate =SubmitObject.dateSet(year,month+1,dayOfMonth)
-                        Toast.makeText(applicationContext,"finishdate =" + SubmitObject.finishDate, Toast.LENGTH_LONG).show()
                     }
                 }, year, month, date)
                 dlg.show()
@@ -145,7 +144,14 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
 
                 SubmitObject.title = title.text.toString()
                 SubmitObject.content = content.text.toString()
-                submitPost()
+                val strempty = SubmitObject.isEmpty()
+
+                if(strempty == "완료"){
+                    submitPost()
+                }else{
+                    Toast.makeText(applicationContext,strempty,Toast.LENGTH_LONG).show()
+                }
+
             }
         }
     }
@@ -279,6 +285,7 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
 
     fun submitPost() {
         var stringJson = SubmitObject.convertJson()
+        Log.d("SubmitJson",stringJson)
 
         if(SubmitObject.path==""){
             UserApi.service.dataNPost("Bearer "+ UserApi.ttt, stringJson).enqueue(object : retrofit2.Callback<JsonData> {
@@ -288,7 +295,7 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
                         finish()
                     }
                     else{
-                        Toast.makeText(applicationContext,"실패", Toast.LENGTH_LONG).show()
+                        Toast.makeText(applicationContext,"실패" +response.code(), Toast.LENGTH_LONG).show()
                     }
                 }
                 override fun onFailure(call: retrofit2.Call<JsonData>, t: Throwable) {

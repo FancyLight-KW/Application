@@ -11,13 +11,13 @@ object ReviseObject {
     var SYSTEM_GROUP_CODE = ""
     var TM_APPROVAL_REQ_YN = 'N'
     var CSR_STATUS = ""
-    var IMSI_YN ='w'
     var REQ_FINISH_DATE = ""
     var REG_USER_ID = ""
     var MOD_USER_ID = ""
     var REQ_IMG_PATH = ""
     var createdAt = ""
     var updatedAt = ""
+
 
     fun init(inquiry: Inquiry){
         REQ_SEQ = inquiry.REQ_SEQ
@@ -28,7 +28,6 @@ object ReviseObject {
         SYSTEM_GROUP_CODE = inquiry.SYSTEM_GROUP_CODE
         TM_APPROVAL_REQ_YN = inquiry.TM_APPROVAL_REQ_YN
         CSR_STATUS = inquiry.CSR_STATUS
-        IMSI_YN =inquiry.IMSI_YN
         REQ_FINISH_DATE = inquiry.REQ_FINISH_DATE
         REG_USER_ID = inquiry.REG_USER_ID
         MOD_USER_ID = inquiry.MOD_USER_ID
@@ -56,9 +55,8 @@ object ReviseObject {
                     "SYSTEM_GROUP_CODE": "${this.SYSTEM_GROUP_CODE}",
                     "TM_APPROVAL_REQ_YN": "${this.TM_APPROVAL_REQ_YN}",
                     "CSR_STATUS": "${this.CSR_STATUS}",
-                    "IMSI_YN": "${this.IMSI_YN}",
                     "REQ_FINISH_DATE": "${this.REQ_FINISH_DATE}",
-                    "REG_USER_ID": "${this.REG_USER_ID}",
+                    "REG_USER_ID": "${this.REG_USER_ID}",                
                     "createdAt": "${this.createdAt}",
                     "updatedAt": "${this.updatedAt}"
                 }""".trimIndent()
@@ -74,7 +72,6 @@ object ReviseObject {
                     "SYSTEM_GROUP_CODE": "${this.SYSTEM_GROUP_CODE}",
                     "TM_APPROVAL_REQ_YN": "${this.TM_APPROVAL_REQ_YN}",
                     "CSR_STATUS": "${this.CSR_STATUS}",
-                    "IMSI_YN": "${this.IMSI_YN}",
                     "REQ_FINISH_DATE": "${this.REQ_FINISH_DATE}",
                     "REG_USER_ID": "${this.REG_USER_ID}", 
                     "REQ_IMG_PATH": "${this.REQ_IMG_PATH}",
@@ -93,7 +90,6 @@ object ReviseObject {
                     "SYSTEM_GROUP_CODE": "${this.SYSTEM_GROUP_CODE}",
                     "TM_APPROVAL_REQ_YN": "${this.TM_APPROVAL_REQ_YN}",
                     "CSR_STATUS": "${this.CSR_STATUS}",
-                    "IMSI_YN": "${this.IMSI_YN}",
                     "REQ_FINISH_DATE": "${this.REQ_FINISH_DATE}",
                     "REG_USER_ID": "${this.REG_USER_ID}",
                     "MOD_USER_ID" : "${this.MOD_USER_ID}",
@@ -112,7 +108,6 @@ object ReviseObject {
                     "SYSTEM_GROUP_CODE": "${this.SYSTEM_GROUP_CODE}",
                     "TM_APPROVAL_REQ_YN": "${this.TM_APPROVAL_REQ_YN}",
                     "CSR_STATUS": "${this.CSR_STATUS}",
-                    "IMSI_YN": "${this.IMSI_YN}",
                     "REQ_FINISH_DATE": "${this.REQ_FINISH_DATE}",
                     "REG_USER_ID": "${this.REG_USER_ID}", 
                     "MOD_USER_ID" : "${this.MOD_USER_ID}",
@@ -140,6 +135,23 @@ object ReviseObject {
             dayStr = ""+day
 
         return year.toString() + month + dayStr
+    }
+
+    fun isEmpty() : String{
+        if(ReviseObject.TARGET_CODE ==""){
+            return "문의대상을 선택해주세요."
+        }else if(ReviseObject.SYSTEM_GROUP_CODE =="-"){
+            return "시스템명을 선택해주세요."
+        }else if(ReviseObject.TITLE ==""){
+            return "제목을 작성해주세요"
+        }else if(ReviseObject.CONTENT ==""){
+            return "요청내용을 작성해주세요"
+        }else if(ReviseObject.REQ_FINISH_DATE ==""){
+            return "희망완료일을 선택해주세요"
+        }else{
+            return "완료"
+        }
+
     }
 
 

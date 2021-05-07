@@ -113,10 +113,10 @@ class RequestFragment : Fragment(), View.OnClickListener {
 
                     for (i in 0..arr.size - 1) {
                             inquirySource.add(Inquiry(arr[i].REQ_SEQ,arr[i].TITLE,arr[i].CONTENT,
-                                    "",arr[i].TARGET_CODE,arr[i].SYSTEM_GROUP_CODE,
+                                    "",arr[i].TARGET_CODE,"",
                                     'a',
-                                    arr[i].CSR_STATUS,'a',"", "",
-                                    "","","",arr[i].createdAt))
+                                    arr[i].CSR_STATUS,"", "",
+                                    "","","","","",arr[i].createdAt))
 
                     }
                     // 결과 리스트 구성. 처음엔 검색 필터 미적용 (= 모든 글 추가)

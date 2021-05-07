@@ -114,30 +114,34 @@ class MyWorkFragment : Fragment(), View.OnClickListener {
                         if (arr[i].REQ_IMG_PATH == null && arr[i].MOD_USER_ID == null){
                             inquirySource.add(Inquiry(arr[i].REQ_SEQ,arr[i].TITLE,arr[i].CONTENT,
                                     arr[i].CORP_CODE,arr[i].TARGET_CODE,arr[i].SYSTEM_GROUP_CODE,
-                                    arr[i].TM_APPROVAL_REQ_YN,
-                                    arr[i].CSR_STATUS,arr[i].IMSI_YN,arr[i].REQ_FINISH_DATE, arr[i].REG_USER_ID,
-                                    "","",arr[i].updatedAt,arr[i].createdAt))
+                                    arr[i].TM_APPROVAL_REQ_YN, arr[i].CSR_STATUS,arr[i].REQ_FINISH_DATE,
+                                    arr[i].REG_USER_ID, "","",
+                                    arr[i].EXPECTED_FINISH_DATE,arr[i].REAL_FINISH_DATE,
+                                    arr[i].updatedAt,arr[i].createdAt))
 
                         } else if(arr[i].REQ_IMG_PATH == null) {
                             inquirySource.add(Inquiry(arr[i].REQ_SEQ,arr[i].TITLE,arr[i].CONTENT,
                                     arr[i].CORP_CODE,arr[i].TARGET_CODE,arr[i].SYSTEM_GROUP_CODE,
-                                    arr[i].TM_APPROVAL_REQ_YN,
-                                    arr[i].CSR_STATUS,arr[i].IMSI_YN,arr[i].REQ_FINISH_DATE, arr[i].REG_USER_ID,
-                                    arr[i].MOD_USER_ID,"",arr[i].updatedAt,arr[i].createdAt))
+                                    arr[i].TM_APPROVAL_REQ_YN, arr[i].CSR_STATUS,arr[i].REQ_FINISH_DATE,
+                                    arr[i].REG_USER_ID, arr[i].MOD_USER_ID,"",
+                                    arr[i].EXPECTED_FINISH_DATE,arr[i].REAL_FINISH_DATE,
+                                    arr[i].updatedAt,arr[i].createdAt))
 
                         } else if(arr[i].MOD_USER_ID == null) {
                             inquirySource.add(Inquiry(arr[i].REQ_SEQ,arr[i].TITLE,arr[i].CONTENT,
                                     arr[i].CORP_CODE,arr[i].TARGET_CODE,arr[i].SYSTEM_GROUP_CODE,
-                                    arr[i].TM_APPROVAL_REQ_YN,
-                                    arr[i].CSR_STATUS,arr[i].IMSI_YN,arr[i].REQ_FINISH_DATE, arr[i].REG_USER_ID,
-                                    "",arr[i].REQ_IMG_PATH,arr[i].updatedAt,arr[i].createdAt))
+                                    arr[i].TM_APPROVAL_REQ_YN, arr[i].CSR_STATUS,arr[i].REQ_FINISH_DATE,
+                                    arr[i].REG_USER_ID, "",arr[i].REQ_IMG_PATH,
+                                    arr[i].EXPECTED_FINISH_DATE,arr[i].REAL_FINISH_DATE,
+                                    arr[i].updatedAt,arr[i].createdAt))
 
                         } else {
                             inquirySource.add(Inquiry(arr[i].REQ_SEQ,arr[i].TITLE,arr[i].CONTENT,
                                     arr[i].CORP_CODE,arr[i].TARGET_CODE,arr[i].SYSTEM_GROUP_CODE,
-                                    arr[i].TM_APPROVAL_REQ_YN,
-                                    arr[i].CSR_STATUS,arr[i].IMSI_YN,arr[i].REQ_FINISH_DATE, arr[i].REG_USER_ID,
-                                    arr[i].MOD_USER_ID,arr[i].REQ_IMG_PATH,arr[i].updatedAt,arr[i].createdAt))
+                                    arr[i].TM_APPROVAL_REQ_YN, arr[i].CSR_STATUS,arr[i].REQ_FINISH_DATE,
+                                    arr[i].REG_USER_ID, arr[i].MOD_USER_ID,arr[i].REQ_IMG_PATH,
+                                    arr[i].EXPECTED_FINISH_DATE,arr[i].REAL_FINISH_DATE,
+                                    arr[i].updatedAt,arr[i].createdAt))
                         }
                     }
 
