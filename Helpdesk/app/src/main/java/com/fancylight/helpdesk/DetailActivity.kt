@@ -76,7 +76,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
         contentText.text = inquiry.CONTENT
         desiredate.text = inquiry.REQ_FINISH_DATE.substring(0,4)+"-"+inquiry.REQ_FINISH_DATE.substring(4,6)+"-"+inquiry.REQ_FINISH_DATE.substring(6)
         creatdate.text =inquiry.createdAt.substring(0,10)
-        image.text = inquiry.REQ_IMG_PATH
+        image.text = inquiry.REQ_IMG_PATH.substring(53)
 
         val imageBtn :Button = findViewById(R.id.btn_viewImage)
         imageBtn.setOnClickListener(this)
