@@ -1,5 +1,6 @@
 package com.fancylight.helpdesk
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.fancylight.helpdesk.adapter.InquiryAdapter
 import com.fancylight.helpdesk.model.*
@@ -97,7 +99,8 @@ class PersonnelActivity : AppCompatActivity() {
             personnelAdapter?.setOnItemClickListener(object : PersonnelAdapter.OnItemClickListener {
                 override fun onItemClick(position: Int) {
                     allocateAgent(position)
-                    finish()
+
+
                 }
 
             })
@@ -113,7 +116,11 @@ class PersonnelActivity : AppCompatActivity() {
             override fun onResponse(call: Call<JsonData>, response: Response<JsonData>) {
                 if(response.isSuccessful){
                         Toast.makeText(applicationContext,"성공allocate" , Toast.LENGTH_SHORT).show()
-                        finish()
+                    AlertDialog.Builder(this@PersonnelActivity)
+                            .setTitle("할당")
+                            .setMessage("해당 요원으로 할당되었습니다!")
+                            .setPositiveButton("확인") { _: DialogInterface, _: Int -> startHomeActivity() }
+                            .show()
                 }
                 else{
                     Toast.makeText(applicationContext,"실패" , Toast.LENGTH_SHORT).show()
@@ -124,6 +131,14 @@ class PersonnelActivity : AppCompatActivity() {
                 Log.e("failure errorrr", ""+t)
             }
         })
+
+    }
+
+    private fun startHomeActivity() {
+
+        val intent = Intent(this, HomeActivity::class.java)
+        startActivity(intent)
+
 
     }
 

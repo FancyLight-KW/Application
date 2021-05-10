@@ -15,6 +15,7 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import com.fancylight.helpdesk.`object`.ReviseObject
@@ -28,6 +29,7 @@ import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import okhttp3.MediaType
 import okhttp3.MultipartBody
+import okhttp3.Request
 import okhttp3.RequestBody
 import retrofit2.Response
 import java.io.File
@@ -41,6 +43,8 @@ class ReviseActivity : AppCompatActivity() , View.OnClickListener{
     private val OPEN_GALLERY = 2
     lateinit var currentPhotoPath: String
     private lateinit var inquiry: Inquiry
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -167,6 +171,13 @@ class ReviseActivity : AppCompatActivity() , View.OnClickListener{
                 ReviseObject.TITLE = title.text.toString()
                 ReviseObject.CONTENT = content.text.toString()
                 revisePost()
+                AlertDialog.Builder(this)
+                        .setTitle("수정")
+                        .setMessage("변경된 내용으로 접수되었습니다!")
+                        .setPositiveButton("확인") { _: DialogInterface, _: Int -> startHomeActivity() }
+                        .show()
+
+
             }
         }
     }
@@ -307,7 +318,6 @@ class ReviseActivity : AppCompatActivity() , View.OnClickListener{
                 override fun onResponse(call: retrofit2.Call<sResultMessage>, response: Response<sResultMessage>) {
                     if (response.isSuccessful) {
                         Toast.makeText(applicationContext, "성공", Toast.LENGTH_LONG).show()
-                        finish()
 
                     } else {
                         Toast.makeText(applicationContext, "실패" +response.code() , Toast.LENGTH_LONG).show()
@@ -370,6 +380,14 @@ class ReviseActivity : AppCompatActivity() , View.OnClickListener{
             }
 
         }
+
+
+    }
+
+    private fun startHomeActivity() {
+
+        val intent = Intent(this, HomeActivity::class.java)
+        startActivity(intent)
 
 
     }

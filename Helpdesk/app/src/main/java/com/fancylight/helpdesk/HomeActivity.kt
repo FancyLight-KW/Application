@@ -64,7 +64,6 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
         // TODO: 유저 권한 변수 초기화!!
         authState = MemberInfo.User_position
 
-
         // 툴 바를 액션 바로 설정한다
         mToolbar = findViewById(R.id.toolbar)
         setSupportActionBar(mToolbar)
@@ -172,6 +171,8 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
             }
 
         })
+
+
 
         // HomeFragment 를 화면에 추가
         showHomeFragment()
@@ -384,6 +385,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
 
         updateToolbarTitle()
     }
+
 
     // 현재 띄워지고 있는 프래그먼트에 따라 툴바 제목을 업데이트한다다
 

@@ -1,6 +1,7 @@
 package com.fancylight.helpdesk
 
 import android.app.DatePickerDialog
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -11,6 +12,7 @@ import java.util.*
 import android.content.Intent
 import android.util.Log
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import com.fancylight.helpdesk.network.Fcm
 import com.fancylight.helpdesk.network.ResultMessage
 import com.fancylight.helpdesk.network.UserApi
@@ -76,7 +78,11 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
         contentText.text = inquiry.CONTENT
         desiredate.text = inquiry.REQ_FINISH_DATE.substring(0,4)+"-"+inquiry.REQ_FINISH_DATE.substring(4,6)+"-"+inquiry.REQ_FINISH_DATE.substring(6)
         creatdate.text =inquiry.createdAt.substring(0,10)
-        image.text = inquiry.REQ_IMG_PATH.substring(53)
+        if (inquiry.REQ_IMG_PATH != "") {
+            image.text = inquiry.REQ_IMG_PATH.substring(53)
+        } else {
+            image.text = "첨부파일 없음"
+        }
 
         val imageBtn :Button = findViewById(R.id.btn_viewImage)
         imageBtn.setOnClickListener(this)
@@ -180,7 +186,12 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
                                 if(result==0){
                                     Toast.makeText(applicationContext,"성공 : " + textExpectedDate.text , Toast.LENGTH_SHORT).show()
-                                    finish()
+                                    AlertDialog.Builder(this@DetailActivity)
+                                            .setTitle("시작")
+                                            .setMessage("해당 작업이 시작되었습니다")
+                                            .setPositiveButton("확인") { _: DialogInterface, _: Int -> startHomeActivity() }
+                                            .show()
+
                                 }
                                 else {
                                     Toast.makeText(applicationContext,"실패" + message, Toast.LENGTH_SHORT).show()
@@ -196,6 +207,8 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
                         }
                     })
                 }
+
+
 
             }
 
@@ -214,7 +227,11 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
                                 if(result==0){
                                     Toast.makeText(applicationContext,"성공" + message, Toast.LENGTH_SHORT).show()
-                                    finish()
+                                    AlertDialog.Builder(this@DetailActivity)
+                                            .setTitle("완료")
+                                            .setMessage("[처리 완료] 상태로 변경되었습니다!")
+                                            .setPositiveButton("확인") { _: DialogInterface, _: Int -> startHomeActivity() }
+                                            .show()
                                 }
                                 else {
                                     Toast.makeText(applicationContext,"실패" + message, Toast.LENGTH_SHORT).show()
@@ -232,6 +249,8 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
                 }
 
 
+
+
             }
 
             R.id.btn_approve -> {
@@ -239,8 +258,8 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
                 startPersonnelActivity()
 
-
             }
+
             R.id.btn_dismiss -> {
             // TODO : (반려) 버튼 -> '요청반려' 상태로 변경
                 UserApi.service.adminDenyPut("Bearer " + UserApi.ttt, inquiry.REQ_SEQ).enqueue(object : Callback<ResultMessage> {
@@ -251,7 +270,11 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
                             if(result==0){
                                 Toast.makeText(applicationContext,"성공" + message, Toast.LENGTH_SHORT).show()
-                                finish()
+                                AlertDialog.Builder(this@DetailActivity)
+                                        .setTitle("반려")
+                                        .setMessage("해당 접수는 반려되었습니다!")
+                                        .setPositiveButton("확인") { _: DialogInterface, _: Int -> startHomeActivity() }
+                                        .show()
                             }
                             else {
                                 Toast.makeText(applicationContext,"실패" + message, Toast.LENGTH_SHORT).show()
@@ -279,6 +302,14 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
         intent.putExtra("dd", inquiry.REQ_SEQ)
         startActivity(intent)
+    }
+
+    private fun startHomeActivity() {
+
+        val intent = Intent(this, HomeActivity::class.java)
+        startActivity(intent)
+
+
     }
 }
 
