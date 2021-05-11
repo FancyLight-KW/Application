@@ -2,24 +2,22 @@ package com.fancylight.helpdesk
 
 import android.app.DatePickerDialog
 import android.content.DialogInterface
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.view.View
-import com.fancylight.helpdesk.model.Inquiry
-import com.fancylight.helpdesk.`object`.MemberInfo
-import com.fancylight.helpdesk.`object`.SubmitObject
-import java.util.*
 import android.content.Intent
+import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import com.fancylight.helpdesk.network.Fcm
+import androidx.appcompat.app.AppCompatActivity
+import com.fancylight.helpdesk.`object`.MemberInfo
+import com.fancylight.helpdesk.`object`.SubmitObject
+import com.fancylight.helpdesk.model.Inquiry
 import com.fancylight.helpdesk.network.ResultMessage
 import com.fancylight.helpdesk.network.UserApi
-import org.w3c.dom.Text
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
 
 
 // Intent 로 전달될 값(extra)들의 키 상수
@@ -306,8 +304,12 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun startHomeActivity() {
 
-        val intent = Intent(this, HomeActivity::class.java)
-        startActivity(intent)
+        //val intent = Intent(this, HomeActivity::class.java)
+        //startActivity(intent)
+
+        val i = Intent(this, HomeActivity::class.java)
+        i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(i)
 
 
     }

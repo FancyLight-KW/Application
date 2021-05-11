@@ -136,9 +136,9 @@ class PersonnelActivity : AppCompatActivity() {
 
     private fun startHomeActivity() {
 
-        val intent = Intent(this, HomeActivity::class.java)
-        startActivity(intent)
-
+        val i = Intent(this, HomeActivity::class.java)
+        i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(i)
 
     }
 
