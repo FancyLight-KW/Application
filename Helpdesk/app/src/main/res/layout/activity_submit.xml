@@ -262,6 +262,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text=""
+                android:maxLines="1"
                 android:background="@drawable/edittext_design"/>
 
             <ImageButton

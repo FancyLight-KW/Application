@@ -79,7 +79,12 @@ class ReviseActivity : AppCompatActivity() , View.OnClickListener{
         edittitle.text = Editable.Factory.getInstance().newEditable(inquiry.TITLE)
         editcontent.text = Editable.Factory.getInstance().newEditable(inquiry.CONTENT)
         desiretext.text = inquiry.REQ_FINISH_DATE
-        imagetext.text = inquiry.REQ_IMG_PATH
+
+        if (inquiry.REQ_IMG_PATH != "") {
+            imagetext.text = inquiry.REQ_IMG_PATH.substring(53)
+        } else {
+            imagetext.text = "첨부파일 없음"
+        }
 
         rg1.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
@@ -211,10 +216,9 @@ class ReviseActivity : AppCompatActivity() , View.OnClickListener{
 
     @Throws(IOException::class)
     private fun createImageFile(): File {
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(
-                "JPEG_${timeStamp}_",
+                "Camera_",
                 ".jpg",
                 storageDir
         ).apply {
@@ -255,35 +259,16 @@ class ReviseActivity : AppCompatActivity() , View.OnClickListener{
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_IMAGE_CAPTURE) {
                 ReviseObject.REQ_IMG_PATH = currentPhotoPath
+                textAttachment.text= File(ReviseObject.REQ_IMG_PATH).name
 
-                // val file = File(currentPhotoPath)
-                /*
-                if (Build.VERSION.SDK_INT < 28) {
-                    val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, Uri.fromFile(file))
-                    //img_picture.setImageBitmap(bitmap)
-                } else {
-                    val decode = ImageDecoder.createSource(this.contentResolver, Uri.fromFile(file))
-                    val bitmap = ImageDecoder.decodeBitmap(decode)
-                    //img_picture.setImageBitmap(bitmap)
-                }
-                 */
+
             } else if (requestCode == OPEN_GALLERY) {
                 val dataUri = data?.data
                 dataUri?.let {
                     ReviseObject.REQ_IMG_PATH = absolutelyPath(dataUri)
                 }
 
-                /*
-                    dataUri?.let {
-                        if (Build.VERSION.SDK_INT < 28) {
-                            var bitmap: Bitmap = MediaStore.Images.Media.getBitmap(contentResolver, dataUri)
-                        } else {
-                            val decode = ImageDecoder.createSource(this.contentResolver, dataUri)
-                            val bitmap = ImageDecoder.decodeBitmap(decode)
-                        }
-                    }
-                }
-                 */
+                textAttachment.text= File(ReviseObject.REQ_IMG_PATH).name
             } else {
                 Toast.makeText(applicationContext, "오류", Toast.LENGTH_LONG).show()
             }
@@ -318,6 +303,7 @@ class ReviseActivity : AppCompatActivity() , View.OnClickListener{
                 override fun onResponse(call: retrofit2.Call<sResultMessage>, response: Response<sResultMessage>) {
                     if (response.isSuccessful) {
                         Toast.makeText(applicationContext, "성공", Toast.LENGTH_LONG).show()
+                        finish()
 
                     } else {
                         Toast.makeText(applicationContext, "실패" +response.code() , Toast.LENGTH_LONG).show()
@@ -356,7 +342,7 @@ class ReviseActivity : AppCompatActivity() , View.OnClickListener{
 
             } else{
                 val file = File(ReviseObject.REQ_IMG_PATH)
-                var fileName = "imsi.png"
+                var fileName = file.name
                 var requestImage: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file)
                 var fileBody: MultipartBody.Part = MultipartBody.Part.createFormData("imagefile", fileName, requestImage)
 
@@ -376,19 +362,12 @@ class ReviseActivity : AppCompatActivity() , View.OnClickListener{
                         Log.e("failure error", "" + t)
                     }
                 })
-
             }
-
         }
-
-
     }
 
     private fun startHomeActivity() {
-
         val intent = Intent(this, HomeActivity::class.java)
         startActivity(intent)
-
-
     }
 }

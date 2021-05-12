@@ -188,7 +188,7 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
         val timeStamp : String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val storageDir : File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(
-                "JPEG_${timeStamp}_",
+                "Camera_",
                 ".jpg",
                 storageDir
         ).apply{
@@ -229,40 +229,14 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_IMAGE_CAPTURE) {
                 SubmitObject.path = currentPhotoPath
+                textAttachment.text= File(SubmitObject.path).name
 
-                // val file = File(currentPhotoPath)
-
-                /*
-                if (Build.VERSION.SDK_INT < 28) {
-                    val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, Uri.fromFile(file))
-                    //img_picture.setImageBitmap(bitmap)
-                } else {
-                    val decode = ImageDecoder.createSource(this.contentResolver, Uri.fromFile(file))
-                    val bitmap = ImageDecoder.decodeBitmap(decode)
-                    //img_picture.setImageBitmap(bitmap)
-                }
-
-                 */
             } else if (requestCode == OPEN_GALLERY) {
                 val dataUri = data?.data
                 dataUri?.let {
                     SubmitObject.path = absolutelyPath(dataUri)
                 }
-
-
-                /*
-                    dataUri?.let {
-                        if (Build.VERSION.SDK_INT < 28) {
-                            var bitmap: Bitmap = MediaStore.Images.Media.getBitmap(contentResolver, dataUri)
-
-                        } else {
-                            val decode = ImageDecoder.createSource(this.contentResolver, dataUri)
-                            val bitmap = ImageDecoder.decodeBitmap(decode)
-                        }
-                    }
-                }
-
-                 */
+                textAttachment.text= File(SubmitObject.path).name
 
             } else {
                 Toast.makeText(applicationContext, "오류", Toast.LENGTH_LONG).show()
@@ -305,7 +279,7 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
             })
         } else{
             val file = File(SubmitObject.path)
-            var fileName = "hoho.png"
+            var fileName = file.name
             var requestImage : RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"),file)
             var fileBody : MultipartBody.Part = MultipartBody.Part.createFormData("imagefile",fileName,requestImage)
 

@@ -132,9 +132,15 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
             R.id.btn_modify -> {
             // TODO : (수정) 버튼 -> detail 항목들 수정하기
-                val intent = Intent(this, ReviseActivity::class.java)
-                intent.putExtra("inquiry",inquiry)
-                startActivity(intent)
+                if(inquiry.CSR_STATUS == "접수대기"){
+                    val intent = Intent(this, ReviseActivity::class.java)
+                    intent.putExtra("inquiry",inquiry)
+                    startActivity(intent)
+                }
+                else{
+                    Toast.makeText(applicationContext, "수정할 수 없는 상태입니다.",Toast.LENGTH_LONG).show()
+                }
+
             }
 
             R.id.btnExpectedDate -> {
