@@ -158,7 +158,7 @@
                 android:layout_height="10pt"
                 android:layout_gravity="center"
                 android:contentDescription="조회할 기간의 시작일자 선택"
-                android:src="@drawable/ic_expand" />
+                android:src="@drawable/ic_expand_blue" />
 
             <!-- 물결 표시 -->
             <TextView
@@ -184,7 +184,7 @@
                 android:layout_height="10pt"
                 android:layout_gravity="center"
                 android:contentDescription="조회할 기간의 종료일자 선택"
-                android:src="@drawable/ic_expand" />
+                android:src="@drawable/ic_expand_blue" />
 
         </LinearLayout>
 

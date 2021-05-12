@@ -233,7 +233,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
                                     Toast.makeText(applicationContext,"성공" + message, Toast.LENGTH_SHORT).show()
                                     AlertDialog.Builder(this@DetailActivity)
                                             .setTitle("완료")
-                                            .setMessage("[처리 완료] 상태로 변경되었습니다!")
+                                            .setMessage("해당 작업이 [처리 완료] 상태로 변경되었습니다!")
                                             .setPositiveButton("확인") { _: DialogInterface, _: Int -> startHomeActivity() }
                                             .show()
                                 }
@@ -310,11 +310,8 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun startHomeActivity() {
 
-        //val intent = Intent(this, HomeActivity::class.java)
-        //startActivity(intent)
-
         val i = Intent(this, HomeActivity::class.java)
-        i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        i.flags =  Intent.FLAG_ACTIVITY_CLEAR_TOP
         startActivity(i)
 
 

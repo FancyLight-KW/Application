@@ -50,7 +50,7 @@
                 android:id="@+id/btnExpectedDate"
                 android:layout_width="10pt"
                 android:layout_height="10pt"
-                android:src="@drawable/ic_expand"/>
+                android:src="@drawable/ic_expand_blue"/>
 
         </LinearLayout>
 

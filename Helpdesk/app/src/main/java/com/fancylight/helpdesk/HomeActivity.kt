@@ -18,6 +18,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.fancylight.helpdesk.SharedPref.MyApplication
 import com.google.android.material.navigation.NavigationView
 import com.fancylight.helpdesk.adapter.NavExpandableListAdapter
@@ -331,6 +332,8 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
     private fun showNoticeFragment() {
 
         supportFragmentManager
+            .popBackStackImmediate("a", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.frag_container, mNoticeFragment!!)
                 .addToBackStack(null)
@@ -344,6 +347,8 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
     private fun showMemInfoFragment() {
 
         supportFragmentManager
+            .popBackStackImmediate("a", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.frag_container, mMemInfoFragment!!)
                 .addToBackStack(null)
@@ -356,6 +361,8 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
 
     private fun showRequestFragment() {
 
+        supportFragmentManager
+            .popBackStackImmediate("a", FragmentManager.POP_BACK_STACK_INCLUSIVE)
         supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.frag_container, mRequestFragment!!)
@@ -378,9 +385,11 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
         }
 
         supportFragmentManager
+            .popBackStackImmediate("a", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        supportFragmentManager
             .beginTransaction()
             .replace(R.id.frag_container, myListFragment)
-            .addToBackStack(null)
+            .addToBackStack("a")
             .commit()
 
         updateToolbarTitle()

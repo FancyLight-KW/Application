@@ -266,7 +266,11 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
                 override fun onResponse(call: retrofit2.Call<JsonData>, response: Response<JsonData>) {
                     if(response.isSuccessful){
                         Toast.makeText(applicationContext,"성공", Toast.LENGTH_LONG).show()
-                        finish()
+                        androidx.appcompat.app.AlertDialog.Builder(this@SubmitActivity)
+                            .setTitle("요청 완료")
+                            .setMessage("관리자의 승인을 기다립니다!")
+                            .setPositiveButton("확인") { _: DialogInterface, _: Int -> startHomeActivity() }
+                            .show()
                     }
                     else{
                         Toast.makeText(applicationContext,"실패" +response.code(), Toast.LENGTH_LONG).show()
@@ -287,7 +291,11 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
                 override fun onResponse(call: retrofit2.Call<JsonData>, response: Response<JsonData>) {
                     if(response.isSuccessful){
                         Toast.makeText(applicationContext,"성공", Toast.LENGTH_LONG).show()
-                        finish()
+                        androidx.appcompat.app.AlertDialog.Builder(this@SubmitActivity)
+                            .setTitle("요청 완료")
+                            .setMessage("관리자의 승인을 기다립니다!")
+                            .setPositiveButton("확인") { _: DialogInterface, _: Int -> startHomeActivity() }
+                            .show()
                     }
                     else{
                         Toast.makeText(applicationContext,"실패", Toast.LENGTH_LONG).show()
@@ -299,6 +307,15 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
                 }
             })
         }
+
+    }
+
+    private fun startHomeActivity() {
+
+        val i = Intent(this, HomeActivity::class.java)
+        i.flags =  Intent.FLAG_ACTIVITY_CLEAR_TOP
+        startActivity(i)
+
 
     }
 

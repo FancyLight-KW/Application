@@ -303,7 +303,11 @@ class ReviseActivity : AppCompatActivity() , View.OnClickListener{
                 override fun onResponse(call: retrofit2.Call<sResultMessage>, response: Response<sResultMessage>) {
                     if (response.isSuccessful) {
                         Toast.makeText(applicationContext, "성공", Toast.LENGTH_LONG).show()
-                        finish()
+                        AlertDialog.Builder(this@ReviseActivity)
+                            .setTitle("수정")
+                            .setMessage("변경된 내용으로 접수되었습니다!")
+                            .setPositiveButton("확인") { _: DialogInterface, _: Int -> startHomeActivity() }
+                            .show()
 
                     } else {
                         Toast.makeText(applicationContext, "실패" +response.code() , Toast.LENGTH_LONG).show()
@@ -329,7 +333,11 @@ class ReviseActivity : AppCompatActivity() , View.OnClickListener{
                     override fun onResponse(call: retrofit2.Call<sResultMessage>, response: Response<sResultMessage>) {
                         if (response.isSuccessful) {
                             Toast.makeText(applicationContext, "성공", Toast.LENGTH_LONG).show()
-                            finish()
+                            AlertDialog.Builder(this@ReviseActivity)
+                                .setTitle("수정")
+                                .setMessage("변경된 내용으로 접수되었습니다!")
+                                .setPositiveButton("확인") { _: DialogInterface, _: Int -> startHomeActivity() }
+                                .show()
                         } else {
                             Toast.makeText(applicationContext, "실패" +response.code() , Toast.LENGTH_LONG).show()
                         }
@@ -367,7 +375,10 @@ class ReviseActivity : AppCompatActivity() , View.OnClickListener{
     }
 
     private fun startHomeActivity() {
-        val intent = Intent(this, HomeActivity::class.java)
-        startActivity(intent)
+
+        val i = Intent(this, HomeActivity::class.java)
+        i.flags =  Intent.FLAG_ACTIVITY_CLEAR_TOP
+        startActivity(i)
+
     }
 }

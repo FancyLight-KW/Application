@@ -231,7 +231,7 @@
                 android:id="@+id/btnDesiredDate"
                 android:layout_width="10pt"
                 android:layout_height="10pt"
-                android:src="@drawable/ic_expand"/>
+                android:src="@drawable/ic_expand_blue"/>
 
         </LinearLayout>
 
@@ -270,7 +270,7 @@
                 android:id="@+id/btnAttachment"
                 android:layout_width="10pt"
                 android:layout_height="10pt"
-                android:src="@drawable/ic_expand"/>
+                android:src="@drawable/ic_expand_blue"/>
 
         </LinearLayout>
 
