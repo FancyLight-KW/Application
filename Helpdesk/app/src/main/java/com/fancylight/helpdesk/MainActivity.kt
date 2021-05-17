@@ -125,15 +125,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                             override fun onResponse(call: Call<Fcm>, response: Response<Fcm>) {
                                 if(response.isSuccessful){
                                     val result=response.body()!!.resultCode
-                                    Toast.makeText(applicationContext,"성공", Toast.LENGTH_SHORT).show()
+                                    //Toast.makeText(applicationContext,"성공", Toast.LENGTH_SHORT).show()
                                     startHomeActivity()
                                 }
                                 else{
-                                    Toast.makeText(applicationContext,"실패" , Toast.LENGTH_SHORT).show()
+                                    //Toast.makeText(applicationContext,"실패" , Toast.LENGTH_SHORT).show()
                                 }
                             }
                             override fun onFailure(call: Call<Fcm>, t: Throwable) {
-                                Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
+                                //Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
                                 Log.e("failure errorrr", ""+t)
                             }
                         })
@@ -143,11 +143,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     }
                 }
                 else{
-                    Toast.makeText(applicationContext,"실패zz", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(applicationContext,"실패zz", Toast.LENGTH_SHORT).show()
                 }
             }
            override fun onFailure(call: Call<Login>, t: Throwable) {
-               Toast.makeText(applicationContext,"실패실패zz", Toast.LENGTH_LONG).show()
+               //Toast.makeText(applicationContext,"실패실패zz", Toast.LENGTH_LONG).show()
                Log.e("failure error", ""+t)
            }
         })

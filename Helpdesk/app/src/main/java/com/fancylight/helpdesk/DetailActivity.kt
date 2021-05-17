@@ -89,7 +89,9 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
         when (authState) {
             1 -> {
                 val modifyButton: Button = findViewById(R.id.btn_modify)
+                val deleteButton : Button = findViewById(R.id.btn_delete)
                 modifyButton.setOnClickListener(this)
+                deleteButton.setOnClickListener(this)
             }
             2 -> {
                 when (inquiry.CSR_STATUS) {
@@ -138,8 +140,46 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
                     startActivity(intent)
                 }
                 else{
-                    Toast.makeText(applicationContext, "수정할 수 없는 상태입니다.",Toast.LENGTH_LONG).show()
+                    //Toast.makeText(applicationContext, "수정할 수 없는 상태입니다.",Toast.LENGTH_LONG).show()
                 }
+
+            }
+
+            R.id.btn_delete -> {
+                // TODO : (삭제) 버튼 -> 삭제하기
+                UserApi.service.requestDelete("Bearer " + UserApi.ttt, inquiry.REQ_SEQ).enqueue(object : Callback<ResultMessage> {
+                    override fun onResponse(call: Call<ResultMessage>, response: Response<ResultMessage>) {
+                        if(response.isSuccessful){
+                            val result=response.body()!!.resultCode
+                            val message=response.body()!!.message
+
+                            if(result==0){
+                                if(result==0){
+                                    //Toast.makeText(applicationContext,"성공" + message, Toast.LENGTH_SHORT).show()
+                                    AlertDialog.Builder(this@DetailActivity)
+                                            .setTitle("삭제")
+                                            .setMessage("해당 요청은 삭제되었습니다.")
+                                            .setPositiveButton("확인") { _: DialogInterface, _: Int -> startHomeActivity() }
+                                            .show()
+                                }
+                                else {
+                                    //Toast.makeText(applicationContext,"실패" + message, Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                            else {
+                                //Toast.makeText(applicationContext,"실패" + message, Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                        else{
+                            //Toast.makeText(applicationContext,"실패" , Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    override fun onFailure(call: Call<ResultMessage>, t: Throwable) {
+                        //Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
+                        Log.e("failure errorrr", ""+t)
+                    }
+                })
+
 
             }
 
@@ -179,7 +219,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
                 val textExpectedDate : TextView = findViewById(R.id.textExpectedDate)
 
                 if(textExpectedDate.text == "") {
-                    Toast.makeText(applicationContext,"예상 완료일을 지정해 주세요." , Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(applicationContext,"예상 완료일을 지정해 주세요." , Toast.LENGTH_SHORT).show()
                 } else {
 
                     UserApi.service.WorkChangePut("Bearer " + UserApi.ttt, inquiry.REQ_SEQ, 0, "요청처리중", vdate).enqueue(object : Callback<ResultMessage> {
@@ -189,7 +229,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
                                 val message=response.body()!!.message
 
                                 if(result==0){
-                                    Toast.makeText(applicationContext,"성공 : " + textExpectedDate.text , Toast.LENGTH_SHORT).show()
+                                    //Toast.makeText(applicationContext,"성공 : " + textExpectedDate.text , Toast.LENGTH_SHORT).show()
                                     AlertDialog.Builder(this@DetailActivity)
                                             .setTitle("시작")
                                             .setMessage("해당 작업이 시작되었습니다")
@@ -198,15 +238,15 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
                                 }
                                 else {
-                                    Toast.makeText(applicationContext,"실패" + message, Toast.LENGTH_SHORT).show()
+                                    //Toast.makeText(applicationContext,"실패" + message, Toast.LENGTH_SHORT).show()
                                 }
                             }
                             else{
-                                Toast.makeText(applicationContext,"실패" , Toast.LENGTH_SHORT).show()
+                                //Toast.makeText(applicationContext,"실패" , Toast.LENGTH_SHORT).show()
                             }
                         }
                         override fun onFailure(call: Call<ResultMessage>, t: Throwable) {
-                            Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
+                            //Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
                             Log.e("failure errorrr", ""+t)
                         }
                     })
@@ -221,7 +261,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
                 val textCompleteText = findViewById<TextView>(R.id.textCompleteDate)
 
                 if(textCompleteText.text == "") {
-                    Toast.makeText(applicationContext,"작업  완료일을 지정해 주세요." , Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(applicationContext,"작업  완료일을 지정해 주세요." , Toast.LENGTH_SHORT).show()
                 } else {
                     UserApi.service.WorkChangePut("Bearer " + UserApi.ttt, inquiry.REQ_SEQ, 1, "처리완료", vdate).enqueue(object : Callback<ResultMessage> {
                         override fun onResponse(call: Call<ResultMessage>, response: Response<ResultMessage>) {
@@ -230,7 +270,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
                                 val message=response.body()!!.message
 
                                 if(result==0){
-                                    Toast.makeText(applicationContext,"성공" + message, Toast.LENGTH_SHORT).show()
+                                    //Toast.makeText(applicationContext,"성공" + message, Toast.LENGTH_SHORT).show()
                                     AlertDialog.Builder(this@DetailActivity)
                                             .setTitle("완료")
                                             .setMessage("해당 작업이 [처리 완료] 상태로 변경되었습니다!")
@@ -238,15 +278,15 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
                                             .show()
                                 }
                                 else {
-                                    Toast.makeText(applicationContext,"실패" + message, Toast.LENGTH_SHORT).show()
+                                    //Toast.makeText(applicationContext,"실패" + message, Toast.LENGTH_SHORT).show()
                                 }
                             }
                             else{
-                                Toast.makeText(applicationContext,"실패" , Toast.LENGTH_SHORT).show()
+                                //Toast.makeText(applicationContext,"실패" , Toast.LENGTH_SHORT).show()
                             }
                         }
                         override fun onFailure(call: Call<ResultMessage>, t: Throwable) {
-                            Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
+                            //.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
                             Log.e("failure errorrr", ""+t)
                         }
                     })
@@ -273,7 +313,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
                             val message=response.body()!!.message
 
                             if(result==0){
-                                Toast.makeText(applicationContext,"성공" + message, Toast.LENGTH_SHORT).show()
+                                //Toast.makeText(applicationContext,"성공" + message, Toast.LENGTH_SHORT).show()
                                 AlertDialog.Builder(this@DetailActivity)
                                         .setTitle("반려")
                                         .setMessage("해당 접수는 반려되었습니다!")
@@ -281,15 +321,15 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
                                         .show()
                             }
                             else {
-                                Toast.makeText(applicationContext,"실패" + message, Toast.LENGTH_SHORT).show()
+                                //Toast.makeText(applicationContext,"실패" + message, Toast.LENGTH_SHORT).show()
                             }
                         }
                         else{
-                            Toast.makeText(applicationContext,"실패" , Toast.LENGTH_SHORT).show()
+                            //Toast.makeText(applicationContext,"실패" , Toast.LENGTH_SHORT).show()
                         }
                     }
                     override fun onFailure(call: Call<ResultMessage>, t: Throwable) {
-                        Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
+                        //Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
                         Log.e("failure errorrr", ""+t)
                     }
                 })

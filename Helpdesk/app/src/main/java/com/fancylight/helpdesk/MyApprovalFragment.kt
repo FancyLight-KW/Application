@@ -43,7 +43,7 @@ class MyApprovalFragment : Fragment(), View.OnClickListener {
 
     // 스피너 요소
     private var serviceStatItems = arrayOf(
-        "-", SERVICE_STAT_A, SERVICE_STAT_B, SERVICE_STAT_C, SERVICE_STAT_D
+        "-", SERVICE_STAT_A, SERVICE_STAT_B, SERVICE_STAT_C, SERVICE_STAT_D, SERVICE_STAT_E
     )
     private var inquiryTypeItems = arrayOf(
          "-", INQUIRY_TYPE_SYSTEM, INQUIRY_TYPE_IT, INQUIRY_TYPE_OA
@@ -153,11 +153,11 @@ class MyApprovalFragment : Fragment(), View.OnClickListener {
 
                 }
                 else{
-                    Toast.makeText(activity,"실패"+ UserApi.ttt, Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(activity,"실패"+ UserApi.ttt, Toast.LENGTH_SHORT).show()
                 }
             }
             override fun onFailure(call: retrofit2.Call<Array<getRequest>>, t: Throwable) {
-                Toast.makeText(activity,"실패실패", Toast.LENGTH_LONG).show()
+                //Toast.makeText(activity,"실패실패", Toast.LENGTH_LONG).show()
                 Log.e("failure error", ""+t)
             }
         })

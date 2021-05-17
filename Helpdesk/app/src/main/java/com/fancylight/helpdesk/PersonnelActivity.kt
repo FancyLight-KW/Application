@@ -61,7 +61,7 @@ class PersonnelActivity : AppCompatActivity() {
                     for(i in 0..arr.size-1) {
                         personnelSource.add(Personnel(arr[i].DOING, arr[i].READY, arr[i].User_id, arr[i].User_name))
                     }
-                    Toast.makeText(applicationContext,"성공", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(applicationContext,"성공", Toast.LENGTH_SHORT).show()
                     resultList = personnelSource.toMutableList()
 
                     buildPersonnelRecycler()
@@ -70,12 +70,12 @@ class PersonnelActivity : AppCompatActivity() {
 
                 }
                 else{
-                    Toast.makeText(applicationContext,"실패"+ response.code(), Toast.LENGTH_SHORT).show()
+                    //.makeText(applicationContext,"실패"+ response.code(), Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: retrofit2.Call<Array<AgentListForm>>, t: Throwable) {
-                Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
+                //Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
                 Log.e("failure error", ""+t)
             }
         })
@@ -115,7 +115,7 @@ class PersonnelActivity : AppCompatActivity() {
         UserApi.service.adminPut("Bearer " + UserApi.ttt, resultList?.get(position)?.User_id!!, seqNum).enqueue(object : Callback<JsonData> {
             override fun onResponse(call: Call<JsonData>, response: Response<JsonData>) {
                 if(response.isSuccessful){
-                        Toast.makeText(applicationContext,"성공allocate" , Toast.LENGTH_SHORT).show()
+                        //.makeText(applicationContext,"성공allocate" , Toast.LENGTH_SHORT).show()
                     AlertDialog.Builder(this@PersonnelActivity)
                             .setTitle("할당")
                             .setMessage("해당 요원으로 할당되었습니다!")
@@ -123,11 +123,11 @@ class PersonnelActivity : AppCompatActivity() {
                             .show()
                 }
                 else{
-                    Toast.makeText(applicationContext,"실패" , Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(applicationContext,"실패" , Toast.LENGTH_SHORT).show()
                 }
             }
             override fun onFailure(call: Call<JsonData>, t: Throwable) {
-                Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
+                //Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
                 Log.e("failure errorrr", ""+t)
             }
         })

@@ -113,11 +113,11 @@ class ChatBotFragment : Fragment(), OnQuestionClickListener {
 
                 }
                 else{
-                    Toast.makeText(activity,"실패", Toast.LENGTH_LONG).show()
+                    //Toast.makeText(activity,"실패", Toast.LENGTH_LONG).show()
                 }
             }
             override fun onFailure(call: retrofit2.Call<ChatbotReturn>, t: Throwable) {
-                Toast.makeText(activity,"실패실패", Toast.LENGTH_LONG).show()
+                //Toast.makeText(activity,"실패실패", Toast.LENGTH_LONG).show()
                 Log.e("failure error", ""+t)
             }
         })

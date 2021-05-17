@@ -108,12 +108,12 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
                         .setItems(oItems, DialogInterface.OnClickListener { dialog, which ->
                             when(which){
                                 0 -> {
-                                    Toast.makeText(applicationContext, "카메라 촬영", Toast.LENGTH_LONG).show()
+                                    //Toast.makeText(applicationContext, "카메라 촬영", Toast.LENGTH_LONG).show()
                                     settingPermission()
                                     startCapture()
                                 }
                                 1 -> {
-                                    Toast.makeText(applicationContext,"갤러리 가져오기", Toast.LENGTH_LONG).show()
+                                    //Toast.makeText(applicationContext,"갤러리 가져오기", Toast.LENGTH_LONG).show()
                                     settingPermission()
                                     openGallery()
                                 }
@@ -149,7 +149,7 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
                 if(strempty == "완료"){
                     submitPost()
                 }else{
-                    Toast.makeText(applicationContext,strempty,Toast.LENGTH_LONG).show()
+                    //Toast.makeText(applicationContext,strempty,Toast.LENGTH_LONG).show()
                 }
 
             }
@@ -160,13 +160,11 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
         var permis = object  : PermissionListener {
             //            어떠한 형식을 상속받는 익명 클래스의 객체를 생성하기 위해 다음과 같이 작성
             override fun onPermissionGranted() {
-                Toast.makeText(applicationContext, "권한 허가", Toast.LENGTH_SHORT)
-                        .show()
+                Toast.makeText(applicationContext, "권한 허가", Toast.LENGTH_SHORT) .show()
             }
 
             override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
-                Toast.makeText(applicationContext, "권한 거부", Toast.LENGTH_SHORT)
-                        .show()
+                Toast.makeText(applicationContext, "권한 거부", Toast.LENGTH_SHORT) .show()
                 ActivityCompat.finishAffinity(this@SubmitActivity) // 권한 거부시 앱 종료
             }
         }
@@ -239,7 +237,7 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
                 textAttachment.text= File(SubmitObject.path).name
 
             } else {
-                Toast.makeText(applicationContext, "오류", Toast.LENGTH_LONG).show()
+                //Toast.makeText(applicationContext, "오류", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -265,7 +263,7 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
             UserApi.service.dataNPost("Bearer "+ UserApi.ttt, stringJson).enqueue(object : retrofit2.Callback<JsonData> {
                 override fun onResponse(call: retrofit2.Call<JsonData>, response: Response<JsonData>) {
                     if(response.isSuccessful){
-                        Toast.makeText(applicationContext,"성공", Toast.LENGTH_LONG).show()
+                        //Toast.makeText(applicationContext,"성공", Toast.LENGTH_LONG).show()
                         androidx.appcompat.app.AlertDialog.Builder(this@SubmitActivity)
                             .setTitle("요청 완료")
                             .setMessage("관리자의 승인을 기다립니다!")
@@ -273,11 +271,11 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
                             .show()
                     }
                     else{
-                        Toast.makeText(applicationContext,"실패" +response.code(), Toast.LENGTH_LONG).show()
+                       // Toast.makeText(applicationContext,"실패" +response.code(), Toast.LENGTH_LONG).show()
                     }
                 }
                 override fun onFailure(call: retrofit2.Call<JsonData>, t: Throwable) {
-                    Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
+                    //Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
                     Log.e("failure error", ""+t)
                 }
             })
@@ -290,7 +288,7 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
             UserApi.service.dataPost("Bearer "+ UserApi.ttt,fileBody, stringJson).enqueue(object : retrofit2.Callback<JsonData> {
                 override fun onResponse(call: retrofit2.Call<JsonData>, response: Response<JsonData>) {
                     if(response.isSuccessful){
-                        Toast.makeText(applicationContext,"성공", Toast.LENGTH_LONG).show()
+                       // Toast.makeText(applicationContext,"성공", Toast.LENGTH_LONG).show()
                         androidx.appcompat.app.AlertDialog.Builder(this@SubmitActivity)
                             .setTitle("요청 완료")
                             .setMessage("관리자의 승인을 기다립니다!")
@@ -298,11 +296,11 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
                             .show()
                     }
                     else{
-                        Toast.makeText(applicationContext,"실패", Toast.LENGTH_LONG).show()
+                        //Toast.makeText(applicationContext,"실패", Toast.LENGTH_LONG).show()
                     }
                 }
                 override fun onFailure(call: retrofit2.Call<JsonData>, t: Throwable) {
-                    Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
+                    //Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
                     Log.e("failure error", ""+t)
                 }
             })

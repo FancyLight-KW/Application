@@ -142,6 +142,13 @@ interface UserService {
             @Field("REQ_SEQ") REQ_SEQ: Int,
     ): retrofit2.Call<JsonData>
 
+    //사원이 요청 삭제
+    @DELETE("requests/{requestId}")
+    fun requestDelete(
+            @Header ("Authorization") Authorization :String,
+            @Path("requestId") requestId: Int
+    ): retrofit2.Call<ResultMessage>
+
 
 
 

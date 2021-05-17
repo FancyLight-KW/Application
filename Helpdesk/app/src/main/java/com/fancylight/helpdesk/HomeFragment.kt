@@ -83,11 +83,11 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
                 }
                 else{
-                    Toast.makeText(activity,"실패",Toast.LENGTH_LONG).show()
+                   // Toast.makeText(activity,"실패",Toast.LENGTH_LONG).show()
                 }
             }
             override fun onFailure(call: Call<CSR>, t: Throwable) {
-                Toast.makeText(activity,"실패실패",Toast.LENGTH_LONG).show()
+                //Toast.makeText(activity,"실패실패",Toast.LENGTH_LONG).show()
                 Log.e("failure error", ""+t)
             }
         })

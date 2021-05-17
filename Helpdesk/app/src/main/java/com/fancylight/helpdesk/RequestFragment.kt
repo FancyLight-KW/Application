@@ -131,7 +131,7 @@ class RequestFragment : Fragment(), View.OnClickListener {
                 }
             }
             override fun onFailure(call: retrofit2.Call<Array<getRequest>>, t: Throwable) {
-                Toast.makeText(activity,"실패실패", Toast.LENGTH_LONG).show()
+                //Toast.makeText(activity,"실패실패", Toast.LENGTH_LONG).show()
                 Log.e("failure error", ""+t)
             }
         })

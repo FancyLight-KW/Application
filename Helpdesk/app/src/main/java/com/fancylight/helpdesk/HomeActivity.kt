@@ -193,17 +193,17 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener,
                             MemberInfo.infoSet(UserApi.extractJwt(UserApi.ttt))
                             authState = MemberInfo.User_position
                             showMyListFragment()
-                            Toast.makeText(applicationContext, "성성공공", Toast.LENGTH_LONG).show()
+                            //Toast.makeText(applicationContext, "성성공공", Toast.LENGTH_LONG).show()
                         } else {
-                            Toast.makeText(applicationContext, "등록된 정보와 일치하지 않습니다.", Toast.LENGTH_LONG).show()
+                            //Toast.makeText(applicationContext, "등록된 정보와 일치하지 않습니다.", Toast.LENGTH_LONG).show()
                         }
                     } else {
-                        Toast.makeText(applicationContext, "실패longin", Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(applicationContext, "실패longin", Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: retrofit2.Call<Login>, t: Throwable) {
-                    Toast.makeText(applicationContext, "실패실패login", Toast.LENGTH_LONG).show()
+                    //Toast.makeText(applicationContext, "실패실패login", Toast.LENGTH_LONG).show()
                     Log.e("failure error", "" + t)
                 }
             })

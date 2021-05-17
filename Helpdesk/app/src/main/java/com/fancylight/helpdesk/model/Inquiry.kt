@@ -5,9 +5,10 @@ import java.time.LocalDate
 import java.util.Arrays
 
 const val SERVICE_STAT_A = "접수완료"
-const val SERVICE_STAT_B = "요청처리"
+const val SERVICE_STAT_B = "요청처리중"
 const val SERVICE_STAT_C = "처리완료"
 const val SERVICE_STAT_D = "접수대기"
+const val SERVICE_STAT_E = "요청반려"
 
 const val INQUIRY_TYPE_SYSTEM = "업무시스템"      // 기능 변경수정
 const val INQUIRY_TYPE_IT = "IT인프라"    // 단순문의

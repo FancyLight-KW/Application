@@ -270,7 +270,7 @@ class ReviseActivity : AppCompatActivity() , View.OnClickListener{
 
                 textAttachment.text= File(ReviseObject.REQ_IMG_PATH).name
             } else {
-                Toast.makeText(applicationContext, "오류", Toast.LENGTH_LONG).show()
+                //Toast.makeText(applicationContext, "오류", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -302,7 +302,7 @@ class ReviseActivity : AppCompatActivity() , View.OnClickListener{
             UserApi.service.ReviseNPut("Bearer " + UserApi.ttt,inquiry.REQ_SEQ, stringJson).enqueue(object : retrofit2.Callback<sResultMessage> {
                 override fun onResponse(call: retrofit2.Call<sResultMessage>, response: Response<sResultMessage>) {
                     if (response.isSuccessful) {
-                        Toast.makeText(applicationContext, "성공", Toast.LENGTH_LONG).show()
+                        //Toast.makeText(applicationContext, "성공", Toast.LENGTH_LONG).show()
                         AlertDialog.Builder(this@ReviseActivity)
                             .setTitle("수정")
                             .setMessage("변경된 내용으로 접수되었습니다!")
@@ -310,11 +310,11 @@ class ReviseActivity : AppCompatActivity() , View.OnClickListener{
                             .show()
 
                     } else {
-                        Toast.makeText(applicationContext, "실패" +response.code() , Toast.LENGTH_LONG).show()
+                        //Toast.makeText(applicationContext, "실패" +response.code() , Toast.LENGTH_LONG).show()
                     }
                 }
                 override fun onFailure(call: retrofit2.Call<sResultMessage>, t: Throwable) {
-                    Toast.makeText(applicationContext, "실패실패", Toast.LENGTH_LONG).show()
+                    //Toast.makeText(applicationContext, "실패실패", Toast.LENGTH_LONG).show()
                     Log.e("failure error", "" + t)
                 }
             })
@@ -332,18 +332,18 @@ class ReviseActivity : AppCompatActivity() , View.OnClickListener{
                 UserApi.service.ReviseNPut("Bearer " + UserApi.ttt,inquiry.REQ_SEQ, stringJson).enqueue(object : retrofit2.Callback<sResultMessage> {
                     override fun onResponse(call: retrofit2.Call<sResultMessage>, response: Response<sResultMessage>) {
                         if (response.isSuccessful) {
-                            Toast.makeText(applicationContext, "성공", Toast.LENGTH_LONG).show()
+                            //Toast.makeText(applicationContext, "성공", Toast.LENGTH_LONG).show()
                             AlertDialog.Builder(this@ReviseActivity)
                                 .setTitle("수정")
                                 .setMessage("변경된 내용으로 접수되었습니다!")
                                 .setPositiveButton("확인") { _: DialogInterface, _: Int -> startHomeActivity() }
                                 .show()
                         } else {
-                            Toast.makeText(applicationContext, "실패" +response.code() , Toast.LENGTH_LONG).show()
+                            //Toast.makeText(applicationContext, "실패" +response.code() , Toast.LENGTH_LONG).show()
                         }
                     }
                     override fun onFailure(call: retrofit2.Call<sResultMessage>, t: Throwable) {
-                        Toast.makeText(applicationContext, "실패실패", Toast.LENGTH_LONG).show()
+                        //Toast.makeText(applicationContext, "실패실패", Toast.LENGTH_LONG).show()
                         Log.e("failure error", "" + t)
                     }
                 })
@@ -358,15 +358,15 @@ class ReviseActivity : AppCompatActivity() , View.OnClickListener{
                 UserApi.service.RevisePut("Bearer " + UserApi.ttt,ReviseObject.REQ_SEQ, fileBody, stringJson).enqueue(object : retrofit2.Callback<sResultMessage> {
                     override fun onResponse(call: retrofit2.Call<sResultMessage>, response: Response<sResultMessage>) {
                         if (response.isSuccessful) {
-                            Toast.makeText(applicationContext, "성공", Toast.LENGTH_LONG).show()
+                            //Toast.makeText(applicationContext, "성공", Toast.LENGTH_LONG).show()
                             finish()
                         } else {
-                            Toast.makeText(applicationContext, "실패" +response.code() , Toast.LENGTH_LONG).show()
+                            //Toast.makeText(applicationContext, "실패" +response.code() , Toast.LENGTH_LONG).show()
                         }
                     }
 
                     override fun onFailure(call: retrofit2.Call<sResultMessage>, t: Throwable) {
-                        Toast.makeText(applicationContext, "실패실패", Toast.LENGTH_LONG).show()
+                        //Toast.makeText(applicationContext, "실패실패", Toast.LENGTH_LONG).show()
                         Log.e("failure error", "" + t)
                     }
                 })
