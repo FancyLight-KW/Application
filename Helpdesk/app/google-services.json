@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "981989832825",
+    "project_id": "fancylight-a20ef",
+    "storage_bucket": "fancylight-a20ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:981989832825:android:76280aa0837b40e6a6bca8",
+        "android_client_info": {
+          "package_name": "com.fancylight.helpdesk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "981989832825-p7ut4iqpnnrcvd1419a1ul6letdpsgck.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7MsOlMuen-492QaqN-_YoV_whLzvl4_Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "981989832825-p7ut4iqpnnrcvd1419a1ul6letdpsgck.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -47,7 +47,7 @@ class RequestFragment : Fragment(), View.OnClickListener {
             "-", SERVICE_STAT_A, SERVICE_STAT_B, SERVICE_STAT_C, SERVICE_STAT_D
     )
     private var inquiryTypeItems = arrayOf(
-            0, INQUIRY_TYPE_CHANGE, INQUIRY_TYPE_NORMAL, INQUIRY_TYPE_DEBUG, INQUIRY_TYPE_ETC
+            "-", INQUIRY_TYPE_SYSTEM, INQUIRY_TYPE_IT, INQUIRY_TYPE_OA
     )
 
     override fun onCreateView(
@@ -96,10 +96,9 @@ class RequestFragment : Fragment(), View.OnClickListener {
                 android.R.layout.simple_spinner_dropdown_item,
                 // 문의 유형 상수값을 그에 맞는 문자열로 치환한 배열을 map() 메소드로 얻기
                 inquiryTypeItems.map { type -> when (type) {
-                    INQUIRY_TYPE_CHANGE -> "기능 변경/수정"
-                    INQUIRY_TYPE_NORMAL -> "단순문의"
-                    INQUIRY_TYPE_DEBUG -> "장애처리"
-                    INQUIRY_TYPE_ETC -> "기타"
+                    INQUIRY_TYPE_SYSTEM -> "업무시스템"
+                    INQUIRY_TYPE_IT -> "IT인프라"
+                    INQUIRY_TYPE_OA -> "OA장비"
                     else -> "-"
                 }
                 }
@@ -111,13 +110,15 @@ class RequestFragment : Fragment(), View.OnClickListener {
                 if(response.isSuccessful){
                     inquirySource = mutableListOf<Inquiry>()
                     var arr = response.body()!!
-                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
-                    for(i in 0..arr.size-1){
-                        inquirySource.add(Inquiry(i, arr[i].CSR_STATUS, 4, arr[i].TITLE,
-                                LocalDate.parse(arr[i].createdAt.substring(0,10), DateTimeFormatter.ISO_DATE),arr[i].CONTENT))
+                    for (i in 0..arr.size - 1) {
+                            inquirySource.add(Inquiry(arr[i].REQ_SEQ,arr[i].TITLE,arr[i].CONTENT,
+                                    "",arr[i].TARGET_CODE,"",
+                                    'a',
+                                    arr[i].CSR_STATUS,"", "",
+                                    "","","","","",arr[i].createdAt))
+
                     }
-
                     // 결과 리스트 구성. 처음엔 검색 필터 미적용 (= 모든 글 추가)
                     resultList = filterInquiries(null, null, null, null, null)
 
@@ -130,7 +131,7 @@ class RequestFragment : Fragment(), View.OnClickListener {
                 }
             }
             override fun onFailure(call: retrofit2.Call<Array<getRequest>>, t: Throwable) {
-                //Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
+                //Toast.makeText(activity,"실패실패", Toast.LENGTH_LONG).show()
                 Log.e("failure error", ""+t)
             }
         })
@@ -223,24 +224,24 @@ class RequestFragment : Fragment(), View.OnClickListener {
     }
 
     // 필터로 문의 검색한 결과 리턴
-
-    private fun filterInquiries(fruitQuality: String?, inquiryType: Int?, title: String?,
+    private fun filterInquiries(fruitQuality: String?, inquiryType: String?, title: String?,
                                 startDate: LocalDate?, endDate: LocalDate?)
             : MutableList<Inquiry> {
 
         // 5개의 인수는 필터 역할을 함. null 이면 필터로 동작하지 않음
         // filter() 메소드는 필터에 통과된 문의로만 새로운 리스트를 구성해 결과값으로 리턴
         return inquirySource.filter {
+            var date =LocalDate.parse(it.createdAt.substring(0,10), DateTimeFormatter.ISO_DATE)
             when {
-                (fruitQuality != null && it.serviceStat != fruitQuality) -> false
-                (inquiryType != null && it.type != inquiryType) -> false
-                (!title.isNullOrBlank() && !it.title.contains(title, true)) -> false
-                (startDate != null && it.date.isBefore(startDate)) -> false
-                (endDate != null && it.date.isAfter(endDate)) -> false
+                (fruitQuality != null && it.CSR_STATUS != fruitQuality) -> false
+                (inquiryType != null && it.TARGET_CODE != inquiryType) -> false
+                (!title.isNullOrBlank() && !it.TITLE.contains(title, true)) -> false
+                (startDate != null && date.isBefore(startDate)) -> false
+                (endDate != null && date.isAfter(endDate)) -> false
                 else -> true    // 5개의 필터 모두 통과
             }
         }.sortedByDescending {
-            it.id   // 필터링된 결과를 번호(No) 내림차순으로 정렬
+            it.REQ_SEQ  // 필터링된 결과를 번호(No) 내림차순으로 정렬
         }.toMutableList()
     }
 

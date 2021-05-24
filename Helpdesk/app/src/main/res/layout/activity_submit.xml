@@ -221,7 +221,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/textRequestComplete"
+                android:id="@+id/textDesiredDate"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -231,7 +231,7 @@
                 android:id="@+id/btnDesiredDate"
                 android:layout_width="10pt"
                 android:layout_height="10pt"
-                android:src="@drawable/ic_expand"/>
+                android:src="@drawable/ic_expand_blue"/>
 
         </LinearLayout>
 
@@ -262,6 +262,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text=""
+                android:maxLines="1"
                 android:background="@drawable/edittext_design"/>
 
             <ImageButton
@@ -269,7 +270,7 @@
                 android:id="@+id/btnAttachment"
                 android:layout_width="10pt"
                 android:layout_height="10pt"
-                android:src="@drawable/ic_expand"/>
+                android:src="@drawable/ic_expand_blue"/>
 
         </LinearLayout>
 

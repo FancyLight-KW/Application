@@ -2,6 +2,7 @@ package com.fancylight.helpdesk
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fancylight.helpdesk.adapter.MentionAdapter
 import com.fancylight.helpdesk.adapter.MentionAdapter.OnQuestionClickListener
 import com.fancylight.helpdesk.model.Mention
+import com.fancylight.helpdesk.network.ChatbotReturn
+import com.fancylight.helpdesk.network.JsonData
+import com.fancylight.helpdesk.network.UserApi
+import retrofit2.Response
 import java.util.*
 
 class ChatBotFragment : Fragment(), OnQuestionClickListener {
@@ -94,12 +99,29 @@ class ChatBotFragment : Fragment(), OnQuestionClickListener {
         }
 
         // TODO: strQuestion 을 입력값으로 strAnswer 를 유도해서 채팅 진행하면 될듯?
+        UserApi.service.ChatbotPost("Bearer "+ UserApi.ttt,strQuestion).enqueue(object : retrofit2.Callback<ChatbotReturn> {
+            override fun onResponse(call: retrofit2.Call<ChatbotReturn>, response: Response<ChatbotReturn>) {
+                if(response.isSuccessful){
+                    var answer = response.body()!!.fulfillmentText
 
-        val strAnswer = "채팅 기능이 구현되지 않았습니다"
-        mMentionRecycler?.postDelayed({
-            mMentionList?.add(Mention(mCounterName, strAnswer))
-            mMentionAdapter?.notifyItemInserted(mMentionList!!.size - 1)
-            mMentionRecycler?.scrollToPosition(mMentionList!!.size)
-        }, 1000)
+                    mMentionRecycler?.postDelayed({
+                        mMentionList?.add(Mention(mCounterName, answer+" "))
+                        mMentionAdapter?.notifyItemInserted(mMentionList!!.size - 1)
+                        mMentionRecycler?.scrollToPosition(mMentionList!!.size)
+                    }, 1000)
+                    //Toast.makeText(activity,"성공2" +answer, Toast.LENGTH_LONG).show()
+
+                }
+                else{
+                    //Toast.makeText(activity,"실패", Toast.LENGTH_LONG).show()
+                }
+            }
+            override fun onFailure(call: retrofit2.Call<ChatbotReturn>, t: Throwable) {
+                //Toast.makeText(activity,"실패실패", Toast.LENGTH_LONG).show()
+                Log.e("failure error", ""+t)
+            }
+        })
+
+
     }
 }

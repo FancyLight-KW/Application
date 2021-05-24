@@ -166,7 +166,7 @@
                 android:layout_height="10pt"
                 android:layout_gravity="center"
                 android:contentDescription="조회할 기간의 시작일자 선택"
-                android:src="@drawable/ic_expand" />
+                android:src="@drawable/ic_expand_blue" />
 
             <!-- 물결 표시 -->
             <TextView
@@ -192,7 +192,7 @@
                 android:layout_height="10pt"
                 android:layout_gravity="center"
                 android:contentDescription="조회할 기간의 종료일자 선택"
-                android:src="@drawable/ic_expand" />
+                android:src="@drawable/ic_expand_blue" />
 
         </LinearLayout>
 
@@ -274,7 +274,7 @@
                 android:text="No"
                 android:textStyle="bold" />
 
-            <!-- 과일 상태 -->
+            <!-- CSR 상태 -->
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -282,7 +282,7 @@
                 android:background="@drawable/table_header_design"
                 android:gravity="center"
                 android:padding="8dp"
-                android:text="서비스상태"
+                android:text="CSR상태"
                 android:textStyle="bold" />
 
             <!-- 문의유형 -->
@@ -336,8 +336,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
-                    android:background="@drawable/table_column_design"
-                    />
+                    android:background="@drawable/table_column_design" />
 
                 <TextView
                     android:layout_width="0dp"

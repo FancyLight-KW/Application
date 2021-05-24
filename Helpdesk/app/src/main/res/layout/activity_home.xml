@@ -11,7 +11,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/backgroundBlue"
+        android:background="@color/white"
         tools:context=".HomeActivity">
 
         <!-- 툴 바 -->
@@ -38,12 +38,12 @@
             <!-- Help 버튼 -->
             <ImageButton
                 android:id="@+id/btn_help"
-                android:layout_width="68dp"
-                android:layout_height="68dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_gravity="bottom|end"
-                android:layout_marginEnd="50dp"
-                android:layout_marginBottom="50dp"
-                android:background="@drawable/ic_baseline_support_agent_24"
+                android:layout_marginEnd="40dp"
+                android:layout_marginBottom="40dp"
+                android:background="@drawable/chatbot"
                 android:contentDescription="@string/help"
                 android:elevation="10dp" />
 

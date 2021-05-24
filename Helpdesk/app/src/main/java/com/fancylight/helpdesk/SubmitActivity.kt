@@ -108,12 +108,12 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
                         .setItems(oItems, DialogInterface.OnClickListener { dialog, which ->
                             when(which){
                                 0 -> {
-                                    Toast.makeText(applicationContext, "카메라 촬영", Toast.LENGTH_LONG).show()
+                                    //Toast.makeText(applicationContext, "카메라 촬영", Toast.LENGTH_LONG).show()
                                     settingPermission()
                                     startCapture()
                                 }
                                 1 -> {
-                                    Toast.makeText(applicationContext,"갤러리 가져오기", Toast.LENGTH_LONG).show()
+                                    //Toast.makeText(applicationContext,"갤러리 가져오기", Toast.LENGTH_LONG).show()
                                     settingPermission()
                                     openGallery()
                                 }
@@ -130,9 +130,9 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
                 val date: Int = today.get(Calendar.DATE)
                 val dlg = DatePickerDialog(this, object : DatePickerDialog.OnDateSetListener {
                     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-                        //요청완료일 기능 여기다 구현하면 됨
+                        //희망완료일 기능 여기다 구현하면 됨
                         textDesiredDate.setText("${year}/ ${month + 1}/ ${dayOfMonth}")
-                        SubmitObject.dateSet(year,month+1,dayOfMonth)
+                        SubmitObject.finishDate =SubmitObject.dateSet(year,month+1,dayOfMonth)
                     }
                 }, year, month, date)
                 dlg.show()
@@ -144,7 +144,14 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
 
                 SubmitObject.title = title.text.toString()
                 SubmitObject.content = content.text.toString()
-                submitPost()
+                val strempty = SubmitObject.isEmpty()
+
+                if(strempty == "완료"){
+                    submitPost()
+                }else{
+                    //Toast.makeText(applicationContext,strempty,Toast.LENGTH_LONG).show()
+                }
+
             }
         }
     }
@@ -153,13 +160,11 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
         var permis = object  : PermissionListener {
             //            어떠한 형식을 상속받는 익명 클래스의 객체를 생성하기 위해 다음과 같이 작성
             override fun onPermissionGranted() {
-                Toast.makeText(applicationContext, "권한 허가", Toast.LENGTH_SHORT)
-                        .show()
+                Toast.makeText(applicationContext, "권한 허가", Toast.LENGTH_SHORT) .show()
             }
 
             override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
-                Toast.makeText(applicationContext, "권한 거부", Toast.LENGTH_SHORT)
-                        .show()
+                Toast.makeText(applicationContext, "권한 거부", Toast.LENGTH_SHORT) .show()
                 ActivityCompat.finishAffinity(this@SubmitActivity) // 권한 거부시 앱 종료
             }
         }
@@ -181,7 +186,7 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
         val timeStamp : String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val storageDir : File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(
-                "JPEG_${timeStamp}_",
+                "Camera_",
                 ".jpg",
                 storageDir
         ).apply{
@@ -222,43 +227,17 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_IMAGE_CAPTURE) {
                 SubmitObject.path = currentPhotoPath
+                textAttachment.text= File(SubmitObject.path).name
 
-                // val file = File(currentPhotoPath)
-
-                /*
-                if (Build.VERSION.SDK_INT < 28) {
-                    val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, Uri.fromFile(file))
-                    //img_picture.setImageBitmap(bitmap)
-                } else {
-                    val decode = ImageDecoder.createSource(this.contentResolver, Uri.fromFile(file))
-                    val bitmap = ImageDecoder.decodeBitmap(decode)
-                    //img_picture.setImageBitmap(bitmap)
-                }
-
-                 */
             } else if (requestCode == OPEN_GALLERY) {
                 val dataUri = data?.data
                 dataUri?.let {
                     SubmitObject.path = absolutelyPath(dataUri)
                 }
-
-
-                /*
-                    dataUri?.let {
-                        if (Build.VERSION.SDK_INT < 28) {
-                            var bitmap: Bitmap = MediaStore.Images.Media.getBitmap(contentResolver, dataUri)
-
-                        } else {
-                            val decode = ImageDecoder.createSource(this.contentResolver, dataUri)
-                            val bitmap = ImageDecoder.decodeBitmap(decode)
-                        }
-                    }
-                }
-
-                 */
+                textAttachment.text= File(SubmitObject.path).name
 
             } else {
-                Toast.makeText(applicationContext, "오류", Toast.LENGTH_LONG).show()
+                //Toast.makeText(applicationContext, "오류", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -277,35 +256,66 @@ class SubmitActivity : AppCompatActivity(), View.OnClickListener {
 
 
     fun submitPost() {
-        val file = File(SubmitObject.path)
-
-        var fileName = "hoho.png"
-
-        var requestImage : RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"),file)
-        var fileBody : MultipartBody.Part = MultipartBody.Part.createFormData("imagefile",fileName,requestImage)
         var stringJson = SubmitObject.convertJson()
+        Log.d("SubmitJson",stringJson)
 
-        UserApi.service.dataPost("Bearer "+ UserApi.ttt,fileBody, stringJson).enqueue(object : retrofit2.Callback<JsonData> {
-            override fun onResponse(call: retrofit2.Call<JsonData>, response: Response<JsonData>) {
-                if(response.isSuccessful){
-                    Toast.makeText(applicationContext,"성공", Toast.LENGTH_LONG).show()
+        if(SubmitObject.path==""){
+            UserApi.service.dataNPost("Bearer "+ UserApi.ttt, stringJson).enqueue(object : retrofit2.Callback<JsonData> {
+                override fun onResponse(call: retrofit2.Call<JsonData>, response: Response<JsonData>) {
+                    if(response.isSuccessful){
+                        //Toast.makeText(applicationContext,"성공", Toast.LENGTH_LONG).show()
+                        androidx.appcompat.app.AlertDialog.Builder(this@SubmitActivity)
+                            .setTitle("요청 완료")
+                            .setMessage("관리자의 승인을 기다립니다!")
+                            .setPositiveButton("확인") { _: DialogInterface, _: Int -> startHomeActivity() }
+                            .show()
+                    }
+                    else{
+                       // Toast.makeText(applicationContext,"실패" +response.code(), Toast.LENGTH_LONG).show()
+                    }
+                }
+                override fun onFailure(call: retrofit2.Call<JsonData>, t: Throwable) {
+                    //Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
+                    Log.e("failure error", ""+t)
+                }
+            })
+        } else{
+            val file = File(SubmitObject.path)
+            var fileName = file.name
+            var requestImage : RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"),file)
+            var fileBody : MultipartBody.Part = MultipartBody.Part.createFormData("imagefile",fileName,requestImage)
 
+            UserApi.service.dataPost("Bearer "+ UserApi.ttt,fileBody, stringJson).enqueue(object : retrofit2.Callback<JsonData> {
+                override fun onResponse(call: retrofit2.Call<JsonData>, response: Response<JsonData>) {
+                    if(response.isSuccessful){
+                       // Toast.makeText(applicationContext,"성공", Toast.LENGTH_LONG).show()
+                        androidx.appcompat.app.AlertDialog.Builder(this@SubmitActivity)
+                            .setTitle("요청 완료")
+                            .setMessage("관리자의 승인을 기다립니다!")
+                            .setPositiveButton("확인") { _: DialogInterface, _: Int -> startHomeActivity() }
+                            .show()
+                    }
+                    else{
+                        //Toast.makeText(applicationContext,"실패", Toast.LENGTH_LONG).show()
+                    }
                 }
-                else{
-                    Toast.makeText(applicationContext,"실패", Toast.LENGTH_LONG).show()
+                override fun onFailure(call: retrofit2.Call<JsonData>, t: Throwable) {
+                    //Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
+                    Log.e("failure error", ""+t)
                 }
-            }
-            override fun onFailure(call: retrofit2.Call<JsonData>, t: Throwable) {
-                Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
-                Log.e("failure error", ""+t)
-            }
-        })
+            })
+        }
+
     }
 
+    private fun startHomeActivity() {
+
+        val i = Intent(this, HomeActivity::class.java)
+        i.flags =  Intent.FLAG_ACTIVITY_CLEAR_TOP
+        startActivity(i)
 
 
-
-
+    }
 
 
 

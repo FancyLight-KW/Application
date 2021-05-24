@@ -4,23 +4,24 @@ import java.io.Serializable
 import java.time.LocalDate
 import java.util.Arrays
 
-const val SERVICE_STAT_A = "완료"
-const val SERVICE_STAT_B = "진행"
-const val SERVICE_STAT_C = "접수"
+const val SERVICE_STAT_A = "접수완료"
+const val SERVICE_STAT_B = "요청처리중"
+const val SERVICE_STAT_C = "처리완료"
 const val SERVICE_STAT_D = "접수대기"
+const val SERVICE_STAT_E = "요청반려"
 
-const val INQUIRY_TYPE_CHANGE = 1      // 기능 변경수정
-const val INQUIRY_TYPE_NORMAL = 2    // 단순문의
-const val INQUIRY_TYPE_DEBUG = 3       // 장애처리
-const val INQUIRY_TYPE_ETC = 4         // 기타
+const val INQUIRY_TYPE_SYSTEM = "업무시스템"      // 기능 변경수정
+const val INQUIRY_TYPE_IT = "IT인프라"    // 단순문의
+const val INQUIRY_TYPE_OA = "OA장비"      // 장애처리
+
 
 data class Inquiry (
-        val id: Int,
-        val serviceStat: String,      // SERVICE_STAT_* 상수 입력
-        val type: Int,              // INQUIRY_TYPE_* 상수 입력
-        val title: String,
-        val date: LocalDate,
-        val content : String
+        val REQ_SEQ : Int, val TITLE : String, val CONTENT : String,
+        val CORP_CODE : String, val TARGET_CODE : String, val SYSTEM_GROUP_CODE : String,
+        val TM_APPROVAL_REQ_YN : Char, val CSR_STATUS : String, val REQ_FINISH_DATE : String,
+        val REG_USER_ID : String, val MOD_USER_ID : String, val REQ_IMG_PATH : String,
+        val EXPECTED_FINISH_DATE: String, val REAL_FINISH_DATE: String,
+        val updateAt : String, val createdAt : String
 ) : Serializable
 
 fun parseDate(date : String) : MutableList<String>{

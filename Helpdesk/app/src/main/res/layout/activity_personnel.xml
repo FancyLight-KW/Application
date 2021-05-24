@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".PersonnelActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/backgroundBlue"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="요원 현황"
+            android:textColor="#333"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="40dp"
+        android:background="#CCC" />
+
+    <!-- 테이블 섹션 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edge_design"
+        android:orientation="vertical"
+        android:padding="1dp">
+
+        <!-- 테이블 헤더 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- 요원 ID -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/table_header_design"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="요원 ID"
+                android:textStyle="bold" />
+
+            <!-- 이름 -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/table_header_design"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="이름"
+                android:textStyle="bold" />
+
+            <!-- 진행중 -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/table_header_design"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="진행중"
+                android:textStyle="bold" />
+
+            <!-- 할당량 -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/table_header_design"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="할당량" />
+
+        </LinearLayout>
+        <!-- 끝 : 테이블 헤더 -->
+
+        <!-- 테이블 바디 -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- 컬럼 세로선 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/table_column_design" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/table_column_design" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/table_column_design" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/table_column_design" />
+
+            </LinearLayout>
+            <!-- 끝 : 컬럼 세로선 -->
+
+            <!-- RecyclerView : 테이블 데이터 -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_personnel"
+                android:layout_width="match_parent"
+                android:layout_height="280dp" />
+
+        </FrameLayout>
+        <!-- 끝 : 테이블 바디 -->
+
+    </LinearLayout>
+    <!-- 끝 : 테이블 섹션 -->
+
+</LinearLayout>
