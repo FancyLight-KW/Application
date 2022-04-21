@@ -1,4 +1,4 @@
-package com.fancylight.helpdesk
+package com.fancylight.helpdesk.ui
 
 import android.app.DatePickerDialog
 import android.content.DialogInterface
@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.fancylight.helpdesk.R
 import com.fancylight.helpdesk.`object`.MemberInfo
 import com.fancylight.helpdesk.`object`.SubmitObject
 import com.fancylight.helpdesk.model.Inquiry
@@ -125,7 +126,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
 
         when (v?.id) {
-            R.id.btn_viewImage-> {
+            R.id.btn_viewImage -> {
                 // TODO : 더보기 버튼 -> 이미지 띄우기
                 val intent = Intent(this, Image_Activity::class.java)
                 intent.putExtra("ImagePath",inquiry.REQ_IMG_PATH)

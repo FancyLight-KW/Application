@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:alpha="0.9"
     app:cardBackgroundColor="@android:color/holo_orange_light"
-    tools:context=".ChatBotFragment">
+    tools:context=".ui.ChatBotFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

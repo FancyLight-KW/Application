@@ -1,9 +1,10 @@
 
 
-package com.fancylight.helpdesk
+package com.fancylight.helpdesk.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.fancylight.helpdesk.R
 
 class NewActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

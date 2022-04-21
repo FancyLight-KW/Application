@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:paddingTop="20dp"
     android:orientation="vertical"
-    tools:context=".DetailActivity">
+    tools:context=".ui.DetailActivity">
 
     <include
         layout="@layout/layout_activity_detail" />

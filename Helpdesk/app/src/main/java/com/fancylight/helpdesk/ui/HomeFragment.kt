@@ -1,4 +1,4 @@
-package com.fancylight.helpdesk
+package com.fancylight.helpdesk.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,13 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
 import com.fancylight.helpdesk.R
-import com.fancylight.helpdesk.SubmitActivity
 import com.fancylight.helpdesk.network.CSR
-import com.fancylight.helpdesk.network.Login
 import com.fancylight.helpdesk.network.UserApi
-import com.fancylight.helpdesk.network.UserService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

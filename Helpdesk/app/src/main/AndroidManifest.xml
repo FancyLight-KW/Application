@@ -25,10 +25,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Helpdesk"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ReviseActivity"></activity>
-        <activity android:name=".Image_Activity" />
-        <activity android:name=".PersonnelActivity" />
-        <activity android:name=".PasswordChangeActivity" />
+        <activity android:name=".ui.ReviseActivity"></activity>
+        <activity android:name=".ui.Image_Activity" />
+        <activity android:name=".ui.PersonnelActivity" />
+        <activity android:name=".ui.PasswordChangeActivity" />
 
         <meta-data
             android:name="firebase_messaging_auto_init_enabled"
@@ -37,11 +37,11 @@
             android:name="firebase_analytics_collection_enabled"
             android:value="false" />
 
-        <activity android:name=".DetailActivity" />
-        <activity android:name=".SubmitActivity" />
-        <activity android:name=".NewActivity" />
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.DetailActivity" />
+        <activity android:name=".ui.SubmitActivity" />
+        <activity android:name=".ui.NewActivity" />
+        <activity android:name=".ui.HomeActivity" />
+        <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,5 +1,5 @@
 
-package com.fancylight.helpdesk
+package com.fancylight.helpdesk.ui
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.text.Editable
 import android.util.Log
 import android.view.View
 import android.view.animation.Animation
@@ -15,6 +14,7 @@ import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.fancylight.helpdesk.R
 import com.fancylight.helpdesk.SharedPref.MyApplication
 import com.fancylight.helpdesk.`object`.MemberInfo
 import com.fancylight.helpdesk.databinding.ActivityMainBinding

@@ -1,4 +1,4 @@
-package com.fancylight.helpdesk
+package com.fancylight.helpdesk.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -13,11 +13,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.fancylight.helpdesk.R
 import com.fancylight.helpdesk.adapter.MentionAdapter
 import com.fancylight.helpdesk.adapter.MentionAdapter.OnQuestionClickListener
 import com.fancylight.helpdesk.model.Mention
 import com.fancylight.helpdesk.network.ChatbotReturn
-import com.fancylight.helpdesk.network.JsonData
 import com.fancylight.helpdesk.network.UserApi
 import retrofit2.Response
 import java.util.*

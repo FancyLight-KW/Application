@@ -1,4 +1,4 @@
-package com.fancylight.helpdesk
+package com.fancylight.helpdesk.ui
 
 import android.app.DatePickerDialog
 import android.content.Intent
@@ -11,6 +11,7 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.fancylight.helpdesk.R
 import com.fancylight.helpdesk.adapter.InquiryAdapter
 import com.fancylight.helpdesk.model.*
 import com.fancylight.helpdesk.network.UserApi
@@ -20,7 +21,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-class MyApprovalFragment : Fragment(), View.OnClickListener {
+class MyWorkFragment : Fragment(), View.OnClickListener {
 
     // 모든 문의 데이터
     private var inquirySource = mutableListOf<Inquiry>()
@@ -43,10 +44,10 @@ class MyApprovalFragment : Fragment(), View.OnClickListener {
 
     // 스피너 요소
     private var serviceStatItems = arrayOf(
-        "-", SERVICE_STAT_A, SERVICE_STAT_B, SERVICE_STAT_C, SERVICE_STAT_D, SERVICE_STAT_E
+        "-", SERVICE_STAT_A, SERVICE_STAT_B, SERVICE_STAT_C, SERVICE_STAT_D
     )
     private var inquiryTypeItems = arrayOf(
-         "-", INQUIRY_TYPE_SYSTEM, INQUIRY_TYPE_IT, INQUIRY_TYPE_OA
+            "-", INQUIRY_TYPE_SYSTEM, INQUIRY_TYPE_IT, INQUIRY_TYPE_OA
     )
 
     override fun onCreateView(
@@ -54,8 +55,9 @@ class MyApprovalFragment : Fragment(), View.OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
 
-        val view = inflater.inflate(R.layout.fragment_my_approval, container, false)
+        val view = inflater.inflate(R.layout.fragment_my_work, container, false)
         // 버튼에 리스너 설정
+
         val searchBtn = view.findViewById<Button>(R.id.btn_search)
         val seeMoreBtn = view.findViewById<Button>(R.id.btn_more_table)
         val serviceStatBtn = view.findViewById<ImageButton>(R.id.ibtn_service_stat)
@@ -102,11 +104,10 @@ class MyApprovalFragment : Fragment(), View.OnClickListener {
             }
         )
 
-
-        UserApi.service.adminListGet("Bearer "+ UserApi.ttt).enqueue(object :
+        UserApi.service.workListGet("Bearer "+ UserApi.ttt).enqueue(object :
             retrofit2.Callback<Array<getRequest>> {
             override fun onResponse(call: retrofit2.Call<Array<getRequest>>, response: Response<Array<getRequest>>) {
-                if(response.isSuccessful) {
+                if(response.isSuccessful){
                     inquirySource = mutableListOf<Inquiry>()
                     var arr = response.body()!!
 
@@ -153,11 +154,11 @@ class MyApprovalFragment : Fragment(), View.OnClickListener {
 
                 }
                 else{
-                    //Toast.makeText(activity,"실패"+ UserApi.ttt, Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(applicationContext,"실패"+ UserApi.ttt, Toast.LENGTH_SHORT).show()
                 }
             }
             override fun onFailure(call: retrofit2.Call<Array<getRequest>>, t: Throwable) {
-                //Toast.makeText(activity,"실패실패", Toast.LENGTH_LONG).show()
+                //Toast.makeText(applicationContext,"실패실패", Toast.LENGTH_LONG).show()
                 Log.e("failure error", ""+t)
             }
         })
@@ -206,14 +207,19 @@ class MyApprovalFragment : Fragment(), View.OnClickListener {
         }
     }
 
+    // DetailActivity 시작
+
     private fun startDetailActivity(position: Int) {
 
         val intent = Intent(context!!, DetailActivity::class.java)
         // 인텐트에 클릭된 문의와 순서값을(No) 전달한다
         intent.putExtra(EXTRA_INQUIRY, resultList!![position])
-        intent.putExtra(EXTRA_INQUIRY_NO, resultList!!.size - position)
+        //intent.putExtra(EXTRA_INQUIRY_NO, resultList!!.size - position)
+
         startActivity(intent)
     }
+
+
 
     // 리사이클러뷰에 보이는 아이템 수 증가
 

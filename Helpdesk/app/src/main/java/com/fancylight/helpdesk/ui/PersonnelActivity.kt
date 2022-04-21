@@ -1,4 +1,4 @@
-package com.fancylight.helpdesk
+package com.fancylight.helpdesk.ui
 
 import android.content.DialogInterface
 import android.content.Intent
@@ -9,24 +9,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fancylight.helpdesk.adapter.PersonnelAdapter
 import com.fancylight.helpdesk.model.Personnel
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
-import com.fancylight.helpdesk.adapter.InquiryAdapter
+import com.fancylight.helpdesk.R
 import com.fancylight.helpdesk.model.*
 import com.fancylight.helpdesk.network.AgentListForm
 import com.fancylight.helpdesk.network.JsonData
 import com.fancylight.helpdesk.network.UserApi
-import com.fancylight.helpdesk.network.getRequest
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.text.FieldPosition
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 

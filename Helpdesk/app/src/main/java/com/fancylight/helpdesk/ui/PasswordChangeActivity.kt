@@ -1,4 +1,4 @@
-package com.fancylight.helpdesk
+package com.fancylight.helpdesk.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

@@ -1,17 +1,15 @@
 
-package com.fancylight.helpdesk
+package com.fancylight.helpdesk.ui
 
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.telecom.Call
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ExpandableListView
 import android.widget.ImageButton
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -19,6 +17,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.fancylight.helpdesk.R
 import com.fancylight.helpdesk.SharedPref.MyApplication
 import com.google.android.material.navigation.NavigationView
 import com.fancylight.helpdesk.adapter.NavExpandableListAdapter
@@ -27,7 +26,6 @@ import com.fancylight.helpdesk.`object`.MemberInfo
 import com.fancylight.helpdesk.network.Login
 import com.fancylight.helpdesk.network.UserApi
 import retrofit2.Response
-import javax.security.auth.callback.Callback
 
 class HomeActivity : AppCompatActivity(), View.OnClickListener,
     NavigationView.OnNavigationItemSelectedListener {

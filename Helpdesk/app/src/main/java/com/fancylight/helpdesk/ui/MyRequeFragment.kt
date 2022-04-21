@@ -1,4 +1,4 @@
-package com.fancylight.helpdesk
+package com.fancylight.helpdesk.ui
 
 import android.app.DatePickerDialog
 import android.content.Intent
@@ -11,6 +11,7 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.fancylight.helpdesk.R
 import com.fancylight.helpdesk.adapter.InquiryAdapter
 import com.fancylight.helpdesk.model.*
 import com.fancylight.helpdesk.network.UserApi

@@ -8,8 +8,7 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import com.fancylight.helpdesk.HomeActivity
-import com.fancylight.helpdesk.MainActivity
+import com.fancylight.helpdesk.ui.HomeActivity
 import com.fancylight.helpdesk.R
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
